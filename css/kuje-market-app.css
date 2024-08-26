@@ -1,0 +1,91 @@
+
+.log-out{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4rem;
+  margin-right: 4rem; 
+}
+
+.last-login{
+  color: white;
+}
+
+.log-image-div{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.log-out-text{
+  color: white;
+  margin-left: 0.1rem;
+  cursor: pointer;
+}
+.buttons{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  row-gap: 30px;
+  column-gap: 30px;
+  margin-bottom: 5rem; 
+}
+
+.all-vehicles-button,.review-sales-button,.all-category-button{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 10px;
+  border-radius: 20px;
+  background-color: rgb(185, 36, 36);
+  border: none; 
+  transition: 0.3s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+
+}
+
+.all-vehicles-button:hover{
+  background-color: rgb(114, 24, 24);
+}
+
+.all-vehicles-button:active{
+  background-color: rgb(247, 80, 80);
+}
+
+.name-section{
+  color: white;
+  font-size: 20px;
+  font-family: "EB Garamond", serif;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
+.price-section{
+  color: white;
+  font-weight: 500 ;
+  font-size: 15px;
+  margin-bottom: 10px;
+  margin-top: 15px;
+}
+
+.icons{
+  width: 60px;
+  height: max-content;
+}
+
+@media (max-width: 750px) {
+  .buttons {
+    grid-template-columns: 1fr 1fr;
+    min-width: 300px;
+   
+  }
+  .log-out{
+    margin-right: 0;
+  }
+}
+
+@media (min-width: 751px) and (max-width: 999px) {
+  .buttons {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}

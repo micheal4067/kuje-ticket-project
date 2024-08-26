@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Ticket App</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/css/login-page.css">
+  <link rel="stylesheet" href="./css/kuje-market-general.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+</head>
+<body>
+  <div class="heading">
+    <h1> Kuje Ultra Mordern Market Car Park </h1>
+  </div>
+  <div class="main">
+    <div class="login-page">
+      <label for="username">Username:</label><br><br>
+      <input type="text" class="input-box" id="username" name="username"><br><br>
+      <label for="password">Password:</label><br><br>
+      <div class="password-container">
+        <input type="password" class="input-box" id="password" name="password">
+        <span class="password-toggle-icon"><i class="fas fa-eye"></i></span>
+      </div>
+      <br><br>
+      <div class="button-section">
+        <button class="submit-button" id="login-button">Login</button>
+      </div>
+    </div>
+    <div id="notification-popup" style="display: none;">
+      <p id="wrong-input"></p>
+    </div>
+    
+  </div>
+  <script type="module" src="/script/login.js"></script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+.heading h1{
+  color: white;
+}
+
+.login-page{
+  display: block;
+  margin: 0;
+}
+
+.input-box{
+ height: 3rem;
+  width: 100%;
+}
+
+.submit-button{
+  padding: 10px 20px;
+  background-color: brown;
+  color: white;
+  border: none;
+  border-radius: 1px;
+  font-size: 17px;
+}
+
+.submit-button:hover{
+  background-color: rgb(99, 19, 19);
+}
+
+label{
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.password-container {
+  position: relative;
+}
+
+.password-toggle-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+
+input{
+  border-radius: 5px;
+  border: none;
+  max-width: 100%;
+  padding-left: 20px ;
+  outline: none;
+}
+
+input:focus {
+  border: 3px solid #f87c7c;
+}
+
+@media (max-width: 550px) {
+  .submit-button{
+    background-color: brown;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 17px;
+    padding: 10px 70px;
+  }
+
+  .button-section{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+  }
+
+  input{
+    border-radius: 5px;
+    border: none;
+    max-width: 800px;
+  } 
+}
+
+@media (min-width: 551px) and (min-width: 881px) {
+  .main{
+    display:block;
+    align-items: center;
+    justify-content: center;
+    width: 600px;
+  }
+
+  .login-page{
+    width: 600px;
+  }
+
+  .main{
+    margin-left: auto;
+    margin-right: auto; 
+  }
+
+  input{
+    border-radius: 5px;
+    border: none;
+    max-width: 1000px;
+  }
+}

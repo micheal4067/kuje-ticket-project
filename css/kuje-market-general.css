@@ -1,0 +1,24 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+
+body{
+  background-color: rgb(207, 68, 68);
+  padding: 0 2rem;
+  min-width: 511px; 
+}
+
+.heading{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 3rem;
+  margin-top: 1.5rem;
+  min-width: 320px;
+}
+
+.heading h1{
+  font-size: 25px;
+  font-family: "EB Garamond", serif;
+}
