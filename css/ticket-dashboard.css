@@ -1,0 +1,218 @@
+body{
+  min-width: 220px;
+}
+.log-out{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4rem;
+  margin-right: 4rem; 
+  
+}
+
+.last-login{
+  color: white;
+}
+
+.log-image-div{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.log-out-text{
+  margin-left: 0.1rem;
+}
+
+.edit-price,.log-out-text{
+  background-color: rgb(6, 6, 110);
+  margin-top: 20px;
+  font-size: 17px;
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 1rem;
+  color: white;
+  cursor: pointer;
+}
+
+.edit-price{
+  background-color: transparent;
+  transition: 0.5s;
+}
+
+.edit-price:hover{
+  background-color: rgb(6, 6, 110);
+}
+.buttons{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  row-gap: 30px;
+  column-gap: 30px;
+  margin-bottom: 5rem; 
+  
+}
+
+.all-vehicles-button,.review-sales-button,.all-category-button{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 10px;
+  border-radius: 20px;
+  background-color: rgb(52, 117, 214);
+  border: none; 
+  transition: 0.3s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+
+}
+
+.all-vehicles-button:hover{
+  background-color: rgb(92, 134, 226);
+}
+
+.all-vehicles-button:active{
+  background-color: rgb(135, 156, 212);
+}
+
+.name-section{
+  color: white;
+  font-size: 20px;
+  font-family: "EB Garamond", serif;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
+.price-section{
+  color: white;
+  font-weight: 500 ;
+  font-size: 15px;
+  margin-bottom: 10px;
+  margin-top: 15px;
+}
+
+.icons{
+  width: 60px;
+  height: max-content;
+}
+
+
+.confirm-dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 0.5rem;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.confirm-dialog p{
+  color: white;
+}
+.dialog-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  width: 300px;
+}
+
+.dialog-content  {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.dialog-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.yes-btn, .no-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.yes-btn {
+  background-color: #4CAF50;
+  color: #fff;
+}
+
+.no-btn {
+  background-color: #ddd;
+  color: #666;
+}
+
+.yes-btn:hover {
+  background-color: #3e8e41;
+}
+
+.no-btn:hover {
+  background-color: #ccc;
+}
+
+
+@media  (max-width: 750px) {
+  .buttons {
+    grid-template-columns: 1fr 1fr;
+    min-width: 300px;
+  }
+
+  .log-out{
+    margin-right: 0;
+    display: block ;
+  }
+
+  .edit-price{
+    padding: 7px 15px;
+  }
+
+}
+
+@media (max-width: 400px) {
+  .buttons {
+    grid-template-columns: 1fr;
+    min-width: 200px;
+  }
+  
+  .log-out{
+    display: block;
+  }
+  
+
+  .log-out-text, .edit-price{
+    background-color: rgb(6, 6, 110);
+    margin-top: 20px;
+    font-size: 17px;
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 1rem;
+  }
+
+  .edit-price{
+    border: none;
+  }
+  .about-content p{
+    padding: 1rem;
+  }
+}
+
+@media (min-width: 751px) {
+  .buttons {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  body{
+    background: linear-gradient( #4e34b6 , rgb(17, 179, 190), #4e34b6);
+  }
+
+  .edit-price{
+    padding: 7px 15px;
+  }
+}
+

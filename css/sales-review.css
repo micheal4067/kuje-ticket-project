@@ -1,3 +1,4 @@
+
 .heading{
   display: flex;
   align-items: flex-start;
@@ -80,7 +81,7 @@
 
 .total-sales{
   padding: 15px 70px;
-  background-color: brown;
+  background-color: rgb(52, 117, 214);
   border: solid 1px white;
   color: white;
   border-radius: 1rem;
@@ -88,9 +89,3 @@
   cursor: pointer;
 }
 
-@media (min-width: 551px) and (min-width: 1000px) {
-  .main-body{
-    margin-left: 10rem;
-    margin-right: 10rem;
-  }
-}

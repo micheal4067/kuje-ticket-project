@@ -2,6 +2,7 @@
 import { salesReviews } from "../data/review-sales-array.js";
 import { vehicles } from '../data/vehicles.js';
 import { formatCurrency} from '../script/utils/money.js';
+import { marketNameDisplay } from "../data/login-name.js";
 
 // Initialize variables
 let generateSalesReview = '';
@@ -9,7 +10,7 @@ let total = [];
 let price;
 let totalPriceDisplay;
 
-
+document.querySelector('.market-name').innerHTML = marketNameDisplay;
 
 // Function to generate sales review
 function generateReviewSales() {
@@ -44,7 +45,7 @@ generateReviewSales();
 
 // Add event listener to back button
 document.querySelector('.back-button-image, .back-arrow').addEventListener('click', () => {
-  window.location.href = './kuje-market-app.html';
+  window.location.href = './ticket-dashboard.html';
 });
 
 // Function to calculate total price
@@ -52,18 +53,19 @@ function totalFun() {
   let totalPriceSummary = 0;
   total.forEach((price) => {
     totalPriceSummary += price.price;
+    
   });
   totalPriceDisplay = totalPriceSummary;
   displayTotalPrice();
+  
+
 }
 
 // Function to display total price
 function displayTotalPrice() {
-  if (totalPriceDisplay) {
-    document.querySelector('.js-amount').innerHTML = `₦${formatCurrency(totalPriceDisplay)}`;
-  } else {
+  totalPriceDisplay?
+    document.querySelector('.js-amount').innerHTML = `₦${formatCurrency(totalPriceDisplay)}`:
     document.querySelector('.js-amount').innerHTML = '0.00';
-  }
 }
 
 // Get total text and sales elements
@@ -77,9 +79,9 @@ const totalDiv = document.querySelector('.js-div-button');
 let printBotton;
 
 // Check if sales review is empty
-if (generateSalesReview === '') {
-  totalDiv.style.display = 'none';
-} else {
+generateSalesReview === ''?  
+  totalDiv.style.display = 'none':
+
   // Add event listener to total sales button
   totalButtonElement.addEventListener('click', () => {
     totalText.innerHTML = 'Total';
@@ -93,8 +95,8 @@ if (generateSalesReview === '') {
     // Add event listener to print receipt button
     if (printBotton === printText.innerHTML) {
       document.querySelector('.js-print-receipt').addEventListener('click', () => {
-        const printWindow = window.open('', '', 'width=800,height=600');
-        printWindow.onload = function() {
+        
+        const printTotalReceipt = () => {
           const date = new Date();
           const weekday = date.toLocaleString('en-NG', { weekday: 'short' });
           const day = date.toLocaleString('en-NG', { day: '2-digit' });
@@ -104,31 +106,34 @@ if (generateSalesReview === '') {
           const nigerianDate = `${weekday} ${day}, ${month}-${year}`;
 
           // Print the receipt
-          printWindow.document.write(`
+          const htmlContent =`
             <html>
               <body>
-                <div style="display: flex; justify-content: space-between;">
-                  <p>${nigerianDate}</p>
-                  <p>${time}</p>
+                <div style="font-size: 11px;">
+                  <p>Login date&time: ${localStorage.getItem('time')}</p> 
                 </div>
-                <p style="display: flex; align-items: center; justify-content: center;margin-bottom:2rem;">
-                  <b>Kuje Ultra Mordern Market</b>
+
+                <div style=" font-size: 11px;">
+                  <p>Print date&time: ${nigerianDate} | ${time}</p>
+                </div>
+                
+                <p style="display: flex; align-items: center; justify-content: center;margin-bottom:2rem; font-size: 13px;">
+                  <b>${marketNameDisplay}</b>
                 </p>
                 <div style="display: flex; align-items: center; justify-content: space-between; border-top: solid 1px black;">
-                  <p><b>Total</b></p>
+                  <p><b>Total Sales</b></p>
                   <p><b>₦${formatCurrency(totalPriceDisplay)}</b></p>
                 </div>
               </body>
             </html>
-          `);
-          printWindow.print();
-          setTimeout(function() {
-            printWindow.close();
-          }, 500); // Adjust the delay as needed
-        };
-        // Print the page
+          `;
+          const printWindow = window.open('', '', 'width=800,height=400');
+        printWindow.document.body.innerHTML = htmlContent;
         printWindow.print();
+        setTimeout(() => printWindow.close(), 500);
+      };
+        printTotalReceipt()
       });
     }
   });
-}
+

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<html id="index-template">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ticket | Dashboard</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image" href="./icons/title-icon.png">
+    <link rel="stylesheet" href="./css/ticket-general.css">
+    <link rel="stylesheet" href="./css/ticket-dashboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="log-out">
+      <div class="last-login"></div>
+      <div>
+        <p class="edit-price" style="background-color: rgb(87, 26, 36);">Edit Vehicle Fee</p>
+        <p class="edit-price about-js" style="background-color: rgb(6, 6, 110);">About Ticket</p>
+       <p class="log-out-text">Logout</p>
+      </div>
+    </div>
+    <div class="confirm-dialog" style="display:none;">
+      <p>This operation would reset the existing fee to default. Do you wish to proceed?</p>
+      <button class="yes-btn">Yes</button>
+      <button class="no-btn">No</button>
+    </div>
+    
+   <div class="heading">
+      <h1 class="market-name"></h1>
+   </div>
+
+   <div class="buttons"></div>
+
+
+    <script type="module" src="./script/ticket-dashboard.js"></script>
+  </body>
+</html>

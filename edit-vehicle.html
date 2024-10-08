@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Ticket | Edit Fee</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="./css/edit-vehicle.css">
+  <link rel="icon" type="image" href="./icons/title-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+</head>
+<body style="background-color: #6348ce; ;">
+    <div class="login-form">
+      <div class="back-arrow">
+        <img class="back-button-image" src="./icons/back-button.png">
+      </div>
+      <h1 class="heading-name"></h1>
+      <div class="container">
+        <div class="main">
+          <div class="content">
+            <h2>Edit Fee</h2>
+            
+            <input type="text" class="input" id="tricycle" placeholder="Tricycle" oninput="this.value = 'NGN ' + this.value.replace(/[^0-9.]/g, '')">
+
+            <input type="text" class="input" id="car" placeholder="Car" oninput="this.value = 'NGN ' + this.value.replace(/[^0-9.]/g, '')">
+   
+            <input type="text" class="input" id="small-truck" placeholder="small Truck" oninput="this.value = 'NGN ' + this.value.replace(/[^0-9.]/g, '')">
+ 
+            <input type="text" class="input" id="big-truck" placeholder="Big Truck" oninput="this.value = 'NGN ' + this.value.replace(/[^0-9.]/g, '')">
+ 
+            <input type="text" class="input" id="ticket-loss" placeholder="Ticket Loss" oninput="this.value = 'NGN ' + this.value.replace(/[^0-9.]/g, '')">
+            
+            <div class="but">
+              <button class="btn">
+                Set Fee
+              </button>
+            </div>
+           
+            <div style="margin-top: 5px; color: rgb(7, 7, 148);" class="Submitted"></div>
+          </div>
+          <div class="form-img">
+            <img src="./icons/genuine-original-mini-bluetooth-receipt-mobile-printer-58mm-paper-removebg-preview.png" alt="">
+         </div>
+        </div>
+      </div>
+   </div>
+  <script type="module" src="./script/edit-price.js"></script>
+</body>
+</html>

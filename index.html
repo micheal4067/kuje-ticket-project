@@ -6,36 +6,40 @@
   <title>Ticket App</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="/css/login-page.css">
-  <link rel="stylesheet" href="./css/kuje-market-general.css">
+  <link rel="stylesheet" href="./css/login-page.css">
+  <link rel="icon" type="image" href="./icons/title-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
 </head>
-<body>
-  <div class="heading">
-    <h1> Kuje Ultra Mordern Market Car Park </h1>
-  </div>
-  <div class="main">
-    <div class="login-page">
-      <label for="username">Username:</label><br><br>
-      <input type="text" class="input-box" id="username" name="username"><br><br>
-      <label for="password">Password:</label><br><br>
-      <div class="password-container">
-        <input type="password" class="input-box" id="password" name="password">
-        <span class="password-toggle-icon"><i class="fas fa-eye"></i></span>
-      </div>
-      <br><br>
-      <div class="button-section">
-        <button class="submit-button" id="login-button">Login</button>
+<body style="background-color: rgb(6, 6, 110);">
+  <div class="login-form">
+    <h1 class="heading-name"></h1>
+    <div class="container">
+      <div class="main">
+        <div class="content">
+          <h2>Log In</h2>
+          
+          <input type="text" id="username" name="username" placeholder="Enter Any Key" required autofocus="">
+
+          <input type="password" id="password" placeholder="Enter Any Key" required autofocus="">
+
+          <input type="text"  class="market-name"  placeholder="Enter Park Name">
+
+          <button class="btn">
+            Login
+          </button>
+
+          <div style="margin-top: 5px; color: rgb(7, 7, 148);" class="wrong-input"></div>
+            
+        </div>
+        <div class="form-img">
+            <img src="./icons/title-icon.png" alt="">
+        </div>
       </div>
     </div>
-    <div id="notification-popup" style="display: none;">
-      <p id="wrong-input"></p>
-    </div>
-    
-  </div>
-  <script type="module" src="/script/login.js"></script>
+</div>
+  <script type="module" src="./script/login.js"></script>
 </body>
 </html>
