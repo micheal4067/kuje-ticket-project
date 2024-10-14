@@ -25,8 +25,8 @@ body{
 
 @media (min-width: 751px) {
   body {
-    margin-left: calc(37% - 300px); /* Increase margin-left when width exceeds 800px */
-    margin-right: calc(37% - 300px); /* Increase margin-right when width exceeds 800px */
+    margin-left: calc(40% - 300px); /* Increase margin-left when width exceeds 800px */
+    margin-right: calc(40% - 300px); /* Increase margin-right when width exceeds 800px */
   }
 }
 

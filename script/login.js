@@ -8,7 +8,7 @@ function logInCheck(){
   if(usernameInput.value && passwordInput.value){
     window.location.href = './ticket-dashboard.html';
   } else{
-    wrongInput.innerHTML = 'Enter username or Password';
+    wrongInput.innerHTML = 'Enter any username or Password';
     usernameInput.value = '';
     passwordInput.value = '';
   }
@@ -41,6 +41,16 @@ function headingEdit(){
 }
 
 headingEdit();
+
+document.getElementById("alphabet-input").addEventListener("keydown", function(e) {
+  const maxLength = 17;
+  const input = this.value;
+
+  if (input.length > maxLength) {
+    this.value = input.slice(0, maxLength);
+    e.preventDefault();
+  }
+});
 
 function marketFun () {
   const inputElement = document.querySelector('.market-name');

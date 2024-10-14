@@ -1,17 +1,21 @@
+body {
+  min-width: 240px;
+}
 
-.heading{
+ h1{
+  color: rgb(175, 170, 170);
+}
+
+.heading {
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
   margin-bottom: 3rem;
   margin-top: 1.5rem;
-  min-width: 320px;
-}
-.heading h1{
-  color: white;
+  width: 100%;
 }
 
-.back-arrow{
+.back-arrow {
   margin-top: 2rem;
   margin-left: 2rem;
   width: 20px;
@@ -19,73 +23,71 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  
 }
 
-.dashboard{
-  color: black;
+.dashboard {
+  color: rgb(247, 242, 242);
   font-weight: 700;
   cursor: pointer;
   text-decoration: underline;
 }
 
-.back-button-image{
+.back-button-image {
   width: 100%;
   cursor: pointer;
 }
 
-.empty-content{
+.empty-content {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 100px;
-  row-gap: 15px; 
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
   align-items: center;
-  
 }
 
-.price{
+.price {
   color: white;
   font-size: 20px;
   font-weight: bold;
 }
-.vehicle-type{
+
+.vehicle-type {
   width: 100%;
   color: white;
   font-size: 16px;
 }
 
-.price{
+.price {
   display: flex;
   justify-content: flex-end;
 }
 
-.totalSales{
+.totalSales {
   display: flex;
   align-items: center;
-  justify-content: space-between; 
+  justify-content: space-between;
   margin-top: 1rem;
-  padding: 20px 0;
+  padding: 10px 0;
 }
 
-.total-text,.amount{
+.total-text, .amount {
   color: white;
   font-size: 20px;
   font-weight: bold;
 }
 
-.clear-button-div{
+.clear-button-div {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.total-sales{
-  padding: 15px 70px;
-  background-color: rgb(52, 117, 214);
+.total-sales {
+  padding: 10px 30px;
+  background-color: rgb(5, 5, 68);
   border: solid 1px white;
   color: white;
   border-radius: 1rem;
   font-size: 15px;
   cursor: pointer;
+  margin-bottom: 2rem;
 }
-

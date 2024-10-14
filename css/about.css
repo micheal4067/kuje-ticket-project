@@ -15,6 +15,26 @@ body {
   padding-bottom: 3rem;
 }
 
+.head{
+  background-color: #160c74;
+  height: 2rem;
+}
+
+.back-arrow{
+ display: inline-block;
+}
+
+.back-button-image{
+  width: 20px;
+}
+
+.back-button-wrapper{
+  background-color: #646363;
+  cursor: pointer;
+  padding: 0 10px;
+}
+
+
 /* About Section */
 
 .about-section {
@@ -32,7 +52,7 @@ body {
 
 .about-heading h1, .author h1 {
   font-size: 1.5em;
-  color: #fff;
+  color: #1a1818;
 }
 
 .author h1 {
@@ -44,14 +64,16 @@ body {
 .about-content {
   background-color: rgb(252, 252, 252);
   border-radius: 10px;
-  box-shadow: 4px 4px 8px rgba(235, 230, 230, 0.774);
+  box-shadow: 4px 4px 8px rgba(66, 62, 62, 0.774);
   padding: 2rem;
-  color: #242323;
+  
 }
 
 .about-content p {
   font-size: 18px;
   line-height: 1.5;
+  color: #0a0a0a;
+  text-align: center;
 }
 
 /* Designer Info */
@@ -60,7 +82,7 @@ body {
   display: flex;
   background-color: rgb(252, 252, 252);
   border-radius: 10px;
-  box-shadow: 4px 4px 8px rgba(235, 230, 230, 0.774);
+  box-shadow: 4px 4px 8px rgba(66, 62, 62, 0.774);
   margin-top: 2rem;
   padding: 1rem;
   align-items: center;
@@ -72,14 +94,14 @@ body {
   min-width: 50px;
   height:  auto;;
   overflow: hidden;
-  border-radius: 50%;
 }
 
 .designer-image img {
-  width: 100%;
+  width: 90%;
   height: 100%;
   object-fit: cover;
-  border-radius: 50%;
+  border-top-right-radius: 30%;
+  border-bottom-left-radius: 30%;
   transition: transform 0.3s ease;
   box-shadow: 4px 4px 8px rgba(30, 30, 31, 0.774);
 }
@@ -98,8 +120,9 @@ body {
 
 .designer-content p {
   font-size: 18px;
-  color: #242323;
+  color: #0a0a0a;
   margin-bottom: 20px;
+ 
 }
 
 .designer-content ul {
@@ -114,7 +137,7 @@ body {
 
 .social-links {
   display: flex;
-  justify-content: space-between;
+  justify-content:center;
   margin-top: 2rem;
 }
 
@@ -122,7 +145,7 @@ body {
   display: inline-block;
   width: 40px;
   height: 40px;
-  background-color: #230fd1;
+  background-color: #0a0441;
   padding: 10px;
   text-align: center;
   border-radius: 50%;

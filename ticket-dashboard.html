@@ -14,7 +14,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
   </head>
-
   <body>
     <div class="log-out">
       <div class="last-login"></div>
@@ -25,18 +24,17 @@
       </div>
     </div>
     <div class="confirm-dialog" style="display:none;">
-      <p>This operation would reset the existing fee to default. Do you wish to proceed?</p>
-      <button class="yes-btn">Yes</button>
-      <button class="no-btn">No</button>
+      <div class="dialog-content">
+        <p>
+          This operation would reset the existing fee to default. Do you wish to proceed?
+        </p>
+        <button class="yes-btn">Yes</button>
+        <button class="no-btn">No</button></div>  
     </div>
-    
    <div class="heading">
       <h1 class="market-name"></h1>
    </div>
-
    <div class="buttons"></div>
-
-
     <script type="module" src="./script/ticket-dashboard.js"></script>
   </body>
 </html>

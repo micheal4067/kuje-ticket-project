@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html id="index-template">
   <head>
     <meta charset="utf-8">
@@ -8,18 +7,21 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image" href="./icons/title-icon.png">
-    <link rel="stylesheet" href="./css/edit-vehicle.css">
+    
     <link rel="stylesheet" href="./css/about.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   </head>
-  <body class="body" style="background-color: rgb(6, 6, 110);">
-    <div class="about-section">
+  <body class="body" style="background-color: rgb(177, 177, 231);;">
+    <div class="head"></div>
+    <div class="about-section" style="background-color: rgb(251, 251, 255);">
       <div class="back-arrow">
-        <a href="./ticket-dashboard.html"> <img class="back-button-image" src="./icons/back-button.png"></a>
-      </div>
+          <div class="back-button-wrapper">
+            <img class="back-button-image" src="./icons/back-button.png">
+          </div>
+      </div>    
       <div class="about-heading"><h1>About Ticket</h1></div>
       <div class="about-content">
         <p>"Ticket is a software web application solution designed for issuing tickets to vehicles at a park. The Ticket App enables users to customize their enterprise name and set fees for different vehicle types. Upon clicking each vehicle button, a receipt is generated for printing, including the fee, date, and time.
@@ -70,6 +72,10 @@
         </div>
       </div>
     </div>
-    <script type="module" src=""></script>
+    <script>
+      document.querySelector('.back-button-wrapper').addEventListener('click', ()=>{
+        window.location.href = './ticket-dashboard.html';
+      });
+    </script>
   </body>
 </html>
