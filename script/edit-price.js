@@ -1,4 +1,4 @@
-import  "../data/edit.js";
+import "../data/edit.js"
 import { tricycleFun } from "../data/edit.js";
 import { marketNameDisplay } from "../data/login-name.js";
 import { vehiclePrice } from "../data/edit.js";
@@ -24,8 +24,26 @@ const formImage = document.querySelector('.form-img');
 document.querySelector('.heading-name').innerHTML = marketNameDisplay;
 
 document.querySelector('.back-button-image').addEventListener('click', ()=>{
-  window.location.href = './ticket-dashboard.html'
-})
+  window.location.href = './ticket-dashboard.html';
+});
+
+maxDigit();
+
+function maxDigit() {
+  const inputMax = document.querySelectorAll('input');
+
+  inputMax.forEach((input) => {
+    input.addEventListener("input", function(e) {
+      const maxLength = 8; 
+      if (this.value.length > maxLength) {
+        this.value = this.value.slice(0, maxLength);
+      }
+    });
+    
+  });
+}
+
+
 
 carInput.addEventListener('input', () => {
   carInput.value = 'NGN ' + carInput.value.replace(/[^0-9.]/g, '');
@@ -46,6 +64,7 @@ bigTruckInput.addEventListener('input', () => {
 ticketLossInput.addEventListener('input', () => {
   ticketLossInput.value = 'NGN ' + ticketLoss.value.replace(/[^0-9.]/g, '');
 });
+
 
 
 
