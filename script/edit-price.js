@@ -43,8 +43,6 @@ function maxDigit() {
   });
 }
 
-
-
 carInput.addEventListener('input', () => {
   carInput.value = 'NGN ' + carInput.value.replace(/[^0-9.]/g, '');
 });

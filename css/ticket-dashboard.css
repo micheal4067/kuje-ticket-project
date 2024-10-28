@@ -163,7 +163,7 @@ body{
 }
 
 
-@media  (max-width: 750px) {
+@media (min-width:340px) and (max-width: 750px) {
   .buttons {
     grid-template-columns: 1fr 1fr;
     min-width: 300px;
@@ -180,7 +180,7 @@ body{
 
 }
 
-@media (max-width: 400px) {
+@media (max-width: 341px) {
   .buttons {
     grid-template-columns: 1fr;
     min-width: 200px;
