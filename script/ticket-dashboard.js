@@ -97,7 +97,7 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
     modal.innerHTML = htmlContent;
     document.body.appendChild(modal);
 
-    // Add styles for modal and printing
+    // Add styles for modal
     const style = document.createElement('style');
     style.textContent = `
       .modal {
@@ -149,24 +149,6 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
         background: #4caf50;
         color: white;
       }
-
-      /* Printing styles */
-      @media print {
-        body * {
-          visibility: hidden;
-        }
-        .modal, .modal * {
-          visibility: visible;
-        }
-        .modal {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: white;
-        }
-      }
     `;
     document.head.appendChild(style);
 
@@ -180,12 +162,22 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
       // Save sales review in localStorage
       salesReviews.push({ vehicleId });
       localStorage.setItem('sales', JSON.stringify(salesReviews));
-      
+
+      // Temporarily replace document body with modal content
+      const originalBody = document.body.innerHTML;
+      document.body.innerHTML = modal.innerHTML;
+
+      // Trigger print
       window.print();
-      document.body.removeChild(modal); // Close the modal after triggering the print dialog
+
+      // Restore the original body after printing
+      setTimeout(() => {
+        document.body.innerHTML = originalBody;
+      }, 500); // Slight delay to ensure print dialog is initiated
     });
   });
 });
+
 
 
 const allTicketIssued = document.getElementById('js-all-vehicles-ticket-button');
