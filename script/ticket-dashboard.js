@@ -64,10 +64,7 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
     const vehicleId = button.dataset.vehicleId;
 
      // Set the current vehicle ID
-     //currentVehicleId = vehicleId;
-
-     salesReviews.push({ vehicleId });
-  localStorage.setItem('sales', JSON.stringify(salesReviews));
+     currentVehicleId = vehicleId;
 
     // Find the selected vehicle
     const selectedVehicle = vehicles.find((vehicle) => vehicle.id === vehicleId);
@@ -170,13 +167,13 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
     // Handle printing and modal close after print
     modal.querySelector('.print-button').addEventListener('click', () => {
       window.print();
-      document.body.removeChild(modal); // Close the modal after triggering the print dialog
+       // Close the modal after triggering the print dialog
     });
   });
 });
 
 
-/*
+
 // Print listener: Trigger sales review update when printing
 function push(){
   window.addEventListener('afterprint', () => {
@@ -191,7 +188,7 @@ function push(){
   });
 }
 
-push(); */
+push();
 
 
 const allTicketIssued = document.getElementById('js-all-vehicles-ticket-button');
