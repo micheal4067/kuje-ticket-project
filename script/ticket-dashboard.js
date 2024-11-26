@@ -160,25 +160,13 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
     // Handle printing and modal close after print
     modal.querySelector('.print-button').addEventListener('click', () => {
       // Save sales review in localStorage
-      salesReviews.push({ vehicleId });
-      localStorage.setItem('sales', JSON.stringify(salesReviews));
-
-      // Temporarily replace document body with modal content
-      const originalBody = document.body.innerHTML;
-      document.body.innerHTML = modal.innerHTML;
-
-      // Trigger print
       window.print();
-
-      // Restore the original body after printing
-      setTimeout(() => {
-        document.body.innerHTML = originalBody;
-      }, 500); // Slight delay to ensure print dialog is initiated
+      document.body.removeChild(modal); // Close the modal after triggering the print dialog
+      salesReviews.push({ vehicleId });
+     localStorage.setItem('sales', JSON.stringify(salesReviews));
     });
   });
 });
-
-
 
 const allTicketIssued = document.getElementById('js-all-vehicles-ticket-button');
 if (allTicketIssued) {
