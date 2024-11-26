@@ -160,7 +160,7 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
     // Handle printing and modal close after print
     modal.querySelector('.print-button').addEventListener('click', () => {
       // Save sales review in localStorage
-      window.print();
+      window.print(htmlContent);
       document.body.removeChild(modal); // Close the modal after triggering the print dialog
       salesReviews.push({ vehicleId });
      localStorage.setItem('sales', JSON.stringify(salesReviews));
