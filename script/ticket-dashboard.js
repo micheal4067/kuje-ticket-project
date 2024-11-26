@@ -79,8 +79,8 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
     const time = date.toLocaleString('en-NG', { hour: '2-digit', minute: '2-digit', hour12: true });
     const nigerianDate = `${weekday} ${day}, ${month}-${year}`;
 
-    // Generate HTML content for modal
-    const htmlContent = `
+    // Generate modal HTML content
+    const modalHtml = `
       <div class="print-container">
         <div class="header">
           <p>${nigerianDate}</p>
@@ -93,14 +93,14 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
           <p>Vehicle parked @ Owners risk</p>
         </div>
         <button class="close-button">Close</button>
-        <button class="print-button">Print</button>
+        <button class="print-button">Print Ticket</button>
       </div>
     `;
 
-    // Create a modal element
+    // Create a modal
     const modal = document.createElement('div');
     modal.classList.add('modal');
-    modal.innerHTML = htmlContent;
+    modal.innerHTML = modalHtml;
     document.body.appendChild(modal);
 
     // Add styles for modal
@@ -158,25 +158,15 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
     `;
     document.head.appendChild(style);
 
-    // Handle modal close
+    // Close modal
     modal.querySelector('.close-button').addEventListener('click', () => {
       document.body.removeChild(modal);
     });
 
-    // Handle printing and modal close after print
+    // Print logic
     modal.querySelector('.print-button').addEventListener('click', () => {
-      // Open a new print window
-      const printWindow = window.open('', '_blank', 'width=800,height=600');
-
-      // Check if the print window opened
-      if (!printWindow) {
-        alert('Pop-up blocked. Please allow pop-ups for this site.');
-        return;
-      }
-
-      // Add the HTML content for printing
-      printWindow.document.open();
-      printWindow.document.write(`
+      // Generate print HTML content
+      const printHtml = `
         <!DOCTYPE html>
         <html>
           <head>
@@ -201,28 +191,35 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
             </div>
           </body>
         </html>
-      `);
+      `;
+
+      // Open a new window for printing
+      const printWindow = window.open('', '_blank', 'width=800,height=600');
+
+      if (!printWindow) {
+        alert('Pop-up blocked. Please allow pop-ups for this site.');
+        return;
+      }
+
+      // Write and close document in the print window
+      printWindow.document.open();
+      printWindow.document.write(printHtml);
       printWindow.document.close();
 
-      // Wait until the content is fully loaded and ready for printing
-      const waitForPrintWindowReady = setInterval(() => {
-        if (printWindow.document.readyState === 'complete') {
-          clearInterval(waitForPrintWindowReady);
-          // Trigger the print dialog
+      // Wait for the content to load and print
+      printWindow.onload = () => {
+        setTimeout(() => {
           printWindow.print();
+          printWindow.close();
+        }, 100); // Small delay to ensure rendering
+      };
 
-          // Close the print window after triggering the print dialog
-          printWindow.addEventListener('afterprint', () => {
-            printWindow.close(); // Close the print window after printing
-          });
-
-          // Close the modal after triggering the print dialog
-          document.body.removeChild(modal);
-        }
-      }, 100); // Check the window's readiness every 100ms
+      // Close the modal
+      document.body.removeChild(modal);
     });
   });
 });
+
 
 
 
