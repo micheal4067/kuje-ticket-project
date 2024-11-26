@@ -77,20 +77,9 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
     const time = date.toLocaleString('en-NG', { hour: '2-digit', minute: '2-digit', hour12: true });
     const nigerianDate = `${weekday} ${day}, ${month}-${year}`;
 
-    // Generate HTML content for printing
+    // Generate HTML content for modal
     const htmlContent = `
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <title>Print Preview</title>
-        <style>
-          body { font-family: Arial, sans-serif; margin: 20px; }
-          .header { display: flex; justify-content: space-between; }
-          .center { text-align: center; margin: 20px 0; }
-          .price { margin-bottom: 20px; font-size: 16px; font-weight: bold; }
-        </style>
-      </head>
-      <body>
+      <div class="print-container">
         <div class="header">
           <p>${nigerianDate}</p>
           <p>${time}</p>
@@ -101,32 +90,84 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
           <p class="price">₦${formatCurrency(selectedVehicle.price)}</p>
           <p>Vehicle parked @ Owners risk</p>
         </div>
-      </body>
-      </html>
+        <button class="close-button">Close</button>
+        <button class="print-button">Print</button>
+      </div>
     `;
 
-    // Open the print window and load content
-    const printWindow = window.open('', '_blank', 'width=800,height=400');
-    if (!printWindow) {
-      alert('Pop-up blocked. Please allow pop-ups for this site.');
-      return;
-    }
+    // Create a modal element
+    const modal = document.createElement('div');
+    modal.classList.add('modal');
+    modal.innerHTML = htmlContent;
+    document.body.appendChild(modal);
 
-    // Write content and handle printing
-    printWindow.document.open();
-    printWindow.document.write(htmlContent);
-    printWindow.document.close();
-
-    // Wait until content is ready and then print
-    const interval = setInterval(() => {
-      if (printWindow.document.readyState === 'complete') {
-        clearInterval(interval);
-        printWindow.print();
-        setTimeout(() => printWindow.close(), 500);
+    // Add styles for modal
+    const style = document.createElement('style');
+    style.textContent = `
+      .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
       }
-    }, 100); // Check readiness every 100ms
+      .print-container {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        width: 90%;
+        max-width: 400px;
+        text-align: center;
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+      }
+      .center {
+        margin: 20px 0;
+      }
+      .price {
+        margin-bottom: 20px;
+        font-size: 16px;
+        font-weight: bold;
+      }
+      button {
+        padding: 10px 20px;
+        margin: 10px;
+        font-size: 14px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+      }
+      .close-button {
+        background: #f44336;
+        color: white;
+      }
+      .print-button {
+        background: #4caf50;
+        color: white;
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Handle modal close
+    modal.querySelector('.close-button').addEventListener('click', () => {
+      document.body.removeChild(modal);
+    });
+
+    // Handle printing
+    modal.querySelector('.print-button').addEventListener('click', () => {
+      window.print();
+    });
   });
 });
+
 
 
 const allTicketIssued = document.getElementById('js-all-vehicles-ticket-button');
