@@ -97,7 +97,7 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
     modal.innerHTML = htmlContent;
     document.body.appendChild(modal);
 
-    // Add styles for modal
+    // Add styles for modal and printing
     const style = document.createElement('style');
     style.textContent = `
       .modal {
@@ -133,7 +133,7 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
         font-size: 16px;
         font-weight: bold;
       }
-      button {
+      .print-container button {
         padding: 10px 20px;
         margin: 10px;
         font-size: 14px;
@@ -149,6 +149,24 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
         background: #4caf50;
         color: white;
       }
+
+      /* Printing styles */
+      @media print {
+        body * {
+          visibility: hidden;
+        }
+        .modal, .modal * {
+          visibility: visible;
+        }
+        .modal {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: white;
+        }
+      }
     `;
     document.head.appendChild(style);
 
@@ -160,13 +178,15 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
     // Handle printing and modal close after print
     modal.querySelector('.print-button').addEventListener('click', () => {
       // Save sales review in localStorage
-    salesReviews.push({ vehicleId });
-    localStorage.setItem('sales', JSON.stringify(salesReviews));
+      salesReviews.push({ vehicleId });
+      localStorage.setItem('sales', JSON.stringify(salesReviews));
+      
       window.print();
       document.body.removeChild(modal); // Close the modal after triggering the print dialog
     });
   });
 });
+
 
 const allTicketIssued = document.getElementById('js-all-vehicles-ticket-button');
 if (allTicketIssued) {
