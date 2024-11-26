@@ -204,19 +204,26 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
       `);
       printWindow.document.close();
 
-      // Trigger the print dialog
-      printWindow.print();
+      // Wait until the content is fully loaded and ready for printing
+      const waitForPrintWindowReady = setInterval(() => {
+        if (printWindow.document.readyState === 'complete') {
+          clearInterval(waitForPrintWindowReady);
+          // Trigger the print dialog
+          printWindow.print();
 
-      // Close the print window after triggering the print dialog
-      printWindow.addEventListener('afterprint', () => {
-        printWindow.close(); // Close the print window after printing
-      });
+          // Close the print window after triggering the print dialog
+          printWindow.addEventListener('afterprint', () => {
+            printWindow.close(); // Close the print window after printing
+          });
 
-      // Close the modal after triggering the print dialog
-      document.body.removeChild(modal);
+          // Close the modal after triggering the print dialog
+          document.body.removeChild(modal);
+        }
+      }, 100); // Check the window's readiness every 100ms
     });
   });
 });
+
 
 
 
