@@ -63,11 +63,13 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
   button.addEventListener('click', () => {
     const vehicleId = button.dataset.vehicleId;
 
-    // Set the current vehicle ID
-    currentVehicleId = vehicleId;
+     // Set the current vehicle ID
+     currentVehicleId = vehicleId;
 
+    // Find the selected vehicle
     const selectedVehicle = vehicles.find((vehicle) => vehicle.id === vehicleId);
     if (!selectedVehicle) return;
+
 
     // Generate Nigerian date and time
     const date = new Date();
@@ -162,28 +164,31 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
       document.body.removeChild(modal);
     });
 
-    // Handle the print action outside of modal's print-button event
+    // Handle printing and modal close after print
     modal.querySelector('.print-button').addEventListener('click', () => {
-      // Open the print window and trigger the print dialog
       window.print();
-
-      // Remove modal after print
-      document.body.removeChild(modal);
+      document.body.removeChild(modal); // Close the modal after triggering the print dialog
     });
   });
 });
 
-// Print listener: Trigger sales review update when printing
-window.addEventListener('afterprint', () => {
-  if (currentVehicleId) {
-    // Push to salesReviews array
-    salesReviews.push({ vehicleId: currentVehicleId });
-    localStorage.setItem('sales', JSON.stringify(salesReviews));
 
-    // Clear currentVehicleId for the next print
-    currentVehicleId = null;
-  }
-});
+
+// Print listener: Trigger sales review update when printing
+function push(){
+  window.addEventListener('afterprint', () => {
+    if (currentVehicleId) {
+      // Push to salesReviews array
+      salesReviews.push({ vehicleId: currentVehicleId });
+      localStorage.setItem('sales', JSON.stringify(salesReviews));
+  
+      // Clear currentVehicleId for the next print
+      currentVehicleId = null;
+    }
+  });
+}
+
+push();
 
 
 const allTicketIssued = document.getElementById('js-all-vehicles-ticket-button');
