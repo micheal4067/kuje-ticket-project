@@ -63,13 +63,12 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
   button.addEventListener('click', () => {
     const vehicleId = button.dataset.vehicleId;
 
-     // Set the current vehicle ID
-     currentVehicleId = vehicleId;
+    // Set the current vehicle ID
+    currentVehicleId = vehicleId;
 
     // Find the selected vehicle
     const selectedVehicle = vehicles.find((vehicle) => vehicle.id === vehicleId);
     if (!selectedVehicle) return;
-
 
     // Generate Nigerian date and time
     const date = new Date();
@@ -166,11 +165,60 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
 
     // Handle printing and modal close after print
     modal.querySelector('.print-button').addEventListener('click', () => {
-      window.print();
-       // Close the modal after triggering the print dialog
+      // Open a new print window
+      const printWindow = window.open('', '_blank', 'width=800,height=600');
+
+      // Check if the print window opened
+      if (!printWindow) {
+        alert('Pop-up blocked. Please allow pop-ups for this site.');
+        return;
+      }
+
+      // Add the HTML content for printing
+      printWindow.document.open();
+      printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <title>Print Preview</title>
+            <style>
+              body { font-family: Arial, sans-serif; margin: 20px; }
+              .header { display: flex; justify-content: space-between; }
+              .center { text-align: center; margin: 20px 0; }
+              .price { margin-bottom: 20px; font-size: 16px; font-weight: bold; }
+            </style>
+          </head>
+          <body>
+            <div class="header">
+              <p>${nigerianDate}</p>
+              <p>${time}</p>
+            </div>
+            <div class="center">
+              <p><b>${marketNameDisplay}</b></p>
+              <p>${selectedVehicle.name}</p>
+              <p class="price">₦${formatCurrency(selectedVehicle.price)}</p>
+              <p>Vehicle parked @ Owners risk</p>
+            </div>
+          </body>
+        </html>
+      `);
+      printWindow.document.close();
+
+      // Trigger the print dialog
+      printWindow.print();
+
+      // Close the print window after triggering the print dialog
+      printWindow.addEventListener('afterprint', () => {
+        printWindow.close(); // Close the print window after printing
+      });
+
+      // Close the modal after triggering the print dialog
+      document.body.removeChild(modal);
     });
   });
 });
+
+
 
 
 
