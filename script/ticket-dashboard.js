@@ -56,11 +56,16 @@ document.querySelector(".all-vehicles-ticket-button").style.backgroundColor = 'r
 let paperPrint;
 
 // Add event listeners to vehicle buttons
+// Global variable to track the vehicle ID
+let currentVehicleId = null;
+
 document.querySelectorAll('.all-vehicles-button').forEach((button) => {
   button.addEventListener('click', () => {
     const vehicleId = button.dataset.vehicleId;
 
-    // Find the selected vehicle
+    // Set the current vehicle ID
+    currentVehicleId = vehicleId;
+
     const selectedVehicle = vehicles.find((vehicle) => vehicle.id === vehicleId);
     if (!selectedVehicle) return;
 
@@ -157,16 +162,29 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
       document.body.removeChild(modal);
     });
 
-    // Handle printing and modal close after print
+    // Handle the print action outside of modal's print-button event
     modal.querySelector('.print-button').addEventListener('click', () => {
-      // Save sales review in localStorage
-      window.print(htmlContent);
-      document.body.removeChild(modal); // Close the modal after triggering the print dialog
-      salesReviews.push({ vehicleId });
-     localStorage.setItem('sales', JSON.stringify(salesReviews));
+      // Open the print window and trigger the print dialog
+      window.print();
+
+      // Remove modal after print
+      document.body.removeChild(modal);
     });
   });
 });
+
+// Print listener: Trigger sales review update when printing
+window.addEventListener('afterprint', () => {
+  if (currentVehicleId) {
+    // Push to salesReviews array
+    salesReviews.push({ vehicleId: currentVehicleId });
+    localStorage.setItem('sales', JSON.stringify(salesReviews));
+
+    // Clear currentVehicleId for the next print
+    currentVehicleId = null;
+  }
+});
+
 
 const allTicketIssued = document.getElementById('js-all-vehicles-ticket-button');
 if (allTicketIssued) {
