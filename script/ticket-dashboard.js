@@ -64,10 +64,6 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
     const selectedVehicle = vehicles.find((vehicle) => vehicle.id === vehicleId);
     if (!selectedVehicle) return;
 
-    // Save sales review in localStorage
-    salesReviews.push({ vehicleId });
-    localStorage.setItem('sales', JSON.stringify(salesReviews));
-
     // Generate Nigerian date and time
     const date = new Date();
     const weekday = date.toLocaleString('en-NG', { weekday: 'short' });
@@ -161,14 +157,16 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
       document.body.removeChild(modal);
     });
 
-    // Handle printing
+    // Handle printing and modal close after print
     modal.querySelector('.print-button').addEventListener('click', () => {
+      // Save sales review in localStorage
+    salesReviews.push({ vehicleId });
+    localStorage.setItem('sales', JSON.stringify(salesReviews));
       window.print();
+      document.body.removeChild(modal); // Close the modal after triggering the print dialog
     });
   });
 });
-
-
 
 const allTicketIssued = document.getElementById('js-all-vehicles-ticket-button');
 if (allTicketIssued) {
