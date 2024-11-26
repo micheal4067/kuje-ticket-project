@@ -6,6 +6,17 @@ body {
   color: rgb(175, 170, 170);
 }
 
+.fixed-d{
+  position: fixed;
+  z-index: 1000;
+  display: block;
+  width: 100%;
+}
+
+.main-body{
+  padding-top: 11rem;
+}
+
 .heading {
   display: flex;
   align-items: flex-start;
@@ -13,6 +24,7 @@ body {
   margin-bottom: 3rem;
   margin-top: 1.5rem;
   width: 100%;
+  z-index: 1000;
 }
 
 .back-arrow {
@@ -35,6 +47,7 @@ body {
 .back-button-image {
   width: 100%;
   cursor: pointer;
+  z-index: 1000;
 }
 
 .empty-content {

@@ -15,25 +15,35 @@
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
   </head>
   <body style="background-color: rgb(6, 6, 110);">
-    <div class="back-arrow"><img class="back-button-image" src="./icons/back-button.png"><p class="dashboard">Dashboard</p></div>
-   <div class="main-body">
-    <div class="heading">
-      <h1 class="market-name"></h1>
-   </div>
-    <div class="center-list">
-      <div>
-        <div class="content-empty empty-content" ></div>
+    <div class="fixed-d" style="background-color: rgb(6, 6, 110);">
+      <div class="back-arrow">
+        <img class="back-button-image" src="./icons/back-button.png">
+        <p class="dashboard">Dashboard</p>
       </div>
-      <div class="totalSales" ><p class="total-text"><p class="amount js-amount"></p></div>
+      <div class="heading">
+        <h1 class="market-name"></h1>
+     </div>
     </div>
    
-    <div class="clear-button-div js-div-button">
-      <button class="total-sales js-total-sales">Total</button>
-    </div>
+   <div class="main-body">
+      <div class="center-list">
+        <div>
+          <div class="content-empty empty-content" ></div>
+        </div>
+        <div class="totalSales" >
+          <p class="total-text">
+            <p class="amount js-amount"></p>
+        </div>
+      </div>
+    
+      <div class="clear-button-div   js-div-button">
+        <button class="total-sales js-total-sales">
+          Total
+        </button>
+      </div>
 
-    <div class="last-of-last"></div>
-   
-   </div>
+      <div class="last-of-last"></div>
+    </div>
     <script type="module" src="./script/sales-review.js"></script>
   </body>
 </html>

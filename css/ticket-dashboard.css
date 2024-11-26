@@ -48,7 +48,7 @@ body{
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   row-gap: 30px;
-  column-gap: 30px;
+  column-gap: 10px;
   margin-bottom: 5rem; 
   
 }
@@ -166,7 +166,6 @@ body{
 @media (min-width:340px) and (max-width: 750px) {
   .buttons {
     grid-template-columns: 1fr 1fr;
-    min-width: 300px;
   }
 
   .log-out{
@@ -183,7 +182,7 @@ body{
 @media (max-width: 341px) {
   .buttons {
     grid-template-columns: 1fr;
-    min-width: 200px;
+    
   }
   
   .log-out{

@@ -30,8 +30,8 @@ export const vehicles = [
   // Vehicle 4: Large Truck
   {
     id: "54e0eccd-8f36-462b-b68a-8182611d9add",
-    name: 'Large Truck',
-    image: './icons/big-truck.png',
+    name: "Large Truck",
+    image: "./icons/big-truck.png",
     price: parseFloat(vehiclePrice[3]) || 40000
   },
   

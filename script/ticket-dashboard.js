@@ -18,15 +18,6 @@ if (!localStorage.getItem('time')) {
 // Display the stored login time
 document.querySelector('.last-login').innerHTML = `Last login: ${localStorage.getItem('time')}`;
 
-// Get current date and time
-const date = new Date();
-const weekday = date.toLocaleString('en-NG', { weekday: 'short' });
-const day = date.toLocaleString('en-NG', { day: '2-digit' });
-const month = date.toLocaleString('en-NG', { month: '2-digit' });
-const year = date.toLocaleString('en-NG', { year: '2-digit' });
-const time = date.toLocaleString('en-NG', { hour: '2-digit', minute: '2-digit', hour12: true });
-const nigerianDate = `${weekday} ${day}, ${month}-${year}`;
-
 // Function to generate vehicle buttons
 function generateContent() {
   let vehiclesButton = '';
@@ -68,57 +59,72 @@ let paperPrint;
 document.querySelectorAll('.all-vehicles-button').forEach((button) => {
   button.addEventListener('click', () => {
     const vehicleId = button.dataset.vehicleId;
-    vehicles.forEach((vehicle) => {
-      if (vehicleId === (vehicle.id)) {
-        paperPrint = vehicle;
-      }
-    });
-    salesReviews.push({ vehicleId: vehicleId });
+
+    // Find the selected vehicle
+    const selectedVehicle = vehicles.find((vehicle) => vehicle.id === vehicleId);
+    if (!selectedVehicle) return;
+
+    // Save sales review in localStorage
+    salesReviews.push({ vehicleId });
     localStorage.setItem('sales', JSON.stringify(salesReviews));
 
-    // Create a new window for printing
-   
-      // Get current date and time again for printing
-      const printVehicleInfo = (vehicle) => {
-        const date = new Date();
-        const weekday = date.toLocaleString('en-NG', { weekday: 'short' });
-        const day = date.toLocaleString('en-NG', { day: '2-digit' });
-        const month = date.toLocaleString('en-NG', { month: '2-digit' });
-        const year = date.toLocaleString('en-NG', { year: '2-digit' });
-        const time = date.toLocaleString('en-NG', { hour: '2-digit', minute: '2-digit', hour12: true });
-        const nigerianDate = `${weekday} ${day}, ${month}-${year}`;
-      
-        const htmlContent = `
-          <html>
-          <body>
-              <div style="display: flex; justify-content: space-between;">
-                <p>${nigerianDate}</p>
-                <p>${time}</p>
-              </div>
-              <p style="display: flex; align-items: center; justify-content: center;margin-bottom:2rem; font-size: 13px;">
-                <b>${marketNameDisplay}</b>
-              </p>
-              <p style="display:flex; align-items:center; justify-content: center;">
-                ${vehicle.name}
-              </p>
-              <p style="display:flex; align-items:center; justify-content: center;margin-bottom: 2rem">
-                <b>₦${formatCurrency(vehicle.price)}</b>
-              </p>
-              <p style="display:flex; align-items:center; justify-content: center;">
-                Vehicle parked @ Owners risk
-              </p>
-            </body>
-          </html>
-        `;
-      
-        const printWindow = window.open('', '', 'width=800,height=400');
-        printWindow.document.body.innerHTML = htmlContent;
+    // Generate Nigerian date and time
+    const date = new Date();
+    const weekday = date.toLocaleString('en-NG', { weekday: 'short' });
+    const day = date.toLocaleString('en-NG', { day: '2-digit' });
+    const month = date.toLocaleString('en-NG', { month: '2-digit' });
+    const year = date.toLocaleString('en-NG', { year: '2-digit' });
+    const time = date.toLocaleString('en-NG', { hour: '2-digit', minute: '2-digit', hour12: true });
+    const nigerianDate = `${weekday} ${day}, ${month}-${year}`;
+
+    // Generate HTML content for printing
+    const htmlContent = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Print Preview</title>
+        <style>
+          body { font-family: Arial, sans-serif; margin: 20px; }
+          .header { display: flex; justify-content: space-between; }
+          .center { text-align: center; margin: 20px 0; }
+          .price { margin-bottom: 20px; font-size: 16px; font-weight: bold; }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <p>${nigerianDate}</p>
+          <p>${time}</p>
+        </div>
+        <div class="center">
+          <p><b>${marketNameDisplay}</b></p>
+          <p>${selectedVehicle.name}</p>
+          <p class="price">₦${formatCurrency(selectedVehicle.price)}</p>
+          <p>Vehicle parked @ Owners risk</p>
+        </div>
+      </body>
+      </html>
+    `;
+
+    // Open the print window and load content
+    const printWindow = window.open('', '_blank', 'width=800,height=400');
+    if (!printWindow) {
+      alert('Pop-up blocked. Please allow pop-ups for this site.');
+      return;
+    }
+
+    // Write content and handle printing
+    printWindow.document.open();
+    printWindow.document.write(htmlContent);
+    printWindow.document.close();
+
+    // Wait until content is ready and then print
+    const interval = setInterval(() => {
+      if (printWindow.document.readyState === 'complete') {
+        clearInterval(interval);
         printWindow.print();
         setTimeout(() => printWindow.close(), 500);
-      };
-      
-      // Call the function with the vehicle object
-      printVehicleInfo(paperPrint);
+      }
+    }, 100); // Check readiness every 100ms
   });
 });
 
