@@ -162,43 +162,45 @@ body{
   background-color: #ccc;
 }
 
-/* Modal container */
+/* Modal container (inactive dark overlay) */
 .modals {
   position: fixed;
-  bottom: -100%; /* Start off-screen */
+  top: 0;
   left: 0;
   width: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  transition: bottom 0.9s ease-in-out, opacity 0.6s ease-in-out; /* Adjusted for smoothness */
-  opacity: 0; /* Start with invisible state */
+  height: 100%;
+  background: rgba(0, 0, 0, 0); /* Start fully transparent */
+  transition: background 0.6s ease-in-out; /* Smooth fade-in effect */
   z-index: 9999;
+  opacity: 0; /* Initially invisible */
+  pointer-events: none; /* Prevent clicks when not visible */
   display: flex;
-  align-items: center;
+  align-items: flex-end; /* Align modal to the bottom of the screen */
   justify-content: center;
 }
 
-/* Show the modal by sliding it up */
+/* Show the modal with inactive dark shade */
 .modals.show {
-  bottom: 0; /* Slide up to view */
-  opacity: 1; /* Fade in */
-  transition: bottom 0.9s ease-in, opacity 0.6s ease-in;
+  background: rgba(0, 0, 0, 0.4); /* Subtle dark background */
+  opacity: 1;
+  pointer-events: auto; /* Allow interactions when visible */
 }
 
 /* Modal content */
 .modal-contents {
   background: white;
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 10px 10px 0 0;
   text-align: center;
-  width: 90%;
+  width: 100%;
   max-width: 400px;
-  transform: translateY(20px); /* Start slightly lower */
-  transition: transform 10s ease-in; /* Smooth in-place motion */
+  transform: translateY(100%); /* Start off-screen (slide up from the bottom) */
+  transition: transform 0.6s ease-in-out; /* Smooth slide-up effect */
 }
 
-/* Animate modal content sliding in */
+/* Show the modal content by sliding it up */
 .modals.show .modal-contents {
-  transform: translateY(0); /* Slide into position */
+  transform: translateY(0); /* Bring modal into view */
 }
 
 /* Modal content text */
@@ -236,6 +238,7 @@ body{
 .hidden {
   display: none;
 }
+
 
 
 
