@@ -162,6 +162,82 @@ body{
   background-color: #ccc;
 }
 
+/* Modal container */
+.modals {
+  position: fixed;
+  bottom: -100%; /* Start off-screen */
+  left: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  transition: bottom 0.9s ease-in-out, opacity 0.6s ease-in-out; /* Adjusted for smoothness */
+  opacity: 0; /* Start with invisible state */
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Show the modal by sliding it up */
+.modals.show {
+  bottom: 0; /* Slide up to view */
+  opacity: 1; /* Fade in */
+  transition: bottom 0.9s ease-in, opacity 0.6s ease-in;
+}
+
+/* Modal content */
+.modal-contents {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+  transform: translateY(20px); /* Start slightly lower */
+  transition: transform 10s ease-in; /* Smooth in-place motion */
+}
+
+/* Animate modal content sliding in */
+.modals.show .modal-contents {
+  transform: translateY(0); /* Slide into position */
+}
+
+/* Modal content text */
+.modal-contents p {
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+/* Buttons */
+.modal-buttons {
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+}
+
+.modal-button {
+  padding: 10px 20px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal-button.confirm {
+  background: #0e0655;
+  color: white;
+}
+
+.modal-button.cancel {
+  background: #0934c0;
+  color: white;
+}
+
+/* Hidden state for modal */
+.hidden {
+  display: none;
+}
+
+
 
 @media (min-width:340px) and (max-width: 750px) {
   .buttons {

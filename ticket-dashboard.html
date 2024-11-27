@@ -15,12 +15,22 @@
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
   </head>
   <body>
+    <div id="logout-modal" class="modals hidden">
+      <div class="modal-contents">
+        <p>Are you sure you want to log out?</p>
+        <div class="modal-buttons">
+          <button id="confirm-logout" class="modal-button confirm">Log Out</button>
+          <button id="cancel-logout" class="modal-button cancel">Cancel</button>
+        </div>
+      </div>
+    </div>
+    
     <div class="log-out">
       <div class="last-login"></div>
       <div>
         <p class="edit-price" style="background-color: rgb(87, 26, 36);">Edit Vehicle Fee</p>
         <p class="edit-price about-js" style="background-color: rgb(6, 6, 110);">About Ticket</p>
-       <p class="log-out-text">Logout</p>
+       <p class="log-out-text log-out-js">Logout</p>
       </div>
     </div>
     <div class="confirm-dialog" style="display:none;">
