@@ -42,7 +42,7 @@ function generateContent() {
 }
 
 // Style the ticket issuance button
-document.querySelector(".all-vehicles-ticket-button").style.backgroundColor = 'rgb(10, 51, 112)';
+document.querySelector('.all-vehicles-ticket-button').style.backgroundColor = 'rgb(10, 51, 112)';
 
 // Add event listeners for vehicle buttons
 document.querySelectorAll('.all-vehicles-button').forEach((button) => {
@@ -84,7 +84,7 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
     modal.innerHTML = modalContent;
     document.body.appendChild(modal);
 
-    // Modal and print styles
+    // Modal styles
     const style = document.createElement('style');
     style.textContent = `
       .modal {
@@ -118,7 +118,6 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
       .price {
         font-size: 16px;
         font-weight: bold;
-        margin-bottom: 20px;
       }
       .modal-content button {
         padding: 10px 20px;
@@ -136,38 +135,8 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
         background: #100744;
         color: white;
       }
-      @media print {
-        body * {
-          display: none !important;
-        }
-        .print-container,
-        .print-container * {
-          display: block !important;
-        }
-        .print-container {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          background: white;
-          color: black;
-          text-align: center;
-    
-          margin: 0;
-          page-break-after: avoid;
-        }
-        .print-container .header {
-          display: flex !important;
-          justify-content: space-between;
-          font-size: 14px;
-        }
-         .receipt{
-          padding:20px;
-         } 
-      }
     `;
     document.head.appendChild(style);
-    
 
     // Close modal
     modal.querySelector('.close-button').addEventListener('click', () => {
@@ -180,35 +149,67 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
       salesReviews.push({ vehicleId });
       localStorage.setItem('sales', JSON.stringify(salesReviews));
 
-      // Create print container
-      const printContainer = document.createElement('div');
-      printContainer.classList.add('print-container');
-      printContainer.innerHTML = `
-      <div class="receipt">
-        <div class="header">
-          <p>${nigerianDate}</p>
-          <p>${time}</p>
-        </div>
-        <div class="center">
-          <p  style="margin-bottom:1rem; font-size: 13px;"><b>${marketNameDisplay}</b></p>
-          <p  style="margin-bottom:1rem; font-size: 13px;">${selectedVehicle.name}</p>
-          <p class="price">₦${formatCurrency(selectedVehicle.price)}</p>
-          <p  style=" font-size: 13px;">Vehicle parked @ Owners risk</p>
-        </div>
-       </div> 
+      // Generate print content
+      const printContent = `
+        <html>
+          <head>
+            <style>
+              body {
+                font-family: Arial, sans-serif;
+                font-size: 12px;
+                margin: 20px;
+              }
+              .header {
+                display: flex;
+                justify-content: space-between;
+                font-size: 14px;
+              }
+              .center {
+                text-align: center;
+                margin: 20px 0;
+              }
+              .price {
+                font-size: 16px;
+                font-weight: bold;
+              }
+            </style>
+          </head>
+          <body>
+            <div class="header">
+              <p>${nigerianDate}</p>
+              <p>${time}</p>
+            </div>
+            <div class="center">
+              <p><b>${marketNameDisplay}</b></p>
+              <p>${selectedVehicle.name}</p>
+              <p class="price">₦${formatCurrency(selectedVehicle.price)}</p>
+              <p>Vehicle parked @ Owners risk</p>
+            </div>
+          </body>
+        </html>
       `;
 
-      document.body.appendChild(printContainer);
+      // Open a new print window and inject the content
+      const printWindow = window.open('', '_blank');
+      if (printWindow) {
+        printWindow.document.open();
+        printWindow.document.write(printContent);
+        printWindow.document.close();
 
-      // Trigger print and cleanup
-      setTimeout(() => {
-        window.print();
-        document.body.removeChild(printContainer); // Remove print container after printing
-        document.body.removeChild(modal); // Close modal
-      }, 300);
+        // Trigger print and close the print window
+        printWindow.print();
+        setTimeout(() => {
+          printWindow.close();
+          modal.remove(); // Close modal
+        }, 500);
+      } else {
+        alert('Unable to open print window. Please allow pop-ups for this site.');
+      }
     });
   });
 });
+
+
 
 const editPriceBtn = document.querySelector('.edit-price');
 const confirmDialog = document.querySelector('.confirm-dialog');
