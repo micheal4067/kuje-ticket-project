@@ -108,6 +108,7 @@ body{
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 100;
 }
 .confirm-dialog p{
   color: rgb(26, 24, 24);
@@ -257,7 +258,7 @@ body{
   
   .fixed{
   position: fixed;
-  z-index: 1000;
+  z-index: 10;
   background-color:  #4e34b6;;
   left: 0;
   right: 0;
