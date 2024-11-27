@@ -119,7 +119,7 @@ function printReceiptContent(printDate, printTime) {
       </body>
     </html>
   `;
-  const printWindow = window.open('', '', 'width=800,height=400');
+  const printWindow = window.print('', '', 'width=800,height=400');
   printWindow.document.body.innerHTML = htmlContent;
   printWindow.print();
   setTimeout(() => printWindow.close(), 500);

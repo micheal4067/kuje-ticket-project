@@ -129,11 +129,11 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
         cursor: pointer;
       }
       .close-button {
-        background: #f44336;
+        background: #8672f7;
         color: white;
       }
       .print-button {
-        background: #4caf50;
+        background: #100744;
         color: white;
       }
       @media print {

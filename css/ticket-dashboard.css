@@ -7,7 +7,7 @@ body{
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 4rem;
+  margin-top: 2rem;
 
 }
 
@@ -113,6 +113,7 @@ body{
 .confirm-dialog p{
   color: rgb(26, 24, 24);
   margin-bottom: 1rem;
+
 }
 .dialog-content {
   background-color: #fff;
@@ -267,7 +268,7 @@ body{
 
  
 .main-body{
-  padding-top: 19rem;
+  padding-top: 18rem;
 }
 
 }
