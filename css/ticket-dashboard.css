@@ -1,5 +1,6 @@
 body{
-  min-width: 220px;
+  min-width: 284px;
+
 }
 
 .log-out{
@@ -7,8 +8,7 @@ body{
   align-items: center;
   justify-content: space-between;
   margin-top: 4rem;
-  margin-right: 4rem; 
-  
+
 }
 
 .last-login{
@@ -96,7 +96,6 @@ body{
   width: 60px;
   height: max-content;
 }
-
 
 .confirm-dialog {
   position: fixed;
@@ -255,6 +254,20 @@ body{
   .edit-price{
     padding: 7px 15px;
   }
+  
+  .fixed{
+  position: fixed;
+  z-index: 1000;
+  background-color:  #4e34b6;;
+  left: 0;
+  right: 0;
+  padding: 0 10px;  
+  }
+
+ 
+.main-body{
+  padding-top: 19rem;
+}
 
 }
 
