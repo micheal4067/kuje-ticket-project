@@ -56,15 +56,9 @@ document.querySelector(".all-vehicles-ticket-button").style.backgroundColor = 'r
 let paperPrint;
 
 // Add event listeners to vehicle buttons
-// Global variable to track the vehicle ID
-let currentVehicleId = null;
-
 document.querySelectorAll('.all-vehicles-button').forEach((button) => {
   button.addEventListener('click', () => {
     const vehicleId = button.dataset.vehicleId;
-
-    // Set the current vehicle ID
-    currentVehicleId = vehicleId;
 
     // Find the selected vehicle
     const selectedVehicle = vehicles.find((vehicle) => vehicle.id === vehicleId);
@@ -79,9 +73,9 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
     const time = date.toLocaleString('en-NG', { hour: '2-digit', minute: '2-digit', hour12: true });
     const nigerianDate = `${weekday} ${day}, ${month}-${year}`;
 
-    // Generate modal HTML content
-    const modalHtml = `
-      <div class="print-container">
+    // Generate HTML content for modal
+    const modalContent = `
+      <div class="modal-content">
         <div class="header">
           <p>${nigerianDate}</p>
           <p>${time}</p>
@@ -93,17 +87,17 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
           <p>Vehicle parked @ Owners risk</p>
         </div>
         <button class="close-button">Close</button>
-        <button class="print-button">Print Ticket</button>
+        <button class="print-button">Print</button>
       </div>
     `;
 
-    // Create a modal
+    // Create and display the modal
     const modal = document.createElement('div');
     modal.classList.add('modal');
-    modal.innerHTML = modalHtml;
+    modal.innerHTML = modalContent;
     document.body.appendChild(modal);
 
-    // Add styles for modal
+    // Add modal styles
     const style = document.createElement('style');
     style.textContent = `
       .modal {
@@ -118,13 +112,13 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
         justify-content: center;
         z-index: 9999;
       }
-      .print-container {
+      .modal-content {
         background: white;
         padding: 20px;
         border-radius: 10px;
+        text-align: center;
         width: 90%;
         max-width: 400px;
-        text-align: center;
       }
       .header {
         display: flex;
@@ -135,17 +129,17 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
         margin: 20px 0;
       }
       .price {
-        margin-bottom: 20px;
         font-size: 16px;
         font-weight: bold;
+        margin-bottom: 20px;
       }
-      .print-container button {
+      .modal-content button {
         padding: 10px 20px;
         margin: 10px;
         font-size: 14px;
-        cursor: pointer;
         border: none;
         border-radius: 5px;
+        cursor: pointer;
       }
       .close-button {
         background: #f44336;
@@ -163,59 +157,38 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
       document.body.removeChild(modal);
     });
 
-    // Print logic
+    // Print functionality
     modal.querySelector('.print-button').addEventListener('click', () => {
-      // Generate print HTML content
-      const printHtml = `
-        <!DOCTYPE html>
-        <html>
-          <head>
-            <title>Print Preview</title>
-            <style>
-              body { font-family: Arial, sans-serif; margin: 20px; }
-              .header { display: flex; justify-content: space-between; }
-              .center { text-align: center; margin: 20px 0; }
-              .price { margin-bottom: 20px; font-size: 16px; font-weight: bold; }
-            </style>
-          </head>
-          <body>
-            <div class="header">
-              <p>${nigerianDate}</p>
-              <p>${time}</p>
-            </div>
-            <div class="center">
-              <p><b>${marketNameDisplay}</b></p>
-              <p>${selectedVehicle.name}</p>
-              <p class="price">₦${formatCurrency(selectedVehicle.price)}</p>
-              <p>Vehicle parked @ Owners risk</p>
-            </div>
-          </body>
-        </html>
+      // Save sales review before printing
+      salesReviews.push({ vehicleId });
+      localStorage.setItem('sales', JSON.stringify(salesReviews));
+
+      // Create a dedicated print container
+      const printContainer = document.createElement('div');
+      printContainer.innerHTML = `
+        <div class="print-container">
+          <div class="header">
+            <p>${nigerianDate}</p>
+            <p>${time}</p>
+          </div>
+          <div class="center">
+            <p><b>${marketNameDisplay}</b></p>
+            <p>${selectedVehicle.name}</p>
+            <p class="price">₦${formatCurrency(selectedVehicle.price)}</p>
+            <p>Vehicle parked @ Owners risk</p>
+          </div>
+        </div>
       `;
+      printContainer.style.position = 'absolute';
+      printContainer.style.top = '-9999px'; // Hide from view
+      document.body.appendChild(printContainer);
 
-      // Open a new window for printing
-      const printWindow = window.open('', '_blank', 'width=800,height=600');
-
-      if (!printWindow) {
-        alert('Pop-up blocked. Please allow pop-ups for this site.');
-        return;
-      }
-
-      // Write and close document in the print window
-      printWindow.document.open();
-      printWindow.document.write(printHtml);
-      printWindow.document.close();
-
-      // Wait for the content to load and print
-      printWindow.onload = () => {
-        setTimeout(() => {
-          printWindow.print();
-          printWindow.close();
-        }, 100); // Small delay to ensure rendering
-      };
-
-      // Close the modal
-      document.body.removeChild(modal);
+      // Trigger the print dialog
+      setTimeout(() => {
+        window.print();
+        document.body.removeChild(printContainer); // Clean up after printing
+        document.body.removeChild(modal); // Close the modal
+      }, 300); // Ensure rendering time for mobile browsers
     });
   });
 });
@@ -223,24 +196,6 @@ document.querySelectorAll('.all-vehicles-button').forEach((button) => {
 
 
 
-
-
-
-// Print listener: Trigger sales review update when printing
-function push(){
-  window.addEventListener('afterprint', () => {
-    if (currentVehicleId) {
-      // Push to salesReviews array
-      salesReviews.push({ vehicleId: currentVehicleId });
-      localStorage.setItem('sales', JSON.stringify(salesReviews));
-  
-      // Clear currentVehicleId for the next print
-      currentVehicleId = null;
-    }
-  });
-}
-
-push();
 
 
 const allTicketIssued = document.getElementById('js-all-vehicles-ticket-button');
