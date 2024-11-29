@@ -122,44 +122,48 @@ function issueReceipt() {
   });
 }
 
-// Print receipt content
+// Print receipt content using jsPDF
 function printReceiptContent(printDate, printTime, selectedVehicle) {
-  // Create the receipt content
-  const receiptHTML = `
-  
-    <div id="printArea">
-      <div style="font-family: Arial, sans-serif; text-align: center; padding: 10px;">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 12px;">
-          <span>${printDate}</span>
-          <span>${printTime}</span>
-        </div>
-        <div>
-          <p style="margin: 0; font-size: 13px; font-weight: bold;">${marketNameDisplay}</p>
-          <p style="margin: 0; font-size: 13px;">${selectedVehicle.name}</p>
-          <p style="margin: 0; font-size: 14px; font-weight: bold;">₦${formatCurrency(selectedVehicle.price)}</p>
-          <p style="margin: 0; font-size: 13px;">Vehicle parked @ Owner's risk</p>
-        </div>
-      </div>
-    </div>
-  `;
+  const { jsPDF } = window.jspdf;
 
-  // Inject the content into the page
-  let printContainer = document.getElementById('printArea');
-  if (!printContainer) {
-    // If the container doesn't exist, create it
-    printContainer = document.createElement('div');
-    printContainer.id = 'printArea';
-    document.body.appendChild(printContainer);
+  // Create a new jsPDF instance
+  const doc = new jsPDF();
+
+  // Add content to the PDF
+  doc.setFont('Arial', 'normal');
+  doc.setFontSize(12);
+
+  // Add date and time
+  doc.text(`Date: ${printDate}`, 10, 10);
+  doc.text(`Time: ${printTime}`, 150, 10);
+
+  // Add market name
+  doc.setFontSize(14);
+  doc.text(`${marketNameDisplay}`, 10, 30);
+
+  // Add vehicle details
+  doc.setFontSize(12);
+  doc.text(`Vehicle: ${selectedVehicle.name}`, 10, 50);
+  doc.text(`Price: ₦${formatCurrency(selectedVehicle.price)}`, 10, 60);
+  doc.text(`Note: Vehicle parked @ Owner's risk`, 10, 80);
+
+  // Add footer
+  doc.setFontSize(10);
+  doc.text(`Thank you for using our services!`, 10, 100);
+
+  // Prepare the document for printing
+  doc.autoPrint();
+
+  // Open the print dialog
+  const printBlob = doc.output('blob');
+  const printURL = URL.createObjectURL(printBlob);
+  const printWindow = window.open(printURL);
+  if (printWindow) {
+    printWindow.print();
+  } else {
+    alert("Please enable pop-ups to print the receipt.");
   }
-
-  // Set the content
-  printContainer.innerHTML = receiptHTML;
-
-  // Trigger the print dialog
-  window.print();
 }
-
-
 
 
 

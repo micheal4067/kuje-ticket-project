@@ -382,19 +382,3 @@ input:focus {
 }
 
 
-@media print {
-  body * {
-    visibility: hidden; /* Hide everything by default */
-  }
-  #printArea, #printArea * {
-    visibility: visible; /* Make #printArea visible */
-  }
-  #printArea {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-  }
-}
-</style>
-
