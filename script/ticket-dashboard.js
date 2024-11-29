@@ -129,7 +129,7 @@ function printReceiptContent(printDate, printTime, selectedVehicle) {
     <head>
       <title>Receipt</title>
     </head>
-    <body style="font-family: Arial, sans-serif; font-size: 12px; margin: 0; padding: 10px; justify-items: center;">
+    <body style="font-family: Arial, sans-serif; font-size: 12px; margin: 0;  padding: 10px; justify-items: center;">
       <div style="width: 100%; padding: 10px;">
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
           <p style="margin: 0;">${printDate}</p>
@@ -152,16 +152,26 @@ function printReceiptContent(printDate, printTime, selectedVehicle) {
     return;
   }
 
+  // Write content to the new window and ensure it's loaded
   printWindow.document.open();
   printWindow.document.write(receiptContainer);
   printWindow.document.close();
 
-  // Wait for the content to load before printing
-  printWindow.onload = () => {
-    printWindow.print();
-    setTimeout(() => printWindow.close(), 500);
+  // Ensure the content is fully loaded before triggering print
+  printWindow.onload = function() {
+    // Delay printing to ensure the content is fully rendered
+    setTimeout(function() {
+      printWindow.print();
+      setTimeout(function() {
+        printWindow.close();
+      }, 500);
+    }, 500); // Adjust the delay if necessary
   };
+
+  // Handle possible issues on mobile (Safari blocking print window)
+  printWindow.focus();
 }
+
 
 
 
