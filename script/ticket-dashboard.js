@@ -124,63 +124,48 @@ function issueReceipt() {
 
 // Print receipt content
 function printReceiptContent(printDate, printTime, selectedVehicle) {
-  // Find the modal content excluding buttons
-  const modalContent = document.querySelector('.modal-content');
-
-  if (!modalContent) {
-    console.error("Modal content not found.");
-    return;
-  }
-
-  // Create a clone of the modal content to exclude buttons
-  const clone = modalContent.cloneNode(true);
-
-  // Remove the print and close buttons from the clone
-  clone.querySelector('.close-button')?.remove();
-  clone.querySelector('.print-button')?.remove();
-
-  // Add date and time to the cloned content
-  const headerHTML = `
-    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; font-size: 12px;">
-      <p style="margin: 0;">${printDate}</p>
-      <p style="margin: 0;">${printTime}</p>
-    </div>
+  const receiptContainer = `
+    <html>
+    <head>
+      <title>Receipt</title>
+      <style>
+        body { font-family: Arial, sans-serif; font-size: 12px; margin: 0; padding: 10px; justify-items: center; }
+        .receipt-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+        .receipt-header p { margin: 0; font-size: 12px; }
+        .receipt-body { text-align: center; font-size: 14px; }
+        .receipt-body p { margin: 5px 0; }
+      </style>
+    </head>
+    <body>
+      <div class="receipt-header">
+        <p>${printDate}</p>
+        <p>${printTime}</p>
+      </div>
+      <div class="receipt-body">
+        <p><b>${marketNameDisplay}</b></p>
+        <p>${selectedVehicle.name}</p>
+        <p><b>₦${formatCurrency(selectedVehicle.price)}</b></p>
+        <p>Vehicle parked @ Owner's risk</p>
+      </div>
+    </body>
+    </html>
   `;
-  clone.insertAdjacentHTML('afterbegin', headerHTML);
 
-  // Create a new print window
+  // This will open the print dialog directly in the same window
   const printWindow = window.open('', '', 'width=800,height=400');
   if (!printWindow) {
     alert("Unable to open print preview. Please allow pop-ups for this site.");
     return;
   }
 
-  // Write the cloned modal content to the new window
+  // Write content directly and trigger print
   printWindow.document.open();
-  printWindow.document.write(`
-    <html>
-    <head>
-      <title>Receipt</title>
-      <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; font-size: 14px; }
-        .header { text-align: center; }
-      </style>
-    </head>
-    <body>
-      ${clone.outerHTML}
-    </body>
-    </html>
-  `);
+  printWindow.document.write(receiptContainer);
   printWindow.document.close();
-
-  // Wait for the content to load and trigger printing
-  printWindow.onload = function () {
-    printWindow.print();
-    setTimeout(() => printWindow.close(), 500); // Close the window after printing
-  };
-
-  printWindow.focus();
+  printWindow.print();
 }
+
+
 
 
 
