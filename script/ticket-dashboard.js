@@ -126,28 +126,43 @@ function issueReceipt() {
 function printReceiptContent(printDate, printTime, selectedVehicle) {
   const receiptContainer = `
     <html>
-    <body style="font-family: Arial, sans-serif; font-size: 12px;">
-      <div class="receipt">
-        <div class="header" style="display: flex; align-items: center; justify-content: space-between;">
-          <p>${printDate}</p>
-          <p>${printTime}</p>
+    <head>
+      <title>Receipt</title>
+    </head>
+    <body style="font-family: Arial, sans-serif; font-size: 12px; margin: 0; padding: 10px; justify-items: center;">
+      <div style="width: 100%; padding: 10px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+          <p style="margin: 0;">${printDate}</p>
+          <p style="margin: 0;">${printTime}</p>
         </div>
-        <div class="center" style="text-align: center;">
-          <p style="margin-bottom: 1rem; font-size: 13px;"><b>${marketNameDisplay}</b></p>
-          <p style="margin-bottom: 1rem; font-size: 13px;">${selectedVehicle.name}</p>
-          <p class="price">₦${formatCurrency(selectedVehicle.price)}</p>
-          <p style="font-size: 13px;">Vehicle parked @ Owners risk</p>
+        <div style="text-align: center;">
+          <p style="margin: 0 0 10px 0; font-size: 13px; font-weight: bold;">${marketNameDisplay}</p>
+          <p style="margin: 0 0 10px 0; font-size: 13px;">${selectedVehicle.name}</p>
+          <p style="margin: 0 0 10px 0; font-size: 14px; font-weight: bold;">₦${formatCurrency(selectedVehicle.price)}</p>
+          <p style="margin: 0; font-size: 13px;">Vehicle parked @ Owner's risk</p>
         </div>
       </div>
     </body>
     </html>
   `;
 
-  const printWindow = window.open('', '', 'width=800,height=400');
-  printWindow.document.body.innerHTML = receiptContainer;
-  printWindow.print();
-  setTimeout(() => printWindow.close(), 500);
+  const printWindow = window.open('', '_blank', 'width=800,height=400');
+  if (!printWindow) {
+    alert("Unable to open print preview. Please allow pop-ups for this site.");
+    return;
+  }
+
+  printWindow.document.open();
+  printWindow.document.write(receiptContainer);
+  printWindow.document.close();
+
+  // Wait for the content to load before printing
+  printWindow.onload = () => {
+    printWindow.print();
+    setTimeout(() => printWindow.close(), 500);
+  };
 }
+
 
 
 const openModalBtn = document.getElementById('openModalBtn');

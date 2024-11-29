@@ -134,7 +134,6 @@ body{
   max-width: 400px;
   transform: translateY(100%); /* Start off-screen (slide up from the bottom) */
   transition: transform 0.6s ease-in-out; /* Smooth slide-up effect */
-  
 }
 
 /* Show the modal content by sliding it up */
@@ -275,6 +274,7 @@ input:focus {
  text-align: center;
  width: 90%;
  max-width: 400px;
+ box-sizing: border-box;
 }
  .modal.show {
    bottom: 0;
