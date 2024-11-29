@@ -124,6 +124,7 @@ function issueReceipt() {
 
 // Print receipt content
 function printReceiptContent(printDate, printTime, selectedVehicle) {
+  // Create the HTML content for the receipt
   const receiptContainer = `
     <html>
     <head>
@@ -146,31 +147,29 @@ function printReceiptContent(printDate, printTime, selectedVehicle) {
     </html>
   `;
 
-  const printWindow = window.open('', '_blank', 'width=800,height=400');
-  if (!printWindow) {
-    alert("Unable to open print preview. Please allow pop-ups for this site.");
-    return;
-  }
+  // Create an invisible iframe
+  const iframe = document.createElement('iframe');
+  iframe.style.position = 'absolute';
+  iframe.style.top = '-9999px';
+  document.body.appendChild(iframe);
 
-  // Write content to the new window and ensure it's loaded
-  printWindow.document.open();
-  printWindow.document.write(receiptContainer);
-  printWindow.document.close();
+  // Get the iframe's document and write the content into it
+  const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+  iframeDoc.open();
+  iframeDoc.write(receiptContainer);
+  iframeDoc.close();
 
-  // Ensure the content is fully loaded before triggering print
-  printWindow.onload = function() {
-    // Delay printing to ensure the content is fully rendered
+  // Wait for the iframe to load and then trigger the print dialog
+  iframe.onload = function() {
+    iframe.contentWindow.print();
+    
+    // Optional: Remove the iframe after printing
     setTimeout(function() {
-      printWindow.print();
-      setTimeout(function() {
-        printWindow.close();
-      }, 500);
-    }, 500); // Adjust the delay if necessary
+      document.body.removeChild(iframe);
+    }, 500);
   };
-
-  // Handle possible issues on mobile (Safari blocking print window)
-  printWindow.focus();
 }
+
 
 
 
