@@ -13,6 +13,7 @@ body {
   color: #fff;
   overflow-x: hidden;
   padding-bottom: 3rem;
+  min-width: 250px;
 }
 
 .head{

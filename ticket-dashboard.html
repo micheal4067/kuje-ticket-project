@@ -13,8 +13,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+
   </head>
   <body>
+    
     <div id="logout-modal" class="modals hidden">
       <div class="modal-contents">
         <p>Are you sure you want to log out?</p>
@@ -24,12 +26,33 @@
         </div>
       </div>
     </div>
+
+    <div id="loginModal" class="modal-history">
+      <div class="modal-contentss">
+        <span class="close">&times;</span>
+        <h2>Login</h2>
+        <p style="margin:20px 0; color: rgb(31, 25, 25); font-size: 15px;">Administrative Priviledge is required to view this page. Enter any Username and Password to continue.</p>
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" >
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" >
+          </div>
+          <div class="invalid" style="padding-bottom: 5px;color: white;"></div>
+          <button type="submit">Login</button>
+        </form>
+      </div>
+    </div>
+
     <div class="fixed">
       <div class="log-out">
         <div class="last-login"></div>
         <div>
-          <p class="edit-price" style="background-color: rgb(87, 26, 36);">Edit Vehicle Fee</p>
-          <p class="edit-price about-js" style="background-color: rgb(6, 6, 110);">About Ticket</p>
+          <p class="about about-js"">About Ticket</p>
+          <p id="openModalBtn" class="sales-record";">Sales Record</p>
          <p class="log-out-text log-out-js">Logout</p>
         </div>
       </div>
@@ -37,17 +60,11 @@
         <h1 class="market-name"></h1>
      </div>
     </div>
-    <div class="confirm-dialog" style="display:none;">
-      <div class="dialog-content">
-        <p>
-          This operation would reset the existing fee to default. Do you wish to proceed?
-        </p>
-        <button class="yes-btn">Yes</button>
-        <button class="no-btn">No</button></div>  
-    </div>
+
     <div class="main-body">
       <div class="buttons"></div>
     </div>
     <script type="module" src="./script/ticket-dashboard.js"></script>
   </body>
+
 </html>

@@ -59,6 +59,13 @@ function displayTotalPrice() {
 
 // Function to show modal with receipt content
 function showReceiptModal() {
+  // Check if modal already exists
+  let modal = document.querySelector('.modals');
+  if (modal) {
+    return; // If modal already exists, do nothing
+  }
+
+  // Create modal
   const date = new Date();
   const weekday = date.toLocaleString('en-NG', { weekday: 'short' });
   const day = date.toLocaleString('en-NG', { day: '2-digit' });
@@ -67,7 +74,7 @@ function showReceiptModal() {
   const time = date.toLocaleString('en-NG', { hour: '2-digit', minute: '2-digit', hour12: true });
   const nigerianDate = `${weekday} ${day}, ${month}-${year}`;
 
-  const modal = document.createElement('div');
+  modal = document.createElement('div');
   modal.className = 'modals';
 
   modal.innerHTML = `
@@ -90,6 +97,7 @@ function showReceiptModal() {
 
   setTimeout(() => modal.classList.add('show'), 100);
 
+  // Add event listeners for modal buttons
   modal.querySelector('.confirm').addEventListener('click', () => {
     printReceiptContent(nigerianDate, time);
     modal.classList.remove('show');
@@ -119,7 +127,7 @@ function printReceiptContent(printDate, printTime) {
       </body>
     </html>
   `;
-  const printWindow = window.print('', '', 'width=800,height=400');
+  const printWindow = window.open('', '', 'width=800,height=400');
   printWindow.document.body.innerHTML = htmlContent;
   printWindow.print();
   setTimeout(() => printWindow.close(), 500);

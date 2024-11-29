@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ticket | Sales Record</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+    <link rel="stylesheet" href="./css/ticket-general.css">
+    <link rel="stylesheet" href="./css/sales-history.css">
+    <link rel="icon" type="image" href="./icons/title-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+
+  </head>
+  <body>
+    <div class="fixed-d">
+      <div class="edit-div">
+        <div class="back-arrow">
+          <img class="back-button-image" src="./icons/back-button.png">
+          <p class="dashboard">Dashboard</p>
+        </div>
+        <div>
+          <p class="edit-price" style="background-color: rgb(87, 26, 36);">Edit Vehicle Fee</p>
+        </div>
+      </div>
+      <div class="heading">
+        <h1 class="market-name"></h1>
+      </div>
+    </div>
+
+    <div class="confirm-dialog" style="display:none;">
+      <div class="dialog-content">
+        <p>
+          This operation would reset the existing fee to default. Do you wish to proceed?
+        </p>
+        <button class="yes-btn">Yes</button>
+        <button class="no-btn">No</button></div>  
+    </div>
+
+    <div id="deleteConfirmationModal">
+      <div class="content">
+        <h2>Confirm Deletion</h2>
+        <p>Are you sure you want to delete all sales for this date?</p>
+        <div class="delete-buttons"  style="margin-top: 20px;">
+          <button id="confirmDeleteBtn">Delete</button>
+          <button id="cancelDeleteBtn">Cancel</button>
+        </div>
+      </div>
+    </div>
+ 
+  <div class="main-body">
+    <div class="center-list">
+      <div>
+        <table class="sales-table">
+          <thead>
+            <tr>
+              <th class="date-time-column">Date &amp; Time</th>
+              <th class="vehicle-type-column">Vehicle Type</th>
+              <th class="price-column">Price</th>
+            </tr>
+          </thead>
+          <tbody class="empty-content-sales content-empty">      
+          </tbody>     
+        </table>
+        
+      </div>
+      <div class="totalSales" >
+        <p class="total-text">
+          <p class="amount js-amount"></p>
+      </div>
+    </div>
+  </div>
+    <script type="module" src="./script/sale-record.js"></script>
+  </body>
+</html>

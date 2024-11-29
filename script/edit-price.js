@@ -16,7 +16,7 @@ const formImage = document.querySelector('.form-img');
     updateButton.innerHTML =  `<button class="updated"style="background-color:green;" >  Fee Updated</button>`;
     formImage.innerHTML = ` <img src="./icons/updated.png"  alt="">`
     document.querySelector('.updated').addEventListener('click', ()=>{
-      window.location.href = './ticket-dashboard.html';
+      window.location.href = './sale-record.html';
     })
     
 });
@@ -24,7 +24,7 @@ const formImage = document.querySelector('.form-img');
 document.querySelector('.heading-name').innerHTML = marketNameDisplay;
 
 document.querySelector('.back-button-image').addEventListener('click', ()=>{
-  window.location.href = './ticket-dashboard.html';
+  window.location.href = './sale-record.html';
 });
 
 maxDigit();

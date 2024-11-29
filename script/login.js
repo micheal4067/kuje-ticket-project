@@ -65,6 +65,23 @@ function marketFun () {
 
 marketFun();
 
+document.addEventListener("DOMContentLoaded", function () {
+  const welcomeModal = document.getElementById("welcomeModal");
+
+  // Check if the user has already seen the welcome modal
+  if (!localStorage.getItem("welcomeModalShown")) {
+    // Display the modal if not shown before
+    welcomeModal.style.display = "flex";
+
+    // Close the modal when the button is clicked
+    document.getElementById("closeModalButton").addEventListener("click", function () {
+      welcomeModal.style.display = "none";
+      localStorage.setItem("welcomeModalShown", "true"); // Remember the modal has been shown
+    });
+  }
+});
+
+
 
 
 

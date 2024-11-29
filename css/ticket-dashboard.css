@@ -1,5 +1,5 @@
 body{
-  min-width: 284px;
+  min-width: 250px;
 
 }
 
@@ -7,8 +7,8 @@ body{
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 2rem;
-
+  margin-top: 5rem;
+  padding: 0 10px;
 }
 
 .last-login{
@@ -21,11 +21,8 @@ body{
   justify-content: space-between;
 }
 
-.log-out-text{
-  margin-left: 0.1rem;
-}
 
-.edit-price,.log-out-text{
+.log-out-text, .sales-record,.about{
   background-color: rgb(6, 6, 110);
   margin-top: 20px;
   font-size: 17px;
@@ -34,15 +31,18 @@ body{
   border-radius: 1rem;
   color: white;
   cursor: pointer;
-}
-
-.edit-price{
-  background-color: transparent;
   transition: 0.5s;
 }
 
-.edit-price:hover{
-  background-color: rgb(6, 6, 110);
+.about:hover{
+  background-color: #355ad4;
+}
+
+.sales-record:hover{
+  background-color: #355ad4;
+}
+.log-out-text:hover{
+  background-color: #4d070d;
 }
 .buttons{
   display: grid;
@@ -97,71 +97,7 @@ body{
   height: max-content;
 }
 
-.confirm-dialog {
-  position: fixed;
-  top: 0;
-  left: 0;
-  padding: 0.5rem;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 100;
-}
-.confirm-dialog p{
-  color: rgb(26, 24, 24);
-  margin-bottom: 1rem;
 
-}
-.dialog-content {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  font-size: 18px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 68vw; /* Responsive width */
-  max-width: 300px; /* Maximum width */
-  height: auto; /* Adaptive height */
-}
-
-
-
-.dialog-buttons {
-  display: flex;
-  justify-content: space-between;
-}
-
-.yes-btn, .no-btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.yes-btn {
-  background-color: #160a4b;
-  color: #fff;
-}
-
-.no-btn {
-  background-color: #ddd;
-  color: #666;
-}
-
-.yes-btn:hover {
-  background-color: #251a86;
-}
-
-.no-btn:hover {
-  background-color: #ccc;
-}
 
 /* Modal container (inactive dark overlay) */
 .modals {
@@ -178,6 +114,7 @@ body{
   display: flex;
   align-items: flex-end; /* Align modal to the bottom of the screen */
   justify-content: center;
+  
 }
 
 /* Show the modal with inactive dark shade */
@@ -197,6 +134,7 @@ body{
   max-width: 400px;
   transform: translateY(100%); /* Start off-screen (slide up from the bottom) */
   transition: transform 0.6s ease-in-out; /* Smooth slide-up effect */
+  
 }
 
 /* Show the modal content by sliding it up */
@@ -240,12 +178,143 @@ body{
   display: none;
 }
 
+/* Modal styling */
+.modal-history {
+  position: fixed;
+  display: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+ 
+}
 
+.modal-contentss {
+  background-color: #fefeff;
+  padding: 35px;
+  border: 1px solid #888;
+  width: 90%;
+  text-align: center;
+  border-radius: 5px;
+  max-width: 400px;
+  box-sizing: border-box;
+  position: relative;
+}
 
+.close {
+  color: #aaa;
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: rgb(165, 15, 15);
+  padding: 0 10px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+}
+
+input[type="text"], input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: inset 0 0 5px #504e4e;
+  outline: none;
+}
+
+input:focus {
+  outline: 2px solid #0c0d4e; /* Custom focus outline */
+}
+
+.modal-history button {
+  padding: 10px 20px;
+  background-color: #3e29b8;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal-history button:hover {
+  background-color: #3f2679;
+}
+
+.modal {
+  position: fixed;
+ bottom: -100%;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ background: rgba(0, 0, 0, 0.8);
+ opacity: 0;
+ transition: bottom 0.6s ease-in-out, opacity 0.6s ease-in-out;
+ z-index: 9999;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+}
+.modal-content {
+ background: white;
+ padding: 20px;
+ border-radius: 10px;
+ text-align: center;
+ width: 90%;
+ max-width: 400px;
+}
+ .modal.show {
+   bottom: 0;
+   opacity: 1;
+ }
+.header {
+ display: flex;
+ justify-content: space-between;
+ font-size: 14px;
+}
+.center {
+ margin: 20px 0;
+}
+.price {
+ font-size: 16px;
+ font-weight: bold;
+ margin-bottom: 20px;
+}
+.modal-content button {
+ padding: 10px 20px;
+ margin: 10px;
+ font-size: 14px;
+ border: none;
+ border-radius: 5px;
+ cursor: pointer;
+}
+.close-button {
+ background: #8672f7;
+ color: white;
+}
+.print-button {
+ background: #100744;
+ color: white;
+
+}
 
 @media (min-width:340px) and (max-width: 750px) {
   .buttons {
     grid-template-columns: 1fr 1fr;
+    padding-top: 2rem;
   }
 
   .log-out{
@@ -253,10 +322,6 @@ body{
     display: block ;
   }
 
-  .edit-price{
-    padding: 7px 15px;
-  }
-  
   .fixed{
   position: fixed;
   z-index: 10;
@@ -266,7 +331,6 @@ body{
   padding: 0 10px;  
   }
 
- 
 .main-body{
   padding-top: 18rem;
 }
@@ -275,16 +339,19 @@ body{
 
 @media (max-width: 341px) {
   .buttons {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     
+  }
+
+  .price-section, .name-section{
+    font-size: 15px;
   }
   
   .log-out{
     display: block;
   }
   
-
-  .log-out-text, .edit-price{
+  .log-out-text{
     background-color: rgb(6, 6, 110);
     margin-top: 20px;
     font-size: 17px;
@@ -293,25 +360,24 @@ body{
     border-radius: 1rem;
   }
 
-  .edit-price{
-    border: none;
-  }
   .about-content p{
     padding: 1rem;
+  }
+
+  body{
+    padding: 0 10px;
   }
 }
 
 @media (min-width: 751px) {
   .buttons {
     grid-template-columns: 1fr 1fr 1fr;
+    margin-bottom: 3rem; 
   }
 
   body{
     background: linear-gradient( #4e34b6 , rgb(17, 179, 190), #4e34b6);
   }
 
-  .edit-price{
-    padding: 7px 15px;
-  }
 }
 

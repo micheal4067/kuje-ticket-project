@@ -1,6 +1,7 @@
 // Import necessary data and functions
 import { vehicles } from '../data/vehicles.js';
 import { salesReviews } from '../data/review-sales-array.js';
+import { salesHistory } from '../data/sales-history.js';
 import { formatCurrency } from './utils/money.js';
 import { marketNameDisplay } from '../data/login-name.js';
 import { nigeriaDate } from './utils/date-time.js';
@@ -42,193 +43,159 @@ function generateContent() {
 }
 
 // Style the ticket issuance button
-document.querySelector('.all-vehicles-ticket-button').style.backgroundColor = 'rgb(10, 51, 112)';
+document.querySelector(".all-vehicles-ticket-button").style.backgroundColor = 'rgb(10, 51, 112)';
+
+// Prevent default Enter key behavior globally
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+  }
+});
 
 // Add event listeners for vehicle buttons
-document.querySelectorAll('.all-vehicles-button').forEach((button) => {
-  button.addEventListener('click', () => {
-    const vehicleId = button.dataset.vehicleId;
-    const selectedVehicle = vehicles.find((vehicle) => vehicle.id === vehicleId);
-    if (!selectedVehicle) return;
+issueReceipt();
 
-    // Get Nigerian date and time
-    const date = new Date();
-    const weekday = date.toLocaleString('en-NG', { weekday: 'short' });
-    const day = date.toLocaleString('en-NG', { day: '2-digit' });
-    const month = date.toLocaleString('en-NG', { month: '2-digit' });
-    const year = date.toLocaleString('en-NG', { year: '2-digit' });
-    const time = date.toLocaleString('en-NG', { hour: '2-digit', minute: '2-digit', hour12: true });
-    const nigerianDate = `${weekday} ${day}, ${month}-${year}`;
+function issueReceipt() {
+  document.querySelectorAll('.all-vehicles-button').forEach((button) => {
+    button.addEventListener('click', (event) => {
+      // Check if modal already exists
+      let modal = document.querySelector('.modal');
+      if (!modal) {
+        modal = document.createElement('div');
+        modal.className = 'modal';
+        document.body.appendChild(modal);
+      }
 
-    // Modal content
-    const modalContent = `
-      <div class="modal-content">
-        <div class="header">
-          <p>${nigerianDate}</p>
-          <p>${time}</p>
+      // Get vehicle details
+      const vehicleId = button.dataset.vehicleId;
+      const selectedVehicle = vehicles.find((vehicle) => vehicle.id === vehicleId);
+      if (!selectedVehicle) return;
+
+      // Get Nigerian date and time
+      const date = new Date();
+      const weekday = date.toLocaleString('en-NG', { weekday: 'short' });
+      const day = date.toLocaleString('en-NG', { day: '2-digit' });
+      const month = date.toLocaleString('en-NG', { month: '2-digit' });
+      const year = date.toLocaleString('en-NG', { year: '2-digit' });
+      const time = date.toLocaleString('en-NG', { hour: '2-digit', minute: '2-digit', hour12: true });
+      const nigerianDate = `${weekday} ${day}, ${month}-${year}`;
+
+      // Populate modal content
+      modal.innerHTML = `
+        <div class="modal-content">
+          <div class="header">
+            <p>${nigerianDate}</p>
+            <p>${time}</p>
+          </div>
+          <div class="center">
+            <p><b>${marketNameDisplay}</b></p>
+            <p>${selectedVehicle.name}</p>
+            <p class="price">₦${formatCurrency(selectedVehicle.price)}</p>
+            <p>Vehicle parked @ Owners risk</p>
+          </div>
+          <button class="close-button">Close</button>
+          <button class="print-button">Print Ticket</button>
         </div>
-        <div class="center">
-          <p><b>${marketNameDisplay}</b></p>
-          <p>${selectedVehicle.name}</p>
-          <p class="price">₦${formatCurrency(selectedVehicle.price)}</p>
-          <p>Vehicle parked @ Owners risk</p>
-        </div>
-        <button class="close-button">Close</button>
-        <button class="print-button">Print</button>
-      </div>
-    `;
-
-    // Create and display modal
-    const modal = document.createElement('div');
-    modal.classList.add('modal');
-    modal.innerHTML = modalContent;
-    document.body.appendChild(modal);
-
-    // Modal styles
-    const style = document.createElement('style');
-    style.textContent = `
-      .modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.8);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 9999;
-      }
-      .modal-content {
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
-        text-align: center;
-        width: 90%;
-        max-width: 400px;
-      }
-      .header {
-        display: flex;
-        justify-content: space-between;
-        font-size: 14px;
-      }
-      .center {
-        margin: 20px 0;
-      }
-      .price {
-        font-size: 16px;
-        font-weight: bold;
-      }
-      .modal-content button {
-        padding: 10px 20px;
-        margin: 10px;
-        font-size: 14px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-      }
-      .close-button {
-        background: #8672f7;
-        color: white;
-      }
-      .print-button {
-        background: #100744;
-        color: white;
-      }
-    `;
-    document.head.appendChild(style);
-
-    // Close modal
-    modal.querySelector('.close-button').addEventListener('click', () => {
-      document.body.removeChild(modal);
-    });
-
-    // Print functionality
-    modal.querySelector('.print-button').addEventListener('click', () => {
-      // Save sales review before printing
-      salesReviews.push({ vehicleId });
-      localStorage.setItem('sales', JSON.stringify(salesReviews));
-
-      // Generate print content
-      const printContent = `
-        <html>
-          <head>
-            <style>
-              body {
-                font-family: Arial, sans-serif;
-                font-size: 12px;
-                margin: 20px;
-              }
-              .header {
-                display: flex;
-                justify-content: space-between;
-                font-size: 14px;
-              }
-              .center {
-                text-align: center;
-                margin: 20px 0;
-              }
-              .price {
-                font-size: 16px;
-                font-weight: bold;
-              }
-            </style>
-          </head>
-          <body>
-            <div class="header">
-              <p>${nigerianDate}</p>
-              <p>${time}</p>
-            </div>
-            <div class="center">
-              <p><b>${marketNameDisplay}</b></p>
-              <p>${selectedVehicle.name}</p>
-              <p class="price">₦${formatCurrency(selectedVehicle.price)}</p>
-              <p>Vehicle parked @ Owners risk</p>
-            </div>
-          </body>
-        </html>
       `;
 
-      // Open a new print window and inject the content
-      const printWindow = window.open('', '_blank');
-      if (printWindow) {
-        printWindow.document.open();
-        printWindow.document.write(printContent);
-        printWindow.document.close();
+      // Show modal
+      modal.classList.add('show');
 
-        // Trigger print and close the print window
-        printWindow.print();
-        setTimeout(() => {
-          printWindow.close();
-          modal.remove(); // Close modal
-        }, 500);
-      } else {
-        alert('Unable to open print window. Please allow pop-ups for this site.');
-      }
+      // Close modal
+      modal.querySelector('.close-button').addEventListener('click', () => {
+        modal.classList.remove('show');
+        setTimeout(() => modal.remove(), 300);
+      });
+
+      // Print functionality
+      modal.querySelector('.print-button').addEventListener('click', () => {
+        salesReviews.push({ vehicleId });
+        localStorage.setItem('sales', JSON.stringify(salesReviews));
+        salesHistory.push({ vehicleId, nigerianDate, time });
+        localStorage.setItem('salesHistory', JSON.stringify(salesHistory));
+
+        modal.classList.remove('show');
+        setTimeout(() => modal.remove(), 200);
+        printReceiptContent(nigerianDate, time, selectedVehicle);
+      });
     });
   });
-});
+}
+
+// Print receipt content
+function printReceiptContent(printDate, printTime, selectedVehicle) {
+  const receiptContainer = `
+    <html>
+    <body style="font-family: Arial, sans-serif; font-size: 12px;">
+      <div class="receipt">
+        <div class="header" style="display: flex; align-items: center; justify-content: space-between;">
+          <p>${printDate}</p>
+          <p>${printTime}</p>
+        </div>
+        <div class="center" style="text-align: center;">
+          <p style="margin-bottom: 1rem; font-size: 13px;"><b>${marketNameDisplay}</b></p>
+          <p style="margin-bottom: 1rem; font-size: 13px;">${selectedVehicle.name}</p>
+          <p class="price">₦${formatCurrency(selectedVehicle.price)}</p>
+          <p style="font-size: 13px;">Vehicle parked @ Owners risk</p>
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  const printWindow = window.open('', '', 'width=800,height=400');
+  printWindow.document.body.innerHTML = receiptContainer;
+  printWindow.print();
+  setTimeout(() => printWindow.close(), 500);
+}
 
 
+const openModalBtn = document.getElementById('openModalBtn');
+const modalk = document.getElementById('loginModal');
+let username = document.getElementById('username');
+let password = document.getElementById('password');
 
-const editPriceBtn = document.querySelector('.edit-price');
-const confirmDialog = document.querySelector('.confirm-dialog');
-const yesBtn = document.querySelector('.yes-btn');
-const noBtn = document.querySelector('.no-btn');
+function historyView(){
+  const closeModal = document.querySelector('.close');
+  const loginForm = document.getElementById('loginForm');
 
-editPriceBtn.addEventListener('click', () => {
-  confirmDialog.style.display = 'block';
-});
+  // Close modal
+  closeModal.addEventListener('click', () => {
+    modalk.style.display = 'none';
+    document.querySelector('.invalid').innerHTML = '';
+    username.value = '';
+    password.value = '';
+  });
 
-yesBtn.addEventListener('click', () => {
-  localStorage.removeItem('vehiclePrice');
-  window.location.href = "./edit-vehicle.html";
-  confirmDialog.style.display = 'none';
-});
+  // Close modal when clicking outside of it
+  window.addEventListener('click', (e) => {
+    if (e.target === modalk) {
+      modalk.style.display = 'none';
+      document.querySelector('.invalid').innerHTML = '';
+      username.value = '';
+      password.value = '';
+    }
+  });
 
-noBtn.addEventListener('click', () => {
-  confirmDialog.style.display = 'none';
-});
+  // Form submission
+  loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    // Basic validation
+    if (username.value && password.value ) {
+      window.location.href = './sale-record.html';
+    } else {
+      document.querySelector('.invalid').innerHTML = 'Enter any Username or Password';
+    }
+  });
+
+}
+
+  // Open modal
+  openModalBtn.addEventListener('click', () => {
+    modalk.style.display = 'flex';
+    historyView();
+  });
 
 document.querySelector('.about-js').addEventListener('click', ()=>{
   window.location.href = './about-ticket.html';
@@ -238,7 +205,6 @@ document.querySelector('.about-js').addEventListener('click', ()=>{
 document.getElementById('js-all-vehicles-ticket-button')?.addEventListener('click', () => {
   window.location.href = './sales-review.html';
 });
-
 
 // Get references to the modal and buttons
 const logoutButton = document.querySelector('.log-out-js');
