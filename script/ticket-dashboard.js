@@ -155,7 +155,7 @@ function printReceiptContent(printDate, printTime, selectedVehicle) {
               display: block;
             }
             @page {
-              margin: 10mm; /* Adjust page margin for better layout */
+              margin: 10mm;
             }
           }
         </style>
@@ -183,16 +183,21 @@ function printReceiptContent(printDate, printTime, selectedVehicle) {
   // Write the content into the print window
   printWindow.document.write(receiptContent);
 
-  // Close the document to ensure content is fully loaded
+  // Ensure the document is fully loaded before proceeding
   printWindow.document.close();
+
+  // Focus the new window (important for mobile browsers)
   printWindow.focus();
 
-  // Trigger the print dialog and then close the print window after printing
-  printWindow.print();
-  printWindow.onafterprint = function () {
-    printWindow.close();
-  };
+  // Introduce a small delay before triggering the print dialog
+  setTimeout(() => {
+    printWindow.print();
+    printWindow.onafterprint = function () {
+      printWindow.close();
+    };
+  }, 500); // 500 ms delay before printing
 }
+
 
 
 
