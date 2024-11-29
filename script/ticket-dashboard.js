@@ -124,51 +124,85 @@ function issueReceipt() {
 
 // Print receipt content
 function printReceiptContent(printDate, printTime, selectedVehicle) {
-  // Create the HTML content for the receipt
-  const receiptContainer = `
+  // Create the HTML content for the receipt with inline styles
+  const receiptContent = `
     <html>
-    <head>
-      <title>Receipt</title>
-    </head>
-    <body style="font-family: Arial, sans-serif; font-size: 12px; margin: 0;  padding: 10px; justify-items: center;">
-      <div style="width: 100%; padding: 10px;">
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
-          <p style="margin: 0;">${printDate}</p>
-          <p style="margin: 0;">${printTime}</p>
+      <head>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            margin: 0;
+            padding: 0;
+          }
+          #printArea {
+            width: 100%;
+            padding: 10px;
+            margin: 0;
+            text-align: center;
+          }
+          #printArea div {
+            margin-bottom: 10px;
+          }
+          @media print {
+            body {
+              margin: 0;
+              padding: 0;
+            }
+            #printArea {
+              width: 100%;
+              text-align: center;
+              display: block;
+            }
+            @page {
+              margin: 10mm; /* Adjust page margin for better layout */
+            }
+          }
+        </style>
+      </head>
+      <body>
+        <div id="printArea">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+            <p style="margin: 0;">${printDate}</p>
+            <p style="margin: 0;">${printTime}</p>
+          </div>
+          <div>
+            <p style="margin: 0; font-size: 13px; font-weight: bold;">${marketNameDisplay}</p>
+            <p style="margin: 0; font-size: 13px;">${selectedVehicle.name}</p>
+            <p style="margin: 0; font-size: 14px; font-weight: bold;">₦${formatCurrency(selectedVehicle.price)}</p>
+            <p style="margin: 0; font-size: 13px;">Vehicle parked @ Owner's risk</p>
+          </div>
         </div>
-        <div style="text-align: center;">
-          <p style="margin: 0 0 10px 0; font-size: 13px; font-weight: bold;">${marketNameDisplay}</p>
-          <p style="margin: 0 0 10px 0; font-size: 13px;">${selectedVehicle.name}</p>
-          <p style="margin: 0 0 10px 0; font-size: 14px; font-weight: bold;">₦${formatCurrency(selectedVehicle.price)}</p>
-          <p style="margin: 0; font-size: 13px;">Vehicle parked @ Owner's risk</p>
-        </div>
-      </div>
-    </body>
+      </body>
     </html>
   `;
 
-  // Create an invisible iframe
-  const iframe = document.createElement('iframe');
-  iframe.style.position = 'absolute';
-  iframe.style.top = '-9999px';
-  document.body.appendChild(iframe);
+  // Open a new window for printing
+  const printWindow = window.open('', '', 'width=800,height=600');
 
-  // Get the iframe's document and write the content into it
-  const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-  iframeDoc.open();
-  iframeDoc.write(receiptContainer);
-  iframeDoc.close();
+  // Write the content into the print window
+  printWindow.document.write(receiptContent);
 
-  // Wait for the iframe to load and then trigger the print dialog
-  iframe.onload = function() {
-    iframe.contentWindow.print();
-    
-    // Optional: Remove the iframe after printing
-    setTimeout(function() {
-      document.body.removeChild(iframe);
-    }, 500);
+  // Close the document to ensure content is fully loaded
+  printWindow.document.close();
+  printWindow.focus();
+
+  // Trigger the print dialog and then close the print window after printing
+  printWindow.print();
+  printWindow.onafterprint = function () {
+    printWindow.close();
   };
 }
+
+
+
+
+
+
+
+
+
+
 
 
 
