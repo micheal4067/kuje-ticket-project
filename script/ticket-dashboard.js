@@ -122,48 +122,66 @@ function issueReceipt() {
   });
 }
 
-// Print receipt content using jsPDF
+// Print receipt content
 function printReceiptContent(printDate, printTime, selectedVehicle) {
-  const { jsPDF } = window.jspdf;
+  // Find the modal content excluding buttons
+  const modalContent = document.querySelector('.modal-content');
 
-  // Create a new jsPDF instance
-  const doc = new jsPDF();
-
-  // Add content to the PDF
-  doc.setFont('Arial', 'normal');
-  doc.setFontSize(12);
-
-  // Add date and time
-  doc.text(`Date: ${printDate}`, 10, 10);
-  doc.text(`Time: ${printTime}`, 150, 10);
-
-  // Add market name
-  doc.setFontSize(14);
-  doc.text(`${marketNameDisplay}`, 10, 30);
-
-  // Add vehicle details
-  doc.setFontSize(12);
-  doc.text(`Vehicle: ${selectedVehicle.name}`, 10, 50);
-  doc.text(`Price: ₦${formatCurrency(selectedVehicle.price)}`, 10, 60);
-  doc.text(`Note: Vehicle parked @ Owner's risk`, 10, 80);
-
-  // Add footer
-  doc.setFontSize(10);
-  doc.text(`Thank you for using our services!`, 10, 100);
-
-  // Prepare the document for printing
-  doc.autoPrint();
-
-  // Open the print dialog
-  const printBlob = doc.output('blob');
-  const printURL = URL.createObjectURL(printBlob);
-  const printWindow = window.open(printURL);
-  if (printWindow) {
-    printWindow.print();
-  } else {
-    alert("Please enable pop-ups to print the receipt.");
+  if (!modalContent) {
+    console.error("Modal content not found.");
+    return;
   }
+
+  // Create a clone of the modal content to exclude buttons
+  const clone = modalContent.cloneNode(true);
+
+  // Remove the print and close buttons from the clone
+  clone.querySelector('.close-button')?.remove();
+  clone.querySelector('.print-button')?.remove();
+
+  // Add date and time to the cloned content
+  const headerHTML = `
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; font-size: 12px;">
+      <p style="margin: 0;">${printDate}</p>
+      <p style="margin: 0;">${printTime}</p>
+    </div>
+  `;
+  clone.insertAdjacentHTML('afterbegin', headerHTML);
+
+  // Create a new print window
+  const printWindow = window.open('', '', 'width=800,height=400');
+  if (!printWindow) {
+    alert("Unable to open print preview. Please allow pop-ups for this site.");
+    return;
+  }
+
+  // Write the cloned modal content to the new window
+  printWindow.document.open();
+  printWindow.document.write(`
+    <html>
+    <head>
+      <title>Receipt</title>
+      <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; font-size: 14px; }
+        .header { text-align: center; }
+      </style>
+    </head>
+    <body>
+      ${clone.outerHTML}
+    </body>
+    </html>
+  `);
+  printWindow.document.close();
+
+  // Wait for the content to load and trigger printing
+  printWindow.onload = function () {
+    printWindow.print();
+    setTimeout(() => printWindow.close(), 500); // Close the window after printing
+  };
+
+  printWindow.focus();
 }
+
 
 
 
