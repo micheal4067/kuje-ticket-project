@@ -124,89 +124,40 @@ function issueReceipt() {
 
 // Print receipt content
 function printReceiptContent(printDate, printTime, selectedVehicle) {
-  // Create the HTML content for the receipt with inline styles
-  const receiptContent = `
-    <html>
-      <head>
-        <style>
-          body {
-            font-family: Arial, sans-serif;
-            font-size: 12px;
-            margin: 0;
-            padding: 0;
-          }
-          #printArea {
-            width: 100%;
-            padding: 10px;
-            margin: 0;
-            text-align: center;
-          }
-          #printArea div {
-            margin-bottom: 10px;
-          }
-          @media print {
-            body {
-              margin: 0;
-              padding: 0;
-            }
-            #printArea {
-              width: 100%;
-              text-align: center;
-              display: block;
-            }
-            @page {
-              margin: 10mm;
-            }
-          }
-        </style>
-      </head>
-      <body>
-        <div id="printArea">
-          <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-            <p style="margin: 0;">${printDate}</p>
-            <p style="margin: 0;">${printTime}</p>
-          </div>
-          <div>
-            <p style="margin: 0; font-size: 13px; font-weight: bold;">${marketNameDisplay}</p>
-            <p style="margin: 0; font-size: 13px;">${selectedVehicle.name}</p>
-            <p style="margin: 0; font-size: 14px; font-weight: bold;">₦${formatCurrency(selectedVehicle.price)}</p>
-            <p style="margin: 0; font-size: 13px;">Vehicle parked @ Owner's risk</p>
-          </div>
+  // Create the receipt content
+  const receiptHTML = `
+  
+    <div id="printArea">
+      <div style="font-family: Arial, sans-serif; text-align: center; padding: 10px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 12px;">
+          <span>${printDate}</span>
+          <span>${printTime}</span>
         </div>
-      </body>
-    </html>
+        <div>
+          <p style="margin: 0; font-size: 13px; font-weight: bold;">${marketNameDisplay}</p>
+          <p style="margin: 0; font-size: 13px;">${selectedVehicle.name}</p>
+          <p style="margin: 0; font-size: 14px; font-weight: bold;">₦${formatCurrency(selectedVehicle.price)}</p>
+          <p style="margin: 0; font-size: 13px;">Vehicle parked @ Owner's risk</p>
+        </div>
+      </div>
+    </div>
   `;
 
-  // Open a new window for printing
-  const printWindow = window.open('', '', 'width=800,height=600');
+  // Inject the content into the page
+  let printContainer = document.getElementById('printArea');
+  if (!printContainer) {
+    // If the container doesn't exist, create it
+    printContainer = document.createElement('div');
+    printContainer.id = 'printArea';
+    document.body.appendChild(printContainer);
+  }
 
-  // Write the content into the print window
-  printWindow.document.write(receiptContent);
+  // Set the content
+  printContainer.innerHTML = receiptHTML;
 
-  // Ensure the document is fully loaded before proceeding
-  printWindow.document.close();
-
-  // Focus the new window (important for mobile browsers)
-  printWindow.focus();
-
-  // Introduce a small delay before triggering the print dialog
-  setTimeout(() => {
-    printWindow.print();
-    printWindow.onafterprint = function () {
-      printWindow.close();
-    };
-  }, 500); // 500 ms delay before printing
+  // Trigger the print dialog
+  window.print();
 }
-
-
-
-
-
-
-
-
-
-
 
 
 
