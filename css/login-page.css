@@ -6,6 +6,7 @@
 
 body{
     min-width: 250px;
+    background-color: var(--background-color);
 }
 
 .heading-name{
@@ -31,16 +32,16 @@ body{
     text-align: center;
     font-size: 2rem;
     font-weight: 400;
-    color: #fff;
+    color: var(--secondary-text-color);
     font-family: 'poppins',sans-serif;
 
 }
 .login-form h2{
     line-height: 40px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     font-size: 30px;
     font-weight: 500;
-    color: #272346;
+    color: var(--secondary-text-color);
     text-align: center;
 }
 .login-form .main{
@@ -51,20 +52,21 @@ body{
 .content{
     flex-basis: 50%;
     padding: 3em 3em;
-    background: #fff;
+    background: var(--button-hover-background);
     box-shadow: 2px 9px 49px -17px rgba(0,0,0,0.1);
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
 }
 .form-img{
     flex-basis: 50%;
-    background: #dfe5ea;
+    background: var(--motor-background);
     background-size: cover;
     padding: 40px;
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
     align-items: center;
     display: grid;
+
 }
 .form-img img{
     max-width: 100%;
@@ -81,8 +83,7 @@ p{
 }
 .btn:hover,
 button:hover{
-  color: #272346;
-    transition: 0.5s ease;
+    background-color: rgb(63, 60, 88);
 }
 
 .login-form form{
@@ -92,30 +93,32 @@ button:hover{
     outline: none;
     margin-bottom: 15px;
     font-stretch: 16px;
-    color: #999;
+    color: var(--secondary-text-color);
     text-align: left;
     padding: 14px 20px;
     width: 100%;
     display: inline-block;
     box-sizing: border-box;
     border: none;
-    background: #f7fafc;
+    background-color: var(--input-background);
     transition: 0.3s ease;
 }
 .login-form input:focus{
-    background: transparent;
-    border: 1px solid rgb(5, 5, 68);
+   
+    border: 1px solid var(--secondary-text-color);
 }
 
 .login-form button{
     font-size: 18px;
     color: #fff;
     width: 100%;
-    background-color: rgb(5, 5, 68);
+    background-color: transparent;
     border: none;
     padding: 14px 15px;
     font-weight: 600;
-    transition: 0.3s ease;
+    transition: 0.4s ease;
+    cursor: pointer;
+    border: 1px solid var(--text-color);
 }
 
 #welcomeModal {

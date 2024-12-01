@@ -2,6 +2,9 @@ import "../data/edit.js"
 import { tricycleFun } from "../data/edit.js";
 import { marketNameDisplay } from "../data/login-name.js";
 import { vehiclePrice } from "../data/edit.js";
+import { themeTogle } from "./theme.js";
+
+themeTogle();
 
 
 document.querySelector('.heading-name').innerHTML = marketNameDisplay;
@@ -13,8 +16,7 @@ const formImage = document.querySelector('.form-img');
  submitButton.addEventListener('click', ()=>{
     tricycleFun();
     localStorage.setItem('vehiclePrice', JSON.stringify(vehiclePrice));
-    updateButton.innerHTML =  `<button class="updated"style="background-color:green;" >  Fee Updated</button>`;
-    formImage.innerHTML = ` <img src="./icons/updated.png"  alt="">`
+    updateButton.innerHTML =  `<button class="updated"style="background-color: var(--input-border); color: var(--secondary-text-color);" >  Fee Updated</button>`;
     document.querySelector('.updated').addEventListener('click', ()=>{
       window.location.href = './sale-record.html';
     })

@@ -15,7 +15,14 @@
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
 </head>
-<body style="background-color: rgb(5, 5, 68);">
+<body>
+  <div class="slider-container" style="display: none;">
+    <label class="switch">
+      <input type="checkbox" id="theme-toggle" />
+      <span class="slider round"></span>
+    </label>
+  </div>
+
   <div class="login-form">
     <h1 class="heading-name"></h1>
     <div class="container">
@@ -33,7 +40,7 @@
             Login
           </button>
 
-          <div style="margin-top: 5px; color: rgb(7, 7, 148);" class="wrong-input"></div>
+          <div style="margin-top: 5px; color: var(--secondary-text-color)" class="wrong-input"></div>
             
         </div>
         <div class="form-img">

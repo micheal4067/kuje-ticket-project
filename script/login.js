@@ -1,4 +1,7 @@
 import { marketNameDisplay } from "../data/login-name.js";
+import { themeTogle } from "./theme.js";
+
+themeTogle();
 
 function logInCheck(){
   const usernameInput = document.getElementById('username');

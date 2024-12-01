@@ -17,6 +17,7 @@
   --modal-overlay: rgba(0, 0, 0, 0.4);
   --input-background: white;
   --input-border: #ccc;
+  --motor-background: #b4b3b3;
 }
 
 [data-theme="dark"] {
@@ -37,4 +38,5 @@
   --modal-overlay: rgba(0, 0, 0, 0.8);
   --input-background: #333333;
   --input-border: #555555;
+  --motor-background: #3f3e3e;
 }
