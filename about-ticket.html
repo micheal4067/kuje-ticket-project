@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image" href="./icons/title-icon.png">
     
+    <link rel="stylesheet" href="./css/light-dark.css">
     <link rel="stylesheet" href="./css/about.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,8 +16,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   </head>
   <body class="body" style="background-color: rgb(177, 177, 231);;">
+    <div class="slider-container" style="display: none;">
+      <label class="switch">
+        <input type="checkbox" id="theme-toggle" />
+        <span class="slider round"></span>
+      </label>
+    </div>
     <div class="head"></div>
-    <div class="about-section" style="background-color: rgb(251, 251, 255);">
+    <div class="about-section">
       <div class="back-arrow">
           <div class="back-button-wrapper">
             <img class="back-button-image" src="./icons/back-button.png">
@@ -72,10 +79,6 @@
         </div>
       </div>
     </div>
-    <script>
-      document.querySelector('.back-button-wrapper').addEventListener('click', ()=>{
-        window.location.href = './ticket-dashboard.html';
-      });
-    </script>
+    <script type="module" src="./script/about.js"></script>
   </body>
 </html>

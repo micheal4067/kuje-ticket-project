@@ -1,17 +1,9 @@
-body {
-  min-width: 240px;
-}
 
  h1{
-  color: rgb(175, 170, 170);
+  color: var(--secondary-text-color);
 }
 
-.fixed-d{
-  position: fixed;
-  z-index: 1000;
-  display: block;
-  width: 100%;
-}
+
 
 .main-body{
   padding-top: 11rem;
@@ -38,7 +30,7 @@ body {
 }
 
 .dashboard {
-  color: rgb(247, 242, 242);
+  color:var(--secondary-text-color);
   font-weight: 700;
   cursor: pointer;
   text-decoration: underline;
@@ -58,7 +50,7 @@ body {
 }
 
 .price {
-  color: white;
+  color: var(--secondary-text-color);
   font-size: 20px;
   font-weight: bold;
   display: flex;
@@ -66,7 +58,7 @@ body {
 }
 
 .vehicle-type {
-  color: white;
+  color: var(--secondary-text-color);
   font-size: 16px;
 }
 
@@ -79,7 +71,7 @@ body {
 }
 
 .total-text, .amount {
-  color: white;
+  color: var(--secondary-text-color);
   font-size: 20px;
   font-weight: bold;
 }
@@ -92,13 +84,23 @@ body {
 
 .total-sales {
   padding: 10px 30px;
-  background-color: rgb(5, 5, 68);
-  border: solid 1px white;
-  color: white;
-  border-radius: 1rem;
+  background-color: transparent;
+  border: solid 1px var(--secondary-text-color);
+  color: var(--secondary-text-color);
+  border-radius: 5px;
   font-size: 15px;
   cursor: pointer;
   margin-bottom: 2rem;
+  font-weight: bold;
+}
+
+.border-top-bottom{
+  border-top: 1px solid var(--secondary-text-color);
+  border-bottom: 1px solid var(--secondary-text-color);
+}
+
+.border-modal{
+  border-top: 1px solid var(--secondary-text-color);
 }
 
 
@@ -124,13 +126,21 @@ body {
 }
 
 .modal-contents {
-  background: white;
+  background: var(--modal-background);
   padding: 20px;
   border-radius: 10px;
   text-align: center;
   width: 90%;
   max-width: 400px;
   box-sizing: border-box;
+}
+
+.fixed-d{
+  position: fixed;
+  z-index: 1000;
+  display: block;
+  width: 100%;
+  background-color: var(--background-color);
 }
 
 .modal-buttons {
@@ -149,10 +159,24 @@ body {
 
 .modal-button.confirm {
   background-color: #0e0655;
-  color: white;
+  color: var(--text-color);
 }
 
 .modal-button.cancel {
   background-color: #0934c0;
-  color: white;
+  color: var(--text-color);
+}
+
+
+@media (min-width: 340px) and (max-width: 750px) {
+
+.fixed-d{
+  position: fixed;
+  z-index: 1000;
+  display: block;
+  width: 100%;
+  background-color: var(--background-fixed-color) ;
+  left: 0;
+  padding-left: 1rem;
+}
 }

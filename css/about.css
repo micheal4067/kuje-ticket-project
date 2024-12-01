@@ -9,15 +9,14 @@
 
 body {
   font-family: "EB Garamond", serif;
-  background-color: rgb(6, 6, 110);
-  color: #fff;
+  background-color: var(--background-color);
   overflow-x: hidden;
   padding-bottom: 3rem;
   min-width: 250px;
 }
 
 .head{
-  background-color: #160c74;
+  background-color:  rgb(177, 177, 231);
   height: 2rem;
 }
 
@@ -42,6 +41,7 @@ body {
   max-width: 800px;
   margin: 0 auto;
   padding: 2rem 1rem;
+  background-color: var(--background-color);
 }
 
 .about-heading, .author h1 {
@@ -53,7 +53,7 @@ body {
 
 .about-heading h1, .author h1 {
   font-size: 1.5em;
-  color: #1a1818;
+  color: var(--secondary-text-color);
 }
 
 .author h1 {
@@ -63,7 +63,7 @@ body {
 /* About Content */
 
 .about-content {
-  background-color: rgb(252, 252, 252);
+  background-color: var(--modal-background);
   border-radius: 10px;
   box-shadow: 4px 4px 8px rgba(66, 62, 62, 0.774);
   padding: 2rem;
@@ -73,7 +73,7 @@ body {
 .about-content p {
   font-size: 18px;
   line-height: 1.5;
-  color: #0a0a0a;
+  color: var(--secondary-text-color);
   text-align: center;
 }
 
@@ -81,7 +81,7 @@ body {
 
 .designer-info {
   display: flex;
-  background-color: rgb(252, 252, 252);
+  background-color: var(--modal-background);
   border-radius: 10px;
   box-shadow: 4px 4px 8px rgba(66, 62, 62, 0.774);
   margin-top: 2rem;
@@ -116,12 +116,12 @@ body {
   font-weight: bold;
   font-size: 24px;
   margin-bottom: 10px;
-  color: #666;
+  color:var(--secondary-text-color);
 }
 
 .designer-content p {
   font-size: 18px;
-  color: #0a0a0a;
+  color: var(--secondary-text-color);
   margin-bottom: 20px;
  
 }
@@ -131,7 +131,7 @@ body {
 }
 
 .designer-content ul li {
-  color: #242323;
+  color:var(--secondary-text-color);
 }
 
 /* Social Links */
@@ -146,7 +146,7 @@ body {
   display: inline-block;
   width: 40px;
   height: 40px;
-  background-color: #0a0441;
+  background-color:  rgb(177, 177, 231);;
   padding: 10px;
   text-align: center;
   border-radius: 50%;
@@ -159,7 +159,7 @@ body {
 
 .social-links i {
   font-size: 17px;
-  color: white;
+  color: rgb(0, 0, 0);
 }
 
 /* Media Queries */

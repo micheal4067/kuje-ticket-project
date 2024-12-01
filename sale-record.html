@@ -7,6 +7,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
+    <link rel="stylesheet" href="./css/light-dark.css">
     <link rel="stylesheet" href="./css/ticket-general.css">
     <link rel="stylesheet" href="./css/sales-history.css">
     <link rel="icon" type="image" href="./icons/title-icon.png">
@@ -18,6 +19,13 @@
 
   </head>
   <body>
+    <div class="slider-container" style="display: none;">
+      <label class="switch">
+        <input type="checkbox" id="theme-toggle" />
+        <span class="slider round"></span>
+      </label>
+    </div>
+
     <div class="fixed-d">
       <div class="edit-div">
         <div class="back-arrow">
@@ -25,7 +33,7 @@
           <p class="dashboard">Dashboard</p>
         </div>
         <div>
-          <p class="edit-price" style="background-color: rgb(87, 26, 36);">Edit Vehicle Fee</p>
+          <p class="edit-price">Edit Vehicle Fee</p>
         </div>
       </div>
       <div class="heading">

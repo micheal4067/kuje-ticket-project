@@ -3,6 +3,9 @@ import { salesReviews } from "../data/review-sales-array.js";
 import { vehicles } from "../data/vehicles.js";
 import { formatCurrency } from "../script/utils/money.js";
 import { marketNameDisplay } from "../data/login-name.js";
+import { themeTogle } from "./theme.js";
+
+themeTogle();
 
 // Initialize variables
 let generateSalesReview = '';
@@ -82,7 +85,7 @@ function showReceiptModal() {
       <p style="font-size: 12px;">Login date&time: ${localStorage.getItem('time')}</p>
       <p style="font-size: 12px;">Print date&time: ${nigerianDate} | ${time}</p>
       <h3 style="margin-bottom: 1rem;">${marketNameDisplay}</h3>
-      <div style="display: flex; justify-content: space-between; border-top: solid 1px black; padding-top: 10px;">
+      <div class="border-modal"style="display: flex; justify-content: space-between; padding-top: 10px;">
         <p><b>Total Sales</b></p>
         <p><b>₦${formatCurrency(totalPriceDisplay)}</b></p>
       </div>
@@ -128,9 +131,29 @@ function printReceiptContent(printDate, printTime) {
     </html>
   `;
   const printWindow = window.open('', '', 'width=800,height=400');
-  printWindow.document.body.innerHTML = htmlContent;
-  printWindow.print();
-  setTimeout(() => printWindow.close(), 500);
+  if (!printWindow) {
+    alert("Unable to open print preview. Please allow pop-ups for this site.");
+    return;
+  }
+
+  // Write content to the new window and ensure it's loaded
+  printWindow.document.open();
+  printWindow.document.write(htmlContent);
+  printWindow.document.close();
+
+  // Ensure the content is fully loaded before triggering print
+  printWindow.onload = function() {
+    // Delay printing to ensure the content is fully rendered
+    setTimeout(function() {
+      printWindow.print();
+      setTimeout(function() {
+        printWindow.close();
+      }, 200);
+    }, 100); // Adjust the delay if necessary
+  };
+
+  // Handle possible issues on mobile (Safari blocking print window)
+  printWindow.focus();
 }
 
 // Get elements
@@ -144,11 +167,9 @@ generateSalesReview === ''
   ? (totalDiv.style.display = 'none')
   : totalButtonElement.addEventListener('click', () => {
       totalText.innerHTML = 'Total';
-      totalSales.style.borderBottom = 'solid 1px white';
-      totalSales.style.borderTop = 'solid 1px white';
+      totalSales.classList.add('border-top-bottom');
       totalFun();
       totalSales.style.marginBottom = '20px';
       printText.innerHTML = `<button class="total-sales js-print-receipt">Print Receipt</button>`;
-
       document.querySelector('.js-print-receipt').addEventListener('click', showReceiptModal);
     });

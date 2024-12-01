@@ -5,6 +5,9 @@ import { salesHistory } from '../data/sales-history.js';
 import { formatCurrency } from './utils/money.js';
 import { marketNameDisplay } from '../data/login-name.js';
 import { nigeriaDate } from './utils/date-time.js';
+import { themeTogle } from './theme.js';
+
+themeTogle();
 
 // Display market name and last login time
 document.querySelector('.market-name').innerHTML = marketNameDisplay;
@@ -41,9 +44,6 @@ function generateContent() {
   });
   document.querySelector('.buttons').innerHTML = vehiclesButton;
 }
-
-// Style the ticket issuance button
-document.querySelector(".all-vehicles-ticket-button").style.backgroundColor = 'rgb(10, 51, 112)';
 
 // Prevent default Enter key behavior globally
 document.addEventListener('keydown', (event) => {
@@ -128,48 +128,49 @@ function printReceiptContent(printDate, printTime, selectedVehicle) {
     <html>
     <head>
       <title>Receipt</title>
-      <style>
-        body { font-family: Arial, sans-serif; font-size: 12px; margin: 0; padding: 10px; justify-items: center; }
-        .receipt-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-        .receipt-header p { margin: 0; font-size: 12px; }
-        .receipt-body { text-align: center; font-size: 14px; }
-        .receipt-body p { margin: 5px 0; }
-      </style>
     </head>
-    <body>
-      <div class="receipt-header">
-        <p>${printDate}</p>
-        <p>${printTime}</p>
-      </div>
-      <div class="receipt-body">
-        <p><b>${marketNameDisplay}</b></p>
-        <p>${selectedVehicle.name}</p>
-        <p><b>₦${formatCurrency(selectedVehicle.price)}</b></p>
-        <p>Vehicle parked @ Owner's risk</p>
+    <body style="font-family: Arial, sans-serif; font-size: 12px; margin: 0;  padding: 10px; justify-items: center;">
+      <div style="width: 100%; padding: 10px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+          <p style="margin: 0;">${printDate}</p>
+          <p style="margin: 0;">${printTime}</p>
+        </div>
+        <div style="text-align: center;">
+          <p style="margin: 0 0 10px 0; font-size: 13px; font-weight: bold;">${marketNameDisplay}</p>
+          <p style="margin: 0 0 10px 0; font-size: 13px;">${selectedVehicle.name}</p>
+          <p style="margin: 0 0 10px 0; font-size: 14px; font-weight: bold;">₦${formatCurrency(selectedVehicle.price)}</p>
+          <p style="margin: 0; font-size: 13px;">Vehicle parked @ Owner's risk</p>
+        </div>
       </div>
     </body>
     </html>
   `;
 
-  // This will open the print dialog directly in the same window
   const printWindow = window.open('', '', 'width=800,height=400');
   if (!printWindow) {
     alert("Unable to open print preview. Please allow pop-ups for this site.");
     return;
   }
 
-  // Write content directly and trigger print
+  // Write content to the new window and ensure it's loaded
   printWindow.document.open();
   printWindow.document.write(receiptContainer);
   printWindow.document.close();
-  printWindow.print();
+
+  // Ensure the content is fully loaded before triggering print
+  printWindow.onload = function() {
+    // Delay printing to ensure the content is fully rendered
+    setTimeout(function() {
+      printWindow.print();
+      setTimeout(function() {
+        printWindow.close();
+      }, 200);
+    }, 100); // Adjust the delay if necessary
+  };
+
+  // Handle possible issues on mobile (Safari blocking print window)
+  printWindow.focus();
 }
-
-
-
-
-
-
 
 const openModalBtn = document.getElementById('openModalBtn');
 const modalk = document.getElementById('loginModal');
@@ -257,3 +258,5 @@ cancelLogout.addEventListener('click', () => {
   modal.classList.remove('show');
   setTimeout(() => modal.classList.add('hidden'), 400); // Wait for animation to complete
 });
+
+

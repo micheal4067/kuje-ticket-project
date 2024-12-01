@@ -3,11 +3,14 @@
   padding: 0;
 }
 
-body{
-  background-color: #4e34b6;
-  padding: 0 1rem;
+
+/* General Styles */
+body {
   min-width: 250px;
-  
+  background-color: var(--background-color);
+  transition: background-color 0.3s, color 0.3s;
+  color: var(--secondary-text-color);
+  padding: 0 1rem;
 }
 
 .heading{

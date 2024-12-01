@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image" href="./icons/title-icon.png">
     <link rel="stylesheet" href="./css/ticket-general.css">
+    <link rel="stylesheet" href="./css/light-dark.css">
     <link rel="stylesheet" href="./css/ticket-dashboard.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,30 +33,38 @@
     <div id="loginModal" class="modal-history">
       <div class="modal-contentss">
         <span class="close">&times;</span>
-        <h2 style="color: rgb(20, 20, 95);">Login</h2>
-        <p style="margin:20px 0; color: rgb(17, 17, 46); font-size: 15px;">Administrative access is required to view this page. Enter any Username and Password to continue.</p>
+        <h2>Login</h2>
+        <p>Administrative access is required to view this page. Enter any Username and Password to continue.</p>
         <form id="loginForm">
           <div class="form-group">
-            <label for="username" style="color: rgb(20, 20, 95);">Username</label>
+            <label for="username">Username</label>
             <input type="text" id="username" name="username" >
           </div>
           <div class="form-group">
-            <label for="password" style="color: rgb(20, 20, 95);">Password</label>
+            <label for="password">Password</label>
             <input type="password" id="password" name="password" >
           </div>
-          <div class="invalid" style="padding-bottom: 5px;color: rgb(17, 17, 46); "></div>
+          <div class="invalid"></div>
           <button type="submit">Login</button>
         </form>
       </div>
     </div>
 
     <div class="fixed">
+      <div class="slider-container">
+        <label class="switch">
+          <input type="checkbox" id="theme-toggle" />
+          <span class="slider round"></span>
+        </label>
+      </div>
       <div class="log-out">
         <div class="last-login"></div>
         <div>
           <p class="about about-js"">About Ticket</p>
           <p id="openModalBtn" class="sales-record";">Sales Record</p>
          <p class="log-out-text log-out-js">Logout</p>
+        
+        
         </div>
       </div>
       <div class="heading">

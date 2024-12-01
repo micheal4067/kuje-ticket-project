@@ -2,6 +2,9 @@ import { marketNameDisplay } from "../data/login-name.js";
 import { formatCurrency } from "../script/utils/money.js";
 import { salesHistory as importedSalesHistory } from "../data/sales-history.js";
 import { vehicles } from "../data/vehicles.js";
+import { themeTogle } from "./theme.js";
+
+themeTogle();
 
 // Initialize LocalStorage for salesHistory
 if (!localStorage.getItem("salesHistory")) {
