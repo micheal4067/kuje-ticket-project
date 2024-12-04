@@ -10,27 +10,34 @@ body {
   background-color: var(--background-color);
   transition: background-color 0.3s, color 0.3s;
   color: var(--secondary-text-color);
-  padding: 0 1rem;
+
+
 }
 
 .heading{
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
+  text-align: center;
   margin-bottom: 1.5rem;
   margin-top: 1.5rem;
   min-width: 200px;
 }
 
-.heading h1{
+.heading h1, .upload-header{
   font-size: 1.5rem;
   font-family: "EB Garamond", serif;
 }
 
+.upload-header{
+  font-size: 0.7rem;
+  font-family: "EB Garamond", serif;
+  text-align: start;
+}
+
 @media (min-width: 751px) {
-  body {
-    margin-left: calc(40% - 300px); /* Increase margin-left when width exceeds 800px */
+  .main-body {
     margin-right: calc(40% - 300px); /* Increase margin-right when width exceeds 800px */
+
   }
+
 }
 

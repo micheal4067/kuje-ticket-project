@@ -10,12 +10,13 @@
     
     <link rel="stylesheet" href="./css/light-dark.css">
     <link rel="stylesheet" href="./css/about.css">
+    <link rel="stylesheet" href="./css/modals.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   </head>
-  <body class="body" style="background-color: rgb(177, 177, 231);;">
+  <body class="body" style="background-color: var(--background-color);">
     <div class="slider-container" style="display: none;">
       <label class="switch">
         <input type="checkbox" id="theme-toggle" />
@@ -29,15 +30,27 @@
             <img class="back-button-image" src="./icons/back-button.png">
           </div>
       </div>    
-      <div class="about-heading"><h1>About Ticket</h1></div>
-      <div class="about-content">
-        <p>"Ticket is a software web application solution designed for issuing tickets to vehicles at a park. The Ticket App enables users to customize their enterprise name and set fees for different vehicle types. Upon clicking each vehicle button, a receipt is generated for printing, including the fee, date, and time.
-  
-          When users log in, the system records and displays their login time and date on the dashboard. Additionally, users can view their sales history and print a receipt for daily sales, which includes the total sales amount, login time and date, and the receipt print time and date.
-          
-          Upon logging out, all sales history and saved data are deleted."
-          </p>
+      <div class="about-heading">
+        <h1>About Ticket</h1>
       </div>
+      <div class="about-content">
+        <p>
+          <strong>Ticket</strong> is a web-based application designed to streamline ticket issuance for vehicles at a park. The app allows users to customize their enterprise name and set fees for various vehicle types. With a single click on a vehicle button, the system generates a receipt ready for printing, displaying details such as the fee, date, and time.
+        </p>
+        <p>
+          <strong>Key Features Include:</strong>
+        </p>
+        <ul>
+          <li><strong>User Login and Tracking:</strong> Upon login, the system records and displays the user's login time and date on the dashboard.</li>
+          <li><strong>Sales Management:</strong> Users can view daily sales records and print detailed receipts that include the total sales amount, login details, and receipt generation time.</li>
+          <li><strong>Data Reset on Logout:</strong> Logging out clears the day's sales data and resets records (like the last login time) to prepare for a new day's transactions.</li>
+          <li><strong>Sales History:</strong> Users can access a comprehensive view of all past sales, with options to save reports as PDF files or delete records after auditing.</li>
+        </ul>
+        <p>
+          <strong>Ticket</strong> simplifies park operations with intuitive features, ensuring efficient and organized ticket and sales management.
+        </p>
+      </div>
+      
       <div class="author">
         <div class="about-designer-heading">
           <h1>Product Designer</h1>
@@ -57,7 +70,7 @@
                   <li>Telecommunications and Information Communications Technology (ICT)</li>
                   <li>Web Application and Value-Added Service (VAS) solutions</li>
                   <li>Alternative Energy solutions</li>
-                  <li>Installations and Maintenance services.</li>
+                  <li>Electrical Installations and Maintenance services.</li>
                 </ul>
              </p>
               <div class="social-links">
@@ -78,6 +91,10 @@
           </div>
         </div>
       </div>
+    </div>
+    
+    <div id="spinner-overlay">
+      <div class="spinner"></div>
     </div>
     <script type="module" src="./script/about.js"></script>
   </body>

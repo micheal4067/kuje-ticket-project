@@ -3,21 +3,25 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Ticket | Sales History</title>
+    <title>Ticket | Sales Review</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
     <link rel="stylesheet" href="./css/ticket-general.css">
+    <link rel="stylesheet" href="./css/modals.css">
+    <link rel="stylesheet" href="./css/side-bar.css">
     <link rel="stylesheet" href="./css/sales-review.css">
     <link rel="stylesheet" href="./css/light-dark.css">
     <link rel="icon" type="image" href="./icons/title-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+         rel="stylesheet"/>
   </head>
   <body>
     <div class="fixed-d" >
-      <div class="back-arrow">
+      <div class="back-arrow back-ar">
         <img class="back-button-image" src="./icons/back-button.png">
         <p class="dashboard">Dashboard</p>
       </div>
@@ -32,8 +36,47 @@
         <span class="slider round"></span>
       </label>
     </div>
-   
-   <div class="main-body">
+    <div class="hamburger-menu">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </div>
+   <div class="side-main-body">
+    <div class="side-bar">
+      <h1 class="ticket-tittle">
+        Ticket <img src="./icons/title-icon.png" class="tittle-icon" />
+      </h1>
+      <div class="side-links">
+        <!-- Top Section -->
+        <div class="top-links">
+          <p class="about-button about-js">
+            <i class="fas fa-info-circle"></i> About Ticket
+          </p>
+          <p class="total-ticket-issued-button js-all-vehicles-ticket-button">
+            <i class="fa fa-columns" aria-hidden="true"></i>Dashboard
+          </p>
+        </div>
+    
+        <!-- Middle Section -->
+        <div class="middle-links">
+          <p id="openModalBtn" class="sales-record">
+            <i class="fas fa-chart-line"></i> Sales Record
+          </p>
+          <p class="set-fee-button" id="set-fee">
+            <i class="fas fa-dollar-sign"></i> Set Vehicle Fee
+          </p>
+        </div>
+    
+        <!-- Bottom Section -->
+        <div class="bottom-links">
+          <p class="log-out-button log-out-js">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="main-body">
       <div class="center-list">
         <div>
           <div class="content-empty empty-content" ></div>
@@ -52,6 +95,9 @@
 
       <div class="last-of-last"></div>
     </div>
+   </div>
+   <div class="modals-html"></div>
+   
     <script type="module" src="./script/sales-review.js"></script>
   </body>
 </html>

@@ -6,9 +6,19 @@ import { formatCurrency } from './utils/money.js';
 import { marketNameDisplay } from '../data/login-name.js';
 import { nigeriaDate } from './utils/date-time.js';
 import { themeTogle } from './theme.js';
+import { maxDigit } from './set-vehicle-fee.js';
+import { logOutApp } from './log-out.js';
+import { modalHTML } from './modals.js';
+import { userUpload } from './user-upload.js';
+import { issueUploadReceipt } from './user-upload.js';
+import { generateSalesLog } from './log-input.js';
+import { salesLog } from '../data/review-sales-array.js';
+
+
 
 themeTogle();
-
+document.querySelector('.modals-html').innerHTML = modalHTML
+generateSalesLog();
 // Display market name and last login time
 document.querySelector('.market-name').innerHTML = marketNameDisplay;
 if (!localStorage.getItem('time')) {
@@ -21,16 +31,6 @@ generateContent();
 function generateContent() {
   let vehiclesButton = '';
   vehicles.forEach((vehicle, index) => {
-    if (index === 5) {
-      vehiclesButton += `
-        <button class="review-sales-button all-vehicles-ticket-button" id="js-all-vehicles-ticket-button">
-          <p class="name-section">${vehicle.name}</p>
-          <div class="image-section">
-            <img class="icons" src="${vehicle.image}">
-          </div>
-        </button>
-      `;
-    } else {
       vehiclesButton += `
         <button class="all-vehicles-button" data-vehicle-id="${vehicle.id}">
           <p class="name-section">${vehicle.name}</p>
@@ -40,10 +40,22 @@ function generateContent() {
           <div class="price-section"><b>NGN ${formatCurrency(vehicle.price)}</b></div>
         </button>
       `;
-    }
   });
   document.querySelector('.buttons').innerHTML = vehiclesButton;
 }
+
+userUpload();
+
+const runIfContentLoaded = () => {
+  // Check if the content container exists and is populated
+  const container = document.querySelector('.user-uploads-js');
+  if (container && container.children.length > 0) {
+    issueUploadReceipt();
+  }
+};
+
+// Run the check after DOM is fully loaded
+document.addEventListener('DOMContentLoaded', runIfContentLoaded);
 
 // Prevent default Enter key behavior globally
 document.addEventListener('keydown', (event) => {
@@ -55,9 +67,10 @@ document.addEventListener('keydown', (event) => {
 // Add event listeners for vehicle buttons
 issueReceipt();
 
+
 function issueReceipt() {
   document.querySelectorAll('.all-vehicles-button').forEach((button) => {
-    button.addEventListener('click', (event) => {
+    button.addEventListener('click', () => {
       // Check if modal already exists
       let modal = document.querySelector('.modal');
       if (!modal) {
@@ -88,8 +101,8 @@ function issueReceipt() {
             <p>${time}</p>
           </div>
           <div class="center">
-            <p><b>${marketNameDisplay}</b></p>
-            <p>${selectedVehicle.name}</p>
+            <p style="margin-bottom:10px;"><b>${marketNameDisplay}</b></p>
+            <p style="margin-bottom:10px;">${selectedVehicle.name}</p>
             <p class="price">₦${formatCurrency(selectedVehicle.price)}</p>
             <p>Vehicle parked @ Owners risk</p>
           </div>
@@ -109,10 +122,14 @@ function issueReceipt() {
 
       // Print functionality
       modal.querySelector('.print-button').addEventListener('click', () => {
-        salesReviews.push({ vehicleId });
+        salesReviews.push({ vehicleId, nigerianDate, time });
         localStorage.setItem('sales', JSON.stringify(salesReviews));
         salesHistory.push({ vehicleId, nigerianDate, time });
         localStorage.setItem('salesHistory', JSON.stringify(salesHistory));
+        salesLog.push({ vehicleId, nigerianDate, time });
+        localStorage.setItem('salesLog', JSON.stringify(salesLog));
+        generateSalesLog();
+        logheight();
 
         modal.classList.remove('show');
         setTimeout(() => modal.remove(), 200);
@@ -120,6 +137,12 @@ function issueReceipt() {
       });
     });
   });
+
+}
+
+function logheight(){
+  const tableContainer = document.querySelector('.sales-table-container');
+tableContainer.scrollTop = tableContainer.scrollHeight;
 }
 
 // Print receipt content
@@ -172,91 +195,12 @@ function printReceiptContent(printDate, printTime, selectedVehicle) {
   printWindow.focus();
 }
 
-const openModalBtn = document.getElementById('openModalBtn');
-const modalk = document.getElementById('loginModal');
-let username = document.getElementById('username');
-let password = document.getElementById('password');
 
-function historyView(){
-  const closeModal = document.querySelector('.close');
-  const loginForm = document.getElementById('loginForm');
 
-  // Close modal
-  closeModal.addEventListener('click', () => {
-    modalk.style.display = 'none';
-    document.querySelector('.invalid').innerHTML = '';
-    username.value = '';
-    password.value = '';
-  });
 
-  // Close modal when clicking outside of it
-  window.addEventListener('click', (e) => {
-    if (e.target === modalk) {
-      modalk.style.display = 'none';
-      document.querySelector('.invalid').innerHTML = '';
-      username.value = '';
-      password.value = '';
-    }
-  });
 
-  // Form submission
-  loginForm.addEventListener('submit', (e) => {
-    e.preventDefault();
+maxDigit()
 
-    // Basic validation
-    if (username.value && password.value ) {
-      window.location.href = './sale-record.html';
-    } else {
-      document.querySelector('.invalid').innerHTML = 'Enter any Username or Password';
-    }
-  });
-
-}
-
-  // Open modal
-  openModalBtn.addEventListener('click', () => {
-    modalk.style.display = 'flex';
-    historyView();
-  });
-
-document.querySelector('.about-js').addEventListener('click', ()=>{
-  window.location.href = './about-ticket.html';
-}) 
-
-// Event listeners for ticket and logout actions
-document.getElementById('js-all-vehicles-ticket-button')?.addEventListener('click', () => {
-  window.location.href = './sales-review.html';
-});
-
-// Get references to the modal and buttons
-const logoutButton = document.querySelector('.log-out-js');
-const modal = document.getElementById('logout-modal');
-const confirmLogout = document.getElementById('confirm-logout');
-const cancelLogout = document.getElementById('cancel-logout');
-
-// Show the modal when the log-out button is clicked
-logoutButton.addEventListener('click', () => {
-  modal.classList.remove('hidden');
-  modal.classList.add('show');
-});
-
-// Handle the confirm log-out action
-confirmLogout.addEventListener('click', () => {
-  modal.classList.remove('show');
-  setTimeout(() => {
-    modal.classList.add('hidden');
-    // Perform the log-out action
-    localStorage.removeItem('time');
-    localStorage.removeItem('market');
-    localStorage.removeItem('sales');
-    window.location.href = "./index.html";
-  }, 400); // Wait for animation to complete
-});
-
-// Handle the cancel action
-cancelLogout.addEventListener('click', () => {
-  modal.classList.remove('show');
-  setTimeout(() => modal.classList.add('hidden'), 400); // Wait for animation to complete
-});
+logOutApp();
 
 

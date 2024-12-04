@@ -3,6 +3,7 @@ import { formatCurrency } from "../script/utils/money.js";
 import { salesHistory as importedSalesHistory } from "../data/sales-history.js";
 import { vehicles } from "../data/vehicles.js";
 import { themeTogle } from "./theme.js";
+import { vehicleDataArray } from "../data/users-data-upload.js";
 
 themeTogle();
 
@@ -12,10 +13,10 @@ if (!localStorage.getItem("salesHistory")) {
 }
 
 document.querySelector('.back-button-image, .back-arrow').addEventListener('click', () => {
-  window.location.href = './ticket-dashboard.html';
+  window.history.back();
 });
 
-document.querySelector('.market-name').innerHTML = marketNameDisplay;
+document.querySelector('.market-name').innerHTML = `${marketNameDisplay} - Sales Record`;
 
 let generateSalesReview = '';
 
@@ -30,11 +31,24 @@ function generateReviewSales() {
     const date = sale.nigerianDate;
 
     let matchingVehicle;
+
+    // Search for the vehicle in `vehicles`
     vehicles.forEach((vehicle) => {
       if (vehicle.id === vehicleId) {
         matchingVehicle = vehicle;
       }
     });
+
+    // Search for the vehicle in `vehicleDataArray` if not found in `vehicles`
+    if (!matchingVehicle) {
+      vehicleDataArray.forEach((vehicle) => {
+        if (vehicle.id === vehicleId) {
+          matchingVehicle = vehicle;
+        }
+      });
+    }
+
+    if (!matchingVehicle) return; // Skip if no matching vehicle is found
 
     if (!salesByDate[date]) {
       salesByDate[date] = [];
@@ -58,7 +72,7 @@ function generateReviewSales() {
         <td colspan="3">
           <strong>${date}</strong><br>
           <button class="delete-btn" onclick="deleteSales('${date}')" style="margin-top:20px;">Delete</button>
-          <button class="print-btn" onclick="printOrSaveSales('${date}')"  >Save as PDF</button>
+          <button class="print-btn" onclick="printOrSaveSales('${date}')">Save as PDF</button>
         </td>
       </tr>
     `;
@@ -86,6 +100,7 @@ function generateReviewSales() {
   // Render to the table
   document.querySelector('.content-empty').innerHTML = generateSalesReview;
 }
+
 
 // Modal control variables and functions
 let dateToDelete = null; // Global variable to store the date being deleted
@@ -196,6 +211,15 @@ yesBtn.addEventListener('click', () => {
 
 noBtn.addEventListener('click', () => {
   confirmDialog.style.display = 'none';
+});
+
+window.addEventListener('load', () => {
+  const spinnerOverlay = document.getElementById('spinner-overlay');
+
+  // Add a delay before hiding the spinner
+  setTimeout(() => {
+    spinnerOverlay.style.display = 'none';
+  }, 1000); // Adjust delay time (2000ms = 2 seconds)
 });
 
 

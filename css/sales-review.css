@@ -1,12 +1,10 @@
-
- h1{
+h1{
   color: var(--secondary-text-color);
 }
 
-
-
 .main-body{
   padding-top: 11rem;
+  padding-bottom: 6rem;
 }
 
 .heading {
@@ -45,8 +43,6 @@
 .empty-content {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  align-items: center;
 }
 
 .price {
@@ -104,71 +100,27 @@
 }
 
 
-.modals {
-  position: fixed;
-  bottom: -100%;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  opacity: 0;
-  transition: bottom 0.6s ease-in-out, opacity 0.6s ease-in-out;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
- 
-}
-
-.modals.show {
-  bottom: 0;
-  opacity: 1;
-}
-
-.modal-contents {
-  background: var(--modal-background);
-  padding: 20px;
-  border-radius: 10px;
-  text-align: center;
-  width: 90%;
-  max-width: 400px;
-  box-sizing: border-box;
-}
-
 .fixed-d{
   position: fixed;
-  z-index: 1000;
+  z-index: 10;
   display: block;
   width: 100%;
-  background-color: var(--background-color);
+  background-color: var(--background-fixed-color);
+  left: 200px;
+  padding-left: 150px;
 }
 
-.modal-buttons {
-  display: flex;
-  gap: 10px;
-  justify-content: space-around;
-  margin-top: 20px;
+.side-bar{
+  display: none;
 }
 
-.modal-button {
-  padding: 10px 20px;
-  font-size: 14px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.modal-button.confirm {
-  background-color: #0e0655;
-  color: var(--text-color);
-}
-
-.modal-button.cancel {
-  background-color: #0934c0;
-  color: var(--text-color);
+.back-ar{
+  display: none;
 }
 
 
-@media (min-width: 340px) and (max-width: 750px) {
+
+@media (min-width: 10px) and (max-width: 750px) {
 
 .fixed-d{
   position: fixed;
@@ -179,4 +131,45 @@
   left: 0;
   padding-left: 1rem;
 }
+
+body{
+  padding: 0 1rem;
+}
+
+.heading h1{
+  font-size: 17px;
+}
+
+.back-ar{
+  display: flex;
+}
+
+}
+
+@media (min-width: 751px){
+  .main-body{
+    padding-left: 200px;
+  }
+
+  .side-bar{
+    display: flex;
+  }
+
+  .main-body{
+    padding-top: 12rem;
+    max-width: 2000px;
+  }
+
+  .main-body{
+    margin-left: calc(20% - 90px); /* Increase margin-right when width exceeds 800px */
+  } 
+
+}
+
+@media (min-width: 752px) and (max-width: 1312px){
+
+
+  .main-body{
+    padding-left: 250px;
+  }
 }

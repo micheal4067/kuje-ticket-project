@@ -1,0 +1,166 @@
+@media (min-width: 751px) {
+  .buttons {
+    margin-bottom: 3rem;
+    padding-left: 400px;
+  }
+
+  .buttons-upload, .upload-header {
+    padding-left: 400px;
+  }
+
+  .side-bar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 260px;
+    background-color: var(--side-bar);
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Space between top, middle, and bottom sections */
+    z-index: 99;
+  }
+
+  .side-links {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Ensure content stretches */
+    justify-content: space-between; /* Space out sections vertically */
+  }
+
+  /* Top Section */
+  .top-links {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Middle Section */
+  .middle-links {
+    display: flex;
+    flex-direction: column;
+    margin-top: auto; /* Push to the middle */
+    margin-bottom: auto; /* Center vertically */
+  }
+
+  /* Bottom Section */
+  .bottom-links {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-end; /* Position at the bottom */
+  }
+
+  /* Sidebar Links Styling */
+  .side-links p {
+    background-color: var(--side-bar-link-background);
+    color: var(--secondary-text-color);
+    font-weight: bold;
+    padding: 10px;
+    margin: 5px 0; /* Add spacing between links */
+    width: 100%; /* Stretch across sidebar */
+    border-radius: 5px;
+    text-align: center;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+  }
+
+  .side-links p:hover {
+    background-color: var(--button-background);
+    color: var(--about-text-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for hover effect */
+  }
+
+  /* Buttons Styling */
+  .log-out-button,
+  .set-fee-button,
+  .sales-record,
+  .dashboard-button,
+  .about-button,
+  .total-ticket-issued-button {
+    background-color: var(--navigation-button-background);
+    color: var(--text-color);
+    font-size: 17px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+    width: 200px; /* Uniform width for all buttons */
+    text-align: center;
+    padding: 10px 0; /* Balanced padding */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  }
+
+  .log-out-button:hover,
+  .set-fee-button:hover,
+  .sales-record:hover,
+  .dashboard-button:hover,
+  .about-button:hover,
+  .total-ticket-issued-button:hover {
+    background-color: var(--button-hover-background);
+    color: var(--hover-text-color);
+    transform: translateY(-3px); /* Slight lift on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Enhance shadow on hover */
+  }
+
+  .side-links p i {
+    margin-right: 10px; /* Add spacing between icon and text */
+    font-size: 18px; /* Adjust icon size */
+    color: var(--secondary-text-color); /* Match text color */
+    transition: color 0.3s ease;
+  }
+
+  .side-links p:hover i {
+    color: var(--about-text-color); /* Change icon color on hover */
+  }
+
+  .side-links p {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  /* Sidebar title */
+  .ticket-tittle {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .tittle-icon {
+    width: 100px;
+    height: auto;
+  }
+
+  /* Slider Container */
+  .slider-container {
+    padding-left: 100px;
+  }
+
+  .log-out {
+    padding-left: 100px;
+  }
+
+  .links {
+    display: none;
+  }
+}
+
+@media (min-width: 751px) and (max-width: 1172px) {
+  .buttons {
+    grid-template-columns: 1fr 1fr;
+    padding-left: 350px;
+  }
+
+  .buttons-upload {
+    grid-template-columns: 1fr 1fr;
+    padding-left: 350px;
+  }
+
+  .slider-container {
+    padding-left: 70px;
+  }
+
+  .log-out {
+    padding-left: 70px;
+  }
+}

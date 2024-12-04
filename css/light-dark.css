@@ -1,7 +1,7 @@
 /* Light and Dark Theme Variables */
 :root {
   /* Light Theme (Default) */
-  --background-color: rgb(207, 207, 207);
+  --background-color: rgb(240, 235, 235);
   --background-fixed-color: rgb(192, 190, 190);
   --text-color: rgb(245, 242, 242);
   --modal-text-color: rgb(17, 17, 17);
@@ -11,13 +11,19 @@
   --button-shadow-background: rgb(23, 10, 70);
   --navigation-button-background:  rgb(78, 41, 209);
   --navigation-hover-background: rgb(41, 12, 150);
-  --total-ticket-button-background: #18183b;
+  --total-ticket-button-background: #242455;
   --button-hover-background: rgb(160, 158, 158);
   --modal-background: white;
   --modal-overlay: rgba(0, 0, 0, 0.4);
   --input-background: white;
   --input-border: #ccc;
   --motor-background: #b4b3b3;
+  --icon-filter: brightness(100%) saturate(0);
+  --side-bar: rgb(165, 162, 162);
+  --side-bar-link-background: white;
+  --icon-hover:brightness(0%) saturate(100%);
+  --hard-icon: grayscale(100%) brightness(0%);
+  --add-icon: invert(100%) brightness(1000%);
 }
 
 [data-theme="dark"] {
@@ -28,15 +34,21 @@
   --about-text-color: rgb(14, 13, 13);
   --modal-text-color: rgb(248, 247, 247);
   --secondary-text-color: lightgray;
-  --button-background: #2b2b52;
+  --button-background: rgb(211, 205, 205);
   --button-shadow-background: rgb(78, 41, 209);
   --navigation-button-background: rgb(78, 41, 209);
   --navigation-hover-background: rgb(41, 12, 150);
-  --total-ticket-button-background: #18183b;
+  --total-ticket-button-background:rgb(179, 178, 178);
   --button-hover-background: #3a3c41;
   --modal-background: #272727;
   --modal-overlay: rgba(0, 0, 0, 0.8);
   --input-background: #333333;
   --input-border: #555555;
   --motor-background: #3f3e3e;
+  --icon-filter: brightness(0%) saturate(100%);
+  --side-bar: rgb(70, 68, 68);
+  --side-bar-link-background: rgb(31, 30, 30);
+  --icon-hover:brightness(100%) saturate(0);
+  --hard-icon: invert(100%) brightness(1000%);
+  --add-icon: grayscale(100%) brightness(0%);
 }

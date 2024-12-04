@@ -43,10 +43,5 @@ export const vehicles = [
     price: parseFloat(vehiclePrice[4]) || 50000
   },
   
-  // Vehicle 6: Total Ticket Issued
-  {
-    id: "54e0eccd-8f36-462b-b68a-8182611d9add4",
-    name: 'Total Ticket Issued',
-    image: './icons/all-ticket-issued.png'
-  }
+ 
 ];

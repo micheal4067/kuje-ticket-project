@@ -11,7 +11,6 @@ document.querySelector('.heading-name').innerHTML = marketNameDisplay;
 
 const submitButton = document.querySelector('.btn');
 const updateButton = document.querySelector('.but');
-const formImage = document.querySelector('.form-img');
 
  submitButton.addEventListener('click', ()=>{
     tricycleFun();

@@ -8,73 +8,91 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image" href="./icons/title-icon.png">
-    <link rel="stylesheet" href="./css/ticket-general.css">
+   
     <link rel="stylesheet" href="./css/light-dark.css">
     <link rel="stylesheet" href="./css/ticket-dashboard.css">
+    <link rel="stylesheet" href="./css/modals.css">
+    <link rel="stylesheet" href="./css/ticket-general.css">
+    <link rel="stylesheet" href="./css/side-bar.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+         rel="stylesheet"/>
 
 
   </head>
   <body>
+    <div class="fix-log">
+      <div class="fixed">
+        <div class="slider-container" style="display: flex; justify-content: space-between;">
+          <label class="switch">
+            <input type="checkbox" id="theme-toggle" />
+            <span class="slider round"></span><p style="margin-left: 55px;"><b>Theme</b></p>
+          </label>
+          <div class="hamburger-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+          </div>
+        </div>
+        <div class="log-out">
+          <div class="last-login"></div>        
+        </div>
+        <div class="heading">
+          <h1 class="market-name"></h1>
+       </div>
+      </div>
+       <div class="info-log"></div>
+    </div>
     
-    <div id="logout-modal" class="modals hidden">
-      <div class="modal-contents">
-        <p>Are you sure you want to log out?</p>
-        <div class="modal-buttons">
-          <button id="confirm-logout" class="modal-button confirm">Log Out</button>
-          <button id="cancel-logout" class="modal-button cancel">Cancel</button>
-        </div>
-      </div>
-    </div>
-
-    <div id="loginModal" class="modal-history">
-      <div class="modal-contentss">
-        <span class="close">&times;</span>
-        <h2>Login</h2>
-        <p>Administrative access is required to view this page. Enter any Username and Password to continue.</p>
-        <form id="loginForm">
-          <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" >
-          </div>
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" >
-          </div>
-          <div class="invalid"></div>
-          <button type="submit">Login</button>
-        </form>
-      </div>
-    </div>
-
-    <div class="fixed">
-      <div class="slider-container">
-        <label class="switch">
-          <input type="checkbox" id="theme-toggle" />
-          <span class="slider round"></span>
-        </label>
-      </div>
-      <div class="log-out">
-        <div class="last-login"></div>
-        <div>
-          <p class="about about-js"">About Ticket</p>
-          <p id="openModalBtn" class="sales-record";">Sales Record</p>
-         <p class="log-out-text log-out-js">Logout</p>
-        
-        
-        </div>
-      </div>
-      <div class="heading">
-        <h1 class="market-name"></h1>
-     </div>
-    </div>
 
     <div class="main-body">
+      <div class="side-bar">
+        <h1 class="ticket-tittle">
+          Ticket <img src="./icons/title-icon.png" class="tittle-icon" />
+        </h1>
+        <div class="side-links">
+          <!-- Top Section -->
+          <div class="top-links">
+            <p class="about-button about-js">
+              <i class="fas fa-info-circle"></i> About Ticket
+            </p>
+            <p class="total-ticket-issued-button js-all-vehicles-ticket-button">
+              <i class="fas fa-ticket-alt"></i> Total Ticket Issued
+            </p>
+          </div>
+      
+          <!-- Middle Section -->
+          <div class="middle-links">
+            <p id="openModalBtn" class="sales-record">
+              <i class="fas fa-chart-line"></i> Sales Record
+            </p>
+            <p class="set-fee-button set-fee">
+              <i class="fas fa-dollar-sign"></i> Set Vehicle Fee
+            </p>
+            <p class="set-fee-button openModalUploadButton">
+              <i class="fas fa-plus"></i> Add Ticket Button
+            </p>
+          </div>
+      
+          <!-- Bottom Section -->
+          <div class="bottom-links">
+            <p class="log-out-button log-out-js">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </p>
+          </div>
+        </div>
+      </div>
+
+     <div class="print-buttons">
       <div class="buttons"></div>
+      <div class="upload-header"></div>
+      <div class="user-uploads-js buttons-upload"></div>
+     </div>
     </div>
+    <div class="modals-html"></div>
     <script type="module" src="./script/ticket-dashboard.js"></script>
   </body>
 
