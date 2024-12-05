@@ -57,7 +57,7 @@ document.querySelectorAll('.js-all-vehicles-ticket-button').forEach(element => {
 
 document.querySelectorAll('.sales-record').forEach(element => {
   element.addEventListener('click', () => {
-    modalk.classList.remove('show');
+    modalk.classList.remove('hide');
     void modalk.offsetWidth;
     modalk.classList.add('show');
     modalk.style.display = 'flex';
