@@ -125,22 +125,37 @@ saveButton.addEventListener("click", () => {
   };
 
   // Delete a vehicle
-  const deleteVehicle = (id) => {
-    const updatedArray = vehicleDataArray.filter((vehicle) => vehicle.id !== id);
-    vehicleDataArray.length = 0; // Clear original array
-    vehicleDataArray.push(...updatedArray); // Update array
+// Delete a vehicle
+const deleteVehicle = (id) => {
+  // Remove the vehicle from the vehicleDataArray
+  const updatedArray = vehicleDataArray.filter((vehicle) => vehicle.id !== id);
 
-    localStorage.setItem("vehicleData", JSON.stringify(vehicleDataArray));
-    location.reload(); // Update localStorage
-    displayStoredData(); // Refresh UI
-  };
+  // Update localStorage with the new vehicle data
+  vehicleDataArray.length = 0; // Clear the original array
+  vehicleDataArray.push(...updatedArray); // Push the updated array
+
+  // Save the updated vehicle data to localStorage
+  localStorage.setItem("vehicleData", JSON.stringify(vehicleDataArray));
+
+  location.reload();
+  displayStoredData(); // Refresh UI
+
+};
+
+
 
   // Initialize stored data from localStorage
-  const initializeData = () => {
-    const storedData = JSON.parse(localStorage.getItem("vehicleData")) || [];
-    vehicleDataArray.length = 0; // Clear any existing data
-    vehicleDataArray.push(...storedData); // Load from localStorage
-  };
+ const initializeData = () => {
+  const storedVehicleData = JSON.parse(localStorage.getItem("vehicleData")) || [];
+  const storedSalesData = JSON.parse(localStorage.getItem("sales")) || []; // Load sales data separately
+
+  vehicleDataArray.length = 0; // Clear any existing vehicle data
+  vehicleDataArray.push(...storedVehicleData); // Load vehicle data
+
+  salesReviews.push(...storedSalesData); // Ensure sales data is loaded
+  salesHistory.push(...storedSalesData);
+  salesLog.push(...storedSalesData);
+};
 
   // Initialize and display data on page load
   initializeData();
@@ -178,6 +193,9 @@ function issueUploadReceipt() {
       const time = date.toLocaleString('en-NG', { hour: '2-digit', minute: '2-digit', hour12: true });
       const nigerianDate = `${weekday} ${day}, ${month}-${year}`;
 
+      // Store price at time of sale (do not update in vehicle data)
+      const salePrice = selectedVehicle.price;
+
       // Populate modal content
       modal.innerHTML = `
         <div class="modal-content">
@@ -188,7 +206,7 @@ function issueUploadReceipt() {
           <div class="center">
             <p style="margin-bottom:10px;"><b>${marketNameDisplay}</b></p>
             <p style="margin-bottom:10px;">${selectedVehicle.name}</p>
-            <p class="price">₦${formatCurrency(selectedVehicle.price)}</p>
+            <p class="price">₦${formatCurrency(salePrice)}</p>
             <p>${selectedVehicle.receiptNote}</p>
           </div>
           <button class="close-button">Close</button>
@@ -207,11 +225,18 @@ function issueUploadReceipt() {
 
       // Print functionality
       modal.querySelector('.print-button').addEventListener('click', () => {
-        salesReviews.push({ vehicleId });
+        const currentPrice = selectedVehicle.price; // Capture the current price at the time of the sale
+
+        // Push sale data to relevant arrays
+        const saleRecord = { vehicleId, nigerianDate, time, price: currentPrice };
+
+        salesReviews.push(saleRecord);
         localStorage.setItem('sales', JSON.stringify(salesReviews));
-        salesHistory.push({ vehicleId, nigerianDate, time });
+
+        salesHistory.push(saleRecord);
         localStorage.setItem('salesHistory', JSON.stringify(salesHistory));
-        salesLog.push({ vehicleId, nigerianDate, time });
+
+        salesLog.push(saleRecord);
         localStorage.setItem('salesLog', JSON.stringify(salesLog));
         generateSalesLog();
         logheight();
@@ -219,67 +244,63 @@ function issueUploadReceipt() {
         modal.classList.remove('show');
         setTimeout(() => modal.remove(), 200);
 
-        printReceiptContent(nigerianDate, time, selectedVehicle);
+        // Print receipt with the stored price
+        printReceiptContent(nigerianDate, time, selectedVehicle, salePrice);
       });
     });
   });
 }
 
-
-function printReceiptContent(printDate, printTime, selectedVehicle) {
-  const receiptContainer = `
+function printReceiptContent(printDate, printTime, selectedVehicle, salePrice) {
+  const receiptHTML = `
     <html>
     <head>
       <title>Receipt</title>
+      <style>
+        body {
+          font-family: Arial, sans-serif; font-size: 12px; margin: 0; padding: 10px;
+        }
+      </style>
     </head>
-    <body style="font-family: Arial, sans-serif; font-size: 12px; margin: 0;  padding: 10px; justify-items: center;">
-      <div style="width: 100%; padding: 10px;">
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
-          <p style="margin: 0;">${printDate}</p>
-          <p style="margin: 0;">${printTime}</p>
-        </div>
-        <div style="text-align: center;">
-          <p style="margin: 0 0 10px 0; font-size: 13px; font-weight: bold;">${marketNameDisplay}</p>
-          <p style="margin: 0 0 10px 0; font-size: 13px;">${selectedVehicle.name}</p>
-          <p style="margin: 0 0 10px 0; font-size: 14px; font-weight: bold;">₦${formatCurrency(selectedVehicle.price)}</p>
-          <p style="margin: 0; font-size: 13px;">${selectedVehicle.receiptNote}</p>
-        </div>
+    <body>
+      <div style="padding: 10px; text-align: center;">
+        <p>${printDate} ${printTime}</p>
+        <p><b>${marketNameDisplay}</b></p>
+        <p>${selectedVehicle.name}</p>
+        <p><b>₦${formatCurrency(salePrice)}</b></p>
+        <p>${selectedVehicle.receiptNote}</p>
       </div>
     </body>
     </html>
   `;
 
-  const printWindow = window.open('', '', 'width=800,height=400');
-  if (!printWindow) {
-    alert("Unable to open print preview. Please allow pop-ups for this site.");
-    return;
-  }
+  // Create an iframe for printing
+  const printFrame = document.createElement('iframe');
+  printFrame.style.position = 'absolute';
+  printFrame.style.top = '-9999px';
+  document.body.appendChild(printFrame);
 
-  // Write content to the new window and ensure it's loaded
-  printWindow.document.open();
-  printWindow.document.write(receiptContainer);
-  printWindow.document.close();
+  const doc = printFrame.contentDocument || printFrame.contentWindow.document;
+  doc.open();
+  doc.write(receiptHTML);
+  doc.close();
 
-  // Ensure the content is fully loaded before triggering print
-  printWindow.onload = function() {
-    // Delay printing to ensure the content is fully rendered
-    setTimeout(function() {
-      printWindow.print();
-      setTimeout(function() {
-        printWindow.close();
-      }, 200);
-    }, 100); // Adjust the delay if necessary
+  // Wait for content to load before printing
+  printFrame.onload = function () {
+    printFrame.contentWindow.focus();
+    printFrame.contentWindow.print();
+
+    // Clean up iframe after printing
+    setTimeout(() => {
+      document.body.removeChild(printFrame);
+    }, 100);
   };
-
-  // Handle possible issues on mobile (Safari blocking print window)
-  printWindow.focus();
 }
 
 function logheight(){
   const tableContainer = document.querySelector('.sales-table-container');
 tableContainer.scrollTop = tableContainer.scrollHeight;
 }
-
 
 export {issueUploadReceipt};
 

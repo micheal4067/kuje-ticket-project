@@ -29,6 +29,7 @@ confirmLogout.addEventListener('click', () => {
     localStorage.removeItem('sales');
     localStorage.removeItem('salesLog');
     localStorage.removeItem('salesLogUpload');
+    localStorage.removeItem('salesHistory');
     window.location.href = "./index.html";
   }, 300); // Wait for animation to complete
 });
@@ -73,14 +74,6 @@ closeModal.addEventListener('click', () => {
   password.value = '';
 });
 
-window.addEventListener('click', (e) => {
-  if (e.target === modalk){
-    removeodal();
-    document.querySelector('.invalid').innerHTML = '';
-    username.value = '';
-    password.value = '';
-  }
-});
 
 window.addEventListener('click', (e) => {
   if (e.target === modal){

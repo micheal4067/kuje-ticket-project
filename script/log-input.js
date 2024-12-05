@@ -41,13 +41,21 @@ function generateSalesLog() {
       matchingVehicle = vehicleDataArray.find((vehicle) => vehicle.id === vehicleId);
     }
 
-    // Skip if no matching vehicle is found
+    // If no matching vehicle is found, mark as "Vehicle Deleted"
     if (!matchingVehicle) {
-      console.warn(`No matching vehicle found for ID: ${vehicleId}`); // Debugging
-      return;
+      generateSaleslog += `
+        <tr>
+          <td>${nigeriaDate}</td>
+          <td>${time}</td>
+          <td>Vehicle Deleted</td>
+          <td>₦${formatCurrency(sale.price)}</td>
+        </tr>
+      `;
+      return; // Skip further processing for this sale
     }
 
-    price = matchingVehicle.price; // Get the price of the matched vehicle
+    // Use the sale price if it exists; otherwise, fallback to the vehicle's current price
+    price = sale.price || matchingVehicle.price;
 
     // Add the vehicle details to the table rows
     generateSaleslog += `
@@ -70,5 +78,6 @@ function generateSalesLog() {
   // Insert the generated sales log into the DOM
   document.querySelector('.info-log').innerHTML = generateSaleslog;
 }
+
 
 export { generateSalesLog };

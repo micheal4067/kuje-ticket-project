@@ -48,7 +48,21 @@ function generateReviewSales() {
       });
     }
 
-    if (!matchingVehicle) return; // Skip if no matching vehicle is found
+    // Skip if no matching vehicle is found or mark as inactive
+    if (!matchingVehicle) {
+      // Optionally, mark the sale as "vehicle not found" or display a message
+      salesByDate[date] = salesByDate[date] || [];
+      salesByDate[date].push({
+        time: sale.time,
+        name: "Vehicle Deleted",
+        price: sale.price, // Use the stored sale price
+        status: 'inactive'  // Mark the sale as inactive or "vehicle deleted"
+      });
+      return; // Skip this sale if no vehicle is found
+    }
+
+    // Check if the sale price is already stored in the sale record, use that instead of the current price
+    const salePrice = sale.price || matchingVehicle.price;
 
     if (!salesByDate[date]) {
       salesByDate[date] = [];
@@ -57,7 +71,7 @@ function generateReviewSales() {
     salesByDate[date].push({
       time: sale.time,
       name: matchingVehicle.name,
-      price: matchingVehicle.price,
+      price: salePrice, // Use the stored sale price
     });
   });
 
@@ -161,13 +175,12 @@ window.printOrSaveSales = function (date) {
   // Prepare table data
   const tableData = salesForDate.map((sale) => {
     const vehicle = vehicles.find((v) => v.id === sale.vehicleId);
-    return [sale.time, vehicle.name, `₦${formatCurrency(vehicle.price)}`];
+    return [sale.time, vehicle.name, `₦${formatCurrency(sale.price)}`]; // Use the stored sale price
   });
 
   // Calculate and format the total
   const total = salesForDate.reduce((sum, sale) => {
-    const vehicle = vehicles.find((v) => v.id === sale.vehicleId);
-    return sum + vehicle.price;
+    return sum + sale.price; // Use the stored sale price
   }, 0);
 
   const formattedTotal = `₦${formatCurrency(total)}`;
@@ -191,7 +204,6 @@ window.printOrSaveSales = function (date) {
 
 // Initial rendering
 generateReviewSales();
-
 
 // Confirm dialog for editing vehicle price
 const editPriceBtn = document.querySelector('.edit-price');
@@ -221,41 +233,3 @@ window.addEventListener('load', () => {
     spinnerOverlay.style.display = 'none';
   }, 1000); // Adjust delay time (2000ms = 2 seconds)
 });
-
-
-
-/*
-// Function to print or save sales for a specific date
-window.printOrSaveSales = function (date) {
-  const salesHistory = JSON.parse(localStorage.getItem("salesHistory")) || [];
-  const salesForDate = salesHistory.filter((sale) => sale.nigerianDate === date);
-
-  // Generate printable content
-  let printContent = `<h1>Sales for ${date}</h1>`;
-  printContent += `<table border="1" style="width: 100%; text-align: left;">
-    <tr>
-      <th>Time</th>
-      <th>Vehicle</th>
-      <th>Price</th>
-    </tr>`;
-
-  salesForDate.forEach((sale) => {
-    const vehicle = vehicles.find((v) => v.id === sale.vehicleId);
-    printContent += `
-      <tr>
-        <td>${sale.time}</td>
-        <td>${vehicle.name}</td>
-        <td>₦${formatCurrency(vehicle.price)}</td>
-      </tr>
-    `;
-  });
-
-  printContent += `</table>`;
-
-  // Open print dialog or save as PDF
-  const newWindow = window.open('', '_blank');
-  newWindow.document.write(printContent);
-  newWindow.document.close();
-  newWindow.print();
-};
-*/

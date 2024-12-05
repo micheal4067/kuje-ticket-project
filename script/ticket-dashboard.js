@@ -64,9 +64,8 @@ document.addEventListener('keydown', (event) => {
   }
 });
 
-// Add event listeners for vehicle buttons
-issueReceipt();
 
+issueReceipt();
 
 function issueReceipt() {
   document.querySelectorAll('.all-vehicles-button').forEach((button) => {
@@ -122,81 +121,86 @@ function issueReceipt() {
 
       // Print functionality
       modal.querySelector('.print-button').addEventListener('click', () => {
-        salesReviews.push({ vehicleId, nigerianDate, time });
+        const currentPrice = selectedVehicle.price; // Capture the current price at the time of the sale
+
+        // Push sale data to relevant arrays
+        const saleRecord = { vehicleId, nigerianDate, time, price: currentPrice };
+
+        salesReviews.push(saleRecord);
         localStorage.setItem('sales', JSON.stringify(salesReviews));
-        salesHistory.push({ vehicleId, nigerianDate, time });
+
+        salesHistory.push(saleRecord);
         localStorage.setItem('salesHistory', JSON.stringify(salesHistory));
-        salesLog.push({ vehicleId, nigerianDate, time });
+
+        salesLog.push(saleRecord);
         localStorage.setItem('salesLog', JSON.stringify(salesLog));
+
         generateSalesLog();
         logheight();
 
         modal.classList.remove('show');
         setTimeout(() => modal.remove(), 200);
-        printReceiptContent(nigerianDate, time, selectedVehicle);
+
+        // Print receipt
+        printReceiptContent(nigerianDate, time, selectedVehicle, currentPrice);
       });
     });
   });
-
 }
+
 
 function logheight(){
   const tableContainer = document.querySelector('.sales-table-container');
 tableContainer.scrollTop = tableContainer.scrollHeight;
 }
 
+logheight();
 // Print receipt content
-function printReceiptContent(printDate, printTime, selectedVehicle) {
-  const receiptContainer = `
-    <html>
+function printReceiptContent(printDate, printTime, selectedVehicle, salePrice) {
+  const receiptHTML = `
+     <html>
     <head>
       <title>Receipt</title>
+      <style>
+        body {
+          font-family: Arial, sans-serif; font-size: 12px; margin: 0; padding: 10px;
+        }
+      </style>
     </head>
-    <body style="font-family: Arial, sans-serif; font-size: 12px; margin: 0;  padding: 10px; justify-items: center;">
-      <div style="width: 100%; padding: 10px;">
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
-          <p style="margin: 0;">${printDate}</p>
-          <p style="margin: 0;">${printTime}</p>
-        </div>
-        <div style="text-align: center;">
-          <p style="margin: 0 0 10px 0; font-size: 13px; font-weight: bold;">${marketNameDisplay}</p>
-          <p style="margin: 0 0 10px 0; font-size: 13px;">${selectedVehicle.name}</p>
-          <p style="margin: 0 0 10px 0; font-size: 14px; font-weight: bold;">₦${formatCurrency(selectedVehicle.price)}</p>
-          <p style="margin: 0; font-size: 13px;">Vehicle parked @ Owner's risk</p>
-        </div>
+    <body>
+      <div style="padding: 10px; text-align: center;">
+        <p>${printDate} ${printTime}</p>
+        <p><b>${marketNameDisplay}</b></p>
+        <p>${selectedVehicle.name}</p>
+        <p><b>₦${formatCurrency(salePrice)}</b></p>
+        <p>Vehicle Parked @ Owner's Risk</p>
       </div>
     </body>
     </html>
   `;
 
-  const printWindow = window.open('', '', 'width=800,height=400');
-  if (!printWindow) {
-    alert("Unable to open print preview. Please allow pop-ups for this site.");
-    return;
-  }
+  // Create a hidden iframe for printing
+  const printFrame = document.createElement('iframe');
+  printFrame.style.position = 'absolute';
+  printFrame.style.top = '-9999px';
+  document.body.appendChild(printFrame);
 
-  // Write content to the new window and ensure it's loaded
-  printWindow.document.open();
-  printWindow.document.write(receiptContainer);
-  printWindow.document.close();
+  const doc = printFrame.contentDocument || printFrame.contentWindow.document;
+  doc.open();
+  doc.write(receiptHTML);
+  doc.close();
 
-  // Ensure the content is fully loaded before triggering print
-  printWindow.onload = function() {
-    // Delay printing to ensure the content is fully rendered
-    setTimeout(function() {
-      printWindow.print();
-      setTimeout(function() {
-        printWindow.close();
-      }, 200);
-    }, 100); // Adjust the delay if necessary
+  // Wait for the content to load before printing
+  printFrame.onload = function () {
+    printFrame.contentWindow.focus();
+    printFrame.contentWindow.print();
+
+    // Remove iframe after printing
+    setTimeout(() => {
+      document.body.removeChild(printFrame);
+    }, 100);
   };
-
-  // Handle possible issues on mobile (Safari blocking print window)
-  printWindow.focus();
 }
-
-
-
 
 
 maxDigit()
