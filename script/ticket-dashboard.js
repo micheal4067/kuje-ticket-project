@@ -172,64 +172,69 @@ logheight();
 function printReceiptContent(printDate, printTime, selectedVehicle, salePrice) {
   const receiptHTML = `
     <html>
-      <head>
-        <title>Receipt</title>
-        <style>
-          body {
-            font-family: Arial, sans-serif;
-            font-size: 12px;
-            margin: 0;
-            padding: 10px;
+    <head>
+      <title>Receipt</title>
+      <style>
+        body {
+          font-family: Arial, sans-serif;
+          font-size: 12px;
+          margin: 0;
+          padding: 0;
+        }
+        .receipt-content {
+          padding: 10px;
+          text-align: center;
+          page-break-before: always;  /* Force content to begin on a new page */
+        }
+        .receipt-header {
+          display: flex;
+          justify-content: space-between;
+          page-break-inside: avoid;  /* Prevent break inside header */
+        }
+        p {
+          margin: 5px 0;
+          font-size: 14px;
+        }
+        /* Remove any default margins */
+        @page {
+          size: auto;
+          margin: 0;
+        }
+        @media print {
+          body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
           }
-          
-          /* Print-specific styles */
-          @media print {
-            body {
-              margin: 0;
-              padding: 20px;
-              font-size: 14px; /* Adjust for readability */
-            }
-
-            .receipt {
-              padding: 10px;
-              text-align: center;
-            }
-
-            .receipt div {
-              display: flex;
-              justify-content: space-between;
-            }
-
-            .no-print {
-              display: none; /* Hide elements you don't want to print */
-            }
-
+          .receipt-content {
+            width: 100%;
+            height: auto;  /* Ensures content doesn't overflow */
+            page-break-before: always;
+          }
+          p {
+            font-size: 14px;
+          }
+          /* For smaller devices, scale text if necessary */
+          @media (max-width: 600px) {
             p {
-              margin: 5px 0;
-            }
-
-            /* Specific for mobile adjustments */
-            @media (max-width: 600px) {
-              body {
-                font-size: 12px;
-                padding: 15px;
-              }
+              font-size: 12px;
             }
           }
-        </style>
-      </head>
-      <body>
-        <div class="receipt">
-          <div style="display:flex; justify-content:space-between;">
-            <p>${printDate}</p>
-            <p>${printTime}</p>
-          </div>
-          <p><b>${marketNameDisplay}</b></p>
-          <p>${selectedVehicle.name}</p>
-          <p><b>₦${formatCurrency(salePrice)}</b></p>
-          <p>Vehicle Parked @ Owner's Risk</p>
+        }
+      </style>
+    </head>
+    <body>
+      <div class="receipt-content">
+        <div class="receipt-header">
+          <p>${printDate}</p>
+          <p>${printTime}</p>
         </div>
-      </body>
+        <p><b>${marketNameDisplay}</b></p>
+        <p>${selectedVehicle.name}</p>
+        <p><b>₦${formatCurrency(salePrice)}</b></p>
+        <p>Vehicle Parked @ Owner's Risk</p>
+      </div>
+    </body>
     </html>
   `;
 
@@ -255,6 +260,7 @@ function printReceiptContent(printDate, printTime, selectedVehicle, salePrice) {
     }, 400);
   };
 }
+
 
 
 
