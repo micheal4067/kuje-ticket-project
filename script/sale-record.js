@@ -12,9 +12,15 @@ if (!localStorage.getItem("salesHistory")) {
   localStorage.setItem("salesHistory", JSON.stringify(importedSalesHistory));
 }
 
-document.querySelector('.back-button-image, .back-arrow').addEventListener('click', () => {
-  window.history.back();
-});
+if (window.innerWidth > 768) {  // You can adjust this value to your needs
+  document.querySelector('.back-button-image, .back-arrow').addEventListener('click', () => {
+    window.history.back();
+  });
+}else{
+  document.querySelector('.back-button-image, .back-arrow').addEventListener('click', () => {
+    window.location.href = './ticket-dashboard.html';
+  })
+}
 
 document.querySelector('.market-name').innerHTML = `${marketNameDisplay} - Sales Record`;
 

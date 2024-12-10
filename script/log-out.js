@@ -190,6 +190,7 @@ function historyView() {
       // Success: Redirect to sales record
       username.value = ''; // Clear input
       password.value = '';
+
       window.location.href = './sale-record.html';
       invalidMessage.textContent = ''; // Clear error message
     } else {
