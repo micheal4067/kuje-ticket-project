@@ -47,7 +47,7 @@ export const modalHTML =
             <input type="password" id="password" name="password" >
           </div>
           <div class="invalid"></div>
-          <button type="submit">Login</button>
+          <button type="submit" class="submit">Login</button>
         </form>
       </div>
     </div>
@@ -112,4 +112,5 @@ export const modalHTML =
 
 
 `;
+
 

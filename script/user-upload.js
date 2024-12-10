@@ -11,7 +11,6 @@ function userUpload() {
   const generateId = () => '_' + Math.random().toString(36).substr(2, 9);
 
   const modalUpload = document.getElementById("dataModalUpload");
-  const openModalUploadButton = document.querySelector(".openModalUploadButton");
   const closeModalUploadButton = document.getElementById("closeModalUploadButton");
   const saveButton = document.getElementById("saveButton");
 
@@ -50,7 +49,7 @@ window.addEventListener("click", (event) => {
   
     // Check if the receiptNote is empty and assign default value if so
     if (!receiptNote.trim()) {
-      receiptNote = "Vehicle parked @ owners risk";
+      receiptNote = "Vehicle parked @ owner's risk";
     }
   
     // Validate receipt note length
