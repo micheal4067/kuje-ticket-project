@@ -191,7 +191,7 @@ function printReceiptContent(printDate, printTime, selectedVehicle, salePrice) {
           }
           p {
             margin: 5px 0;
-            font-size: 14px;
+            font-size: 12px;
           }
         </style>
       </head>
@@ -232,7 +232,7 @@ function printReceiptContent(printDate, printTime, selectedVehicle, salePrice) {
       setTimeout(() => {
         printWindow.close(); // Close the print window after printing
       }, 100);
-    }, 200); // Adjust the delay (in milliseconds) to allow the content to load properly
+    }, 500); // Adjust the delay (in milliseconds) to allow the content to load properly
   };
 
   // Handle any print-related errors or issues with mobile devices
