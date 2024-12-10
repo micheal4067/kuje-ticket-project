@@ -171,27 +171,46 @@ logheight();
 // Print receipt content
 function printReceiptContent(printDate, printTime, selectedVehicle, salePrice) {
   const receiptHTML = `
-     <html>
-    <head>
-      <title>Receipt</title>
-      <style>
-        body {
-          font-family: Arial, sans-serif; font-size: 12px; margin: 0; padding: 10px;
-        }
-      </style>
-    </head>
-    <body>
-      <div style="padding: 10px; text-align: center;">
-      <div style="display:flex; justify-content:space-between;">
-         <p>${printDate}</p>
-        <p>${printTime}</p>
-      </div>
-        <p><b>${marketNameDisplay}</b></p>
-        <p>${selectedVehicle.name}</p>
-        <p><b>₦${formatCurrency(salePrice)}</b></p>
-        <p>Vehicle Parked @ Owner's Risk</p>
-      </div>
-    </body>
+    <html>
+      <head>
+        <title>Receipt</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif; 
+            font-size: 12px; 
+            margin: 0; 
+            padding: 10px;
+          }
+          
+          /* Print-specific styles */
+          @media print {
+            body {
+              margin: 0;
+              padding: 20px;
+              font-size: 14px; /* Adjust for readability */
+            }
+            .no-print {
+              display: none; /* Hide elements you don't want to print */
+            }
+            p {
+              margin: 5px 0; /* Adjust spacing between paragraphs */
+            }
+            /* You can adjust other styles like page breaks, text alignment, etc. */
+          }
+        </style>
+      </head>
+      <body>
+        <div style="padding: 10px; text-align: center;">
+          <div style="display:flex; justify-content:space-between;">
+            <p>${printDate}</p>
+            <p>${printTime}</p>
+          </div>
+          <p><b>${marketNameDisplay}</b></p>
+          <p>${selectedVehicle.name}</p>
+          <p><b>₦${formatCurrency(salePrice)}</b></p>
+          <p>Vehicle Parked @ Owner's Risk</p>
+        </div>
+      </body>
     </html>
   `;
 
@@ -217,6 +236,7 @@ function printReceiptContent(printDate, printTime, selectedVehicle, salePrice) {
     }, 400);
   };
 }
+
 
 
 maxDigit()
