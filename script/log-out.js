@@ -131,14 +131,18 @@ function logOutApp() {
     modalOverlayer.classList.remove('actives');
   }
 
-
-
-  window.addEventListener('resize', () => {
-    modal.classList.remove('show');
-    modal.classList.add('hidden');
-    modalk.style.display = 'none';
+  closeFee.addEventListener('click', () => {
     hideModal();
-    removeodal();
+  });
+
+  window.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.classList.remove('show');
+      modal.classList.add('hidden');
+    }
+    if (e.target === modalOverlayer) {
+      hideModal();
+    }
   });
 
   /** ======= Page Loader ======= */
