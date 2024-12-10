@@ -211,6 +211,15 @@ modalLinks.forEach(link => {
   });
 });
 
+document.querySelectorAll('.modal-content-upload input, .modal-content-upload textarea, .login-form input, .modal-contentss input' ).forEach((input) => {
+  input.addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
+  input.addEventListener('touchstart', (e) => {
+    e.stopPropagation();
+  });
+});
+
 }
 
 
@@ -232,15 +241,6 @@ const loginForm = document.getElementById('loginForm');
     } else {
       document.querySelector('.invalid').innerHTML = 'Enter any Username or Password';
     }
-  });
-
-  document.querySelectorAll('.modal-content-upload input, .modal-content-upload textarea, .login-form input, .modal-contentss input' ).forEach((input) => {
-    input.addEventListener('click', (e) => {
-      e.stopPropagation();
-    });
-    input.addEventListener('touchstart', (e) => {
-      e.stopPropagation();
-    });
   });
 
 }
