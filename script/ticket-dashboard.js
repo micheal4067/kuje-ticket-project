@@ -176,9 +176,9 @@ function printReceiptContent(printDate, printTime, selectedVehicle, salePrice) {
         <title>Receipt</title>
         <style>
           body {
-            font-family: Arial, sans-serif; 
-            font-size: 12px; 
-            margin: 0; 
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            margin: 0;
             padding: 10px;
           }
           
@@ -189,18 +189,37 @@ function printReceiptContent(printDate, printTime, selectedVehicle, salePrice) {
               padding: 20px;
               font-size: 14px; /* Adjust for readability */
             }
+
+            .receipt {
+              padding: 10px;
+              text-align: center;
+            }
+
+            .receipt div {
+              display: flex;
+              justify-content: space-between;
+            }
+
             .no-print {
               display: none; /* Hide elements you don't want to print */
             }
+
             p {
-              margin: 5px 0; /* Adjust spacing between paragraphs */
+              margin: 5px 0;
             }
-            /* You can adjust other styles like page breaks, text alignment, etc. */
+
+            /* Specific for mobile adjustments */
+            @media (max-width: 600px) {
+              body {
+                font-size: 12px;
+                padding: 15px;
+              }
+            }
           }
         </style>
       </head>
       <body>
-        <div style="padding: 10px; text-align: center;">
+        <div class="receipt">
           <div style="display:flex; justify-content:space-between;">
             <p>${printDate}</p>
             <p>${printTime}</p>
