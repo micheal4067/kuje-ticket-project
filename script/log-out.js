@@ -131,19 +131,7 @@ function logOutApp() {
     modalOverlayer.classList.remove('actives');
   }
 
-  closeFee.addEventListener('click', () => {
-    hideModal();
-  });
 
-  window.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      modal.classList.remove('show');
-      modal.classList.add('hidden');
-    }
-    if (e.target === modalOverlayer) {
-      hideModal();
-    }
-  });
 
   window.addEventListener('resize', () => {
     modal.classList.remove('show');
