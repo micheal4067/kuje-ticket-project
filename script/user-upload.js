@@ -11,6 +11,7 @@ function userUpload() {
   const generateId = () => '_' + Math.random().toString(36).substr(2, 9);
 
   const modalUpload = document.getElementById("dataModalUpload");
+  const openModalUploadButton = document.querySelector(".openModalUploadButton");
   const closeModalUploadButton = document.getElementById("closeModalUploadButton");
   const saveButton = document.getElementById("saveButton");
 
@@ -35,58 +36,51 @@ window.addEventListener("click", (event) => {
 
 
   // Save new vehicle data
-  saveButton.addEventListener("click", () => {
-    const name = document.getElementById("vehicleName").value;
-    const priceInput = document.getElementById("vehiclePrice").value; // Get price input
-    const imageInput = document.getElementById("vehicleImage");
-    let receiptNote = document.getElementById("receiptNote").value; // Get receipt note
+saveButton.addEventListener("click", () => {
+  const name = document.getElementById("vehicleName").value;
+  const priceInput = document.getElementById("vehiclePrice").value; // Get price input
+  const imageInput = document.getElementById("vehicleImage");
+  let receiptNote = document.getElementById("receiptNote").value; // Get receipt note
   
-    // Validate name length
-    if (name.length > 10) {
-      alert("Name must not exceed 10 characters.");
-      return;
-    }
-  
-    // Check if the receiptNote is empty and assign default value if so
-    if (!receiptNote.trim()) {
-      receiptNote = "Vehicle parked @ owner's risk";
-    }
-  
-    // Validate receipt note length
-    if (receiptNote.length > 100) {
-      alert("Receipt note must not exceed 100 characters.");
-      return;
-    }
-  
-    if (name && priceInput && imageInput.files.length > 0) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        // Convert price to number and append double zero
-        const priceWithDoubleZero = parseFloat(priceInput) * 100;
-  
-        const newVehicle = {
-          id: generateId(),
-          name,
-          price: priceWithDoubleZero, // Use updated price logic
-          image: e.target.result,
-          receiptNote, // Add receipt note to the data
-        };
-  
-        vehicleDataArray.push(newVehicle); // Update in-memory array
-        localStorage.setItem("vehicleData", JSON.stringify(vehicleDataArray)); // Update localStorage
-  
-        modalUpload.style.display = "none";
-        document.getElementById("vehicleForm").reset();
-        location.reload();
-  
-        displayStoredData(); // Refresh the UI
+  // Check if the receiptNote is empty and assign default value if so
+  if (!receiptNote.trim()) {
+    receiptNote = "Vehicle parked @ owners risk";
+  }
+
+  // Validate receipt note length
+  if (receiptNote.length > 100) {
+    alert("Receipt note must not exceed 100 characters.");
+    return;
+  }
+
+  if (name && priceInput && imageInput.files.length > 0) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      // Convert price to number and append double zero
+      const priceWithDoubleZero = parseFloat(priceInput) * 100;
+
+      const newVehicle = {
+        id: generateId(),
+        name,
+        price: priceWithDoubleZero, // Use updated price logic
+        image: e.target.result,
+        receiptNote, // Add receipt note to the data
       };
-      reader.readAsDataURL(imageInput.files[0]);
-    } else {
-      alert("Please fill in all fields!");
-    }
-  });
-  
+
+      vehicleDataArray.push(newVehicle); // Update in-memory array
+      localStorage.setItem("vehicleData", JSON.stringify(vehicleDataArray)); // Update localStorage
+
+      modalUpload.style.display = "none";
+      document.getElementById("vehicleForm").reset();
+      location.reload();
+
+      displayStoredData(); // Refresh the UI
+    };
+    reader.readAsDataURL(imageInput.files[0]);
+  } else {
+    alert("Please fill in all fields!");
+  }
+});
 
   // Display stored vehicle data
   const displayStoredData = () => {
@@ -131,36 +125,22 @@ window.addEventListener("click", (event) => {
   };
 
   // Delete a vehicle
-// Delete a vehicle
-const deleteVehicle = (id) => {
-  // Remove the vehicle from the vehicleDataArray
-  const updatedArray = vehicleDataArray.filter((vehicle) => vehicle.id !== id);
+  const deleteVehicle = (id) => {
+    const updatedArray = vehicleDataArray.filter((vehicle) => vehicle.id !== id);
+    vehicleDataArray.length = 0; // Clear original array
+    vehicleDataArray.push(...updatedArray); // Update array
 
-  // Update localStorage with the new vehicle data
-  vehicleDataArray.length = 0; // Clear the original array
-  vehicleDataArray.push(...updatedArray); // Push the updated array
-
-  // Save the updated vehicle data to localStorage
-  localStorage.setItem("vehicleData", JSON.stringify(vehicleDataArray));
-
-  location.reload();
-  displayStoredData(); // Refresh UI
-
-};
-
-
+    localStorage.setItem("vehicleData", JSON.stringify(vehicleDataArray));
+    location.reload(); // Update localStorage
+    displayStoredData(); // Refresh UI
+  };
 
   // Initialize stored data from localStorage
- const initializeData = () => {
-  const storedVehicleData = JSON.parse(localStorage.getItem("vehicleData")) || [];
-  const storedSalesData = JSON.parse(localStorage.getItem("sales")) || []; // Load sales data separately
-
-  vehicleDataArray.length = 0; // Clear any existing vehicle data
-  vehicleDataArray.push(...storedVehicleData); // Load vehicle data
-
-  salesHistory.push(...storedSalesData);
-  salesLog.push(...storedSalesData);
-};
+  const initializeData = () => {
+    const storedData = JSON.parse(localStorage.getItem("vehicleData")) || [];
+    vehicleDataArray.length = 0; // Clear any existing data
+    vehicleDataArray.push(...storedData); // Load from localStorage
+  };
 
   // Initialize and display data on page load
   initializeData();
@@ -198,9 +178,6 @@ function issueUploadReceipt() {
       const time = date.toLocaleString('en-NG', { hour: '2-digit', minute: '2-digit', hour12: true });
       const nigerianDate = `${weekday} ${day}, ${month}-${year}`;
 
-      // Store price at time of sale (do not update in vehicle data)
-      const salePrice = selectedVehicle.price;
-
       // Populate modal content
       modal.innerHTML = `
         <div class="modal-content">
@@ -211,7 +188,7 @@ function issueUploadReceipt() {
           <div class="center">
             <p style="margin-bottom:10px;"><b>${marketNameDisplay}</b></p>
             <p style="margin-bottom:10px;">${selectedVehicle.name}</p>
-            <p class="price">₦${formatCurrency(salePrice)}</p>
+            <p class="price">₦${formatCurrency(selectedVehicle.price)}</p>
             <p>${selectedVehicle.receiptNote}</p>
           </div>
           <button class="close-button">Close</button>
@@ -230,15 +207,11 @@ function issueUploadReceipt() {
 
       // Print functionality
       modal.querySelector('.print-button').addEventListener('click', () => {
-        const currentPrice = selectedVehicle.price; // Capture the current price at the time of the sale
-
-        // Push sale data to relevant arrays
-        const saleRecord = { vehicleId, nigerianDate, time, price: currentPrice };
-
-        salesHistory.push(saleRecord);
+        salesReviews.push({ vehicleId });
+        localStorage.setItem('sales', JSON.stringify(salesReviews));
+        salesHistory.push({ vehicleId, nigerianDate, time });
         localStorage.setItem('salesHistory', JSON.stringify(salesHistory));
-
-        salesLog.push(saleRecord);
+        salesLog.push({ vehicleId, nigerianDate, time });
         localStorage.setItem('salesLog', JSON.stringify(salesLog));
         generateSalesLog();
         logheight();
@@ -246,66 +219,67 @@ function issueUploadReceipt() {
         modal.classList.remove('show');
         setTimeout(() => modal.remove(), 200);
 
-        // Print receipt with the stored price
-        printReceiptContent(nigerianDate, time, selectedVehicle, salePrice);
+        printReceiptContent(nigerianDate, time, selectedVehicle);
       });
     });
   });
 }
 
-function printReceiptContent(printDate, printTime, selectedVehicle, salePrice) {
-  const receiptHTML = `
+
+function printReceiptContent(printDate, printTime, selectedVehicle) {
+  const receiptContainer = `
     <html>
     <head>
       <title>Receipt</title>
-      <style>
-        body {
-          font-family: Arial, sans-serif; font-size: 12px; margin: 0; padding: 10px;
-        }
-      </style>
     </head>
-    <body>
-      <div style="padding: 10px; text-align: center;">
-      <div style="display:flex; justify-content:space-between;">
-         <p>${printDate}</p>
-        <p>${printTime}</p>
-      </div>
-        <p><b>${marketNameDisplay}</b></p>
-        <p>${selectedVehicle.name}</p>
-        <p><b>₦${formatCurrency(salePrice)}</b></p>
-        <p>${selectedVehicle.receiptNote}</p>
+    <body style="font-family: Arial, sans-serif; font-size: 12px; margin: 0;  padding: 10px; justify-items: center;">
+      <div style="width: 100%; padding: 10px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+          <p style="margin: 0;">${printDate}</p>
+          <p style="margin: 0;">${printTime}</p>
+        </div>
+        <div style="text-align: center;">
+          <p style="margin: 0 0 10px 0; font-size: 13px; font-weight: bold;">${marketNameDisplay}</p>
+          <p style="margin: 0 0 10px 0; font-size: 13px;">${selectedVehicle.name}</p>
+          <p style="margin: 0 0 10px 0; font-size: 14px; font-weight: bold;">₦${formatCurrency(selectedVehicle.price)}</p>
+          <p style="margin: 0; font-size: 13px;">${selectedVehicle.receiptNote}</p>
+        </div>
       </div>
     </body>
     </html>
   `;
 
-  // Create an iframe for printing
-  const printFrame = document.createElement('iframe');
-  printFrame.style.position = 'absolute';
-  printFrame.style.top = '-9999px';
-  document.body.appendChild(printFrame);
+  const printWindow = window.open('', '', 'width=800,height=400');
+  if (!printWindow) {
+    alert("Unable to open print preview. Please allow pop-ups for this site.");
+    return;
+  }
 
-  const doc = printFrame.contentDocument || printFrame.contentWindow.document;
-  doc.open();
-  doc.write(receiptHTML);
-  doc.close();
+  // Write content to the new window and ensure it's loaded
+  printWindow.document.open();
+  printWindow.document.write(receiptContainer);
+  printWindow.document.close();
 
-  // Wait for content to load before printing
-  printFrame.onload = function () {
-    printFrame.contentWindow.focus();
-    printFrame.contentWindow.print();
-
-    // Clean up iframe after printing
-    setTimeout(() => {
-      document.body.removeChild(printFrame);
-    }, 100);
+  // Ensure the content is fully loaded before triggering print
+  printWindow.onload = function() {
+    // Delay printing to ensure the content is fully rendered
+    setTimeout(function() {
+      printWindow.print();
+      setTimeout(function() {
+        printWindow.close();
+      }, 200);
+    }, 100); // Adjust the delay if necessary
   };
+
+  // Handle possible issues on mobile (Safari blocking print window)
+  printWindow.focus();
 }
 
 function logheight(){
   const tableContainer = document.querySelector('.sales-table-container');
 tableContainer.scrollTop = tableContainer.scrollHeight;
 }
+
 
 export {issueUploadReceipt};
 

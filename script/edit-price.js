@@ -25,7 +25,7 @@ const updateButton = document.querySelector('.but');
 document.querySelector('.heading-name').innerHTML = marketNameDisplay;
 
 document.querySelector('.back-button-image').addEventListener('click', ()=>{
-  window.location.href = './ticket-dashboard.html';
+  window.location.href = './sale-record.html';
 });
 
 maxDigit();
