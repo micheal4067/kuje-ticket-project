@@ -47,7 +47,7 @@ function generateSalesLog() {
         <tr>
           <td>${nigeriaDate}</td>
           <td>${time}</td>
-          <td>Vehicle Deleted</td>
+          <td>Ticket Deleted</td>
           <td>₦${formatCurrency(sale.price)}</td>
         </tr>
       `;

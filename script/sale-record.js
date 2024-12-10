@@ -50,13 +50,12 @@ function generateReviewSales() {
 
     // Skip if no matching vehicle is found or mark as inactive
     if (!matchingVehicle) {
-      // Optionally, mark the sale as "vehicle not found" or display a message
+      // Optionally, mark the sale as "Ticket not found" or display a message
       salesByDate[date] = salesByDate[date] || [];
       salesByDate[date].push({
         time: sale.time,
-        name: "Vehicle Deleted",
+        name: "Ticket Deleted",
         price: sale.price, // Use the stored sale price
-        status: 'inactive'  // Mark the sale as inactive or "vehicle deleted"
       });
       return; // Skip this sale if no vehicle is found
     }
@@ -174,15 +173,18 @@ window.printOrSaveSales = function (date) {
 
   // Prepare table data
   const tableData = salesForDate.map((sale) => {
-    const vehicle = vehicles.find((v) => v.id === sale.vehicleId);
-    return [sale.time, vehicle.name, `₦${formatCurrency(sale.price)}`]; // Use the stored sale price
+    // Find vehicle in `vehicles` or `vehicleDataArray`
+    let vehicle = vehicles.find((v) => v.id === sale.vehicleId) 
+               || vehicleDataArray.find((v) => v.id === sale.vehicleId);
+
+    // Fallback if vehicle is not found
+    const vehicleName = vehicle ? vehicle.name : "Ticket Deleted";
+
+    return [sale.time, vehicleName, `₦${formatCurrency(sale.price)}`];
   });
 
   // Calculate and format the total
-  const total = salesForDate.reduce((sum, sale) => {
-    return sum + sale.price; // Use the stored sale price
-  }, 0);
-
+  const total = salesForDate.reduce((sum, sale) => sum + sale.price, 0);
   const formattedTotal = `₦${formatCurrency(total)}`;
 
   // Add the total row
@@ -195,12 +197,13 @@ window.printOrSaveSales = function (date) {
     startY: 30,
     theme: "grid",
     styles: { fontSize: 10 },
-    headStyles: { fillColor: [41, 128, 185], textColor: [255, 255, 255] }, // Header styling
+    headStyles: { fillColor: [41, 128, 185], textColor: [255, 255, 255] },
   });
 
   // Save the PDF
   pdf.save(`Ticket Sales_${date}.pdf`);
 };
+
 
 // Initial rendering
 generateReviewSales();

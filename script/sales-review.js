@@ -1,5 +1,5 @@
 // Import necessary data and functions
-import { salesReviews } from "../data/review-sales-array.js"; // Sales data with prices and vehicle IDs
+import { salesLog } from "../data/review-sales-array.js"; // Sales data with prices and vehicle IDs
 import { vehicles } from "../data/vehicles.js"; // Array of vehicles
 import { formatCurrency } from "../script/utils/money.js"; // Utility to format currency values
 import { marketNameDisplay } from "../data/login-name.js"; // Market name display for headers
@@ -15,50 +15,49 @@ logOutApp();
 // Initialize variables
 let generateSalesReview = '';
 let total = [];
+let price;
 let totalPriceDisplay = 0;
 
 document.querySelector('.market-name').innerHTML = `${marketNameDisplay} - Today's Sales`;
 
+generateReviewSales();
+
 // Function to generate sales review
 function generateReviewSales() {
-  generateSalesReview = ''; // Reset before generating
+  generateSalesReview = '';
   total = []; // Reset total array
 
-  salesReviews.forEach((sale) => {
-    const { vehicleId, price, status } = sale; // Extract sale details
-    let matchingVehicle = null;
+  salesLog.forEach((sale) => {
+    const vehicleId = sale.vehicleId; // Extract vehicleId
 
-    // Skip if the sale status is inactive (i.e., vehicle was deleted)
-    if (status === 'inactive') {
-      return; // Skip inactive sales
-    }
+    let matchingVehicle;
 
-    // First, search for the vehicle in the `vehicles` array
+    // Search for the vehicle in `vehicles`
     matchingVehicle = vehicles.find((vehicle) => vehicle.id === vehicleId);
 
-    // If no match found, search in `vehicleDataArray`
+    // If not found in `vehicles`, search in `vehicleDataArray`
     if (!matchingVehicle) {
       matchingVehicle = vehicleDataArray.find((vehicle) => vehicle.id === vehicleId);
     }
 
-    // Skip if no matching vehicle is found
-    if (!matchingVehicle) {
-      // Optionally, mark the sale as "vehicle not found" or display a message
-      generateSalesReview += `
-        <div class="vehicle-type"> Vehicle Deleted </div>
-        <div class="price"> ₦${formatCurrency(price)} </div>
-      `;
-      return; // Skip this sale if no vehicle is found
-    }
-
-    // Add sale price to total
-    total.push(price);
+    // Add sale price to total even if the vehicle is not found
+    price = sale.price || (matchingVehicle && matchingVehicle.price) || 0;
+    total.push(price); // Add the price to the total array
 
     // Generate sales record
-    generateSalesReview += `
-      <div class="vehicle-type"> ${matchingVehicle.name} </div>
-      <div class="price"> ₦${formatCurrency(price)} </div>
-    `;
+    if (!matchingVehicle) {
+      // Display as "Vehicle Deleted" for missing vehicles
+      generateSalesReview += `
+        <div class="vehicle-type"> Ticket Deleted </div>
+        <div class="price"> ₦${formatCurrency(price)} </div>
+      `;
+    } else {
+      // Display matching vehicle details
+      generateSalesReview += `
+        <div class="vehicle-type"> ${matchingVehicle.name} </div>
+        <div class="price"> ₦${formatCurrency(price)} </div>
+      `;
+    }
   });
 
   // Update DOM with sales review
@@ -68,7 +67,6 @@ function generateReviewSales() {
   const totalDiv = document.querySelector('.js-div-button');
   totalDiv.style.display = generateSalesReview === '' ? 'none' : 'block';
 }
-
 
 // Function to calculate total sales price
 function totalFun() {
@@ -96,9 +94,6 @@ totalButtonElement.addEventListener('click', () => {
   printText.innerHTML = `<button class="total-sales js-print-receipt">Print Receipt</button>`;
   document.querySelector('.js-print-receipt').addEventListener('click', showReceiptModal);
 });
-
-// Generate initial sales review
-generateReviewSales();
 
 // Navigation handlers
 document.querySelector('.back-button-image, .back-arrow').addEventListener('click', () => {

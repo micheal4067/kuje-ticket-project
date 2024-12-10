@@ -43,8 +43,7 @@ export function tricycleFun() {
     }
   });
 
-  // Persist updated `vehiclePrice` to localStorage
-  localStorage.setItem('vehiclePrice', JSON.stringify(vehiclePrice));
+
 
   console.log("Updated vehicle prices:", vehiclePrice);
 }

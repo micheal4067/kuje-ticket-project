@@ -120,30 +120,43 @@ function issueReceipt() {
       });
 
       // Print functionality
+      let isProcessing = false;
+
       modal.querySelector('.print-button').addEventListener('click', () => {
-        const currentPrice = selectedVehicle.price; // Capture the current price at the time of the sale
-
-        // Push sale data to relevant arrays
-        const saleRecord = { vehicleId, nigerianDate, time, price: currentPrice };
-
-        salesReviews.push(saleRecord);
-        localStorage.setItem('sales', JSON.stringify(salesReviews));
-
-        salesHistory.push(saleRecord);
-        localStorage.setItem('salesHistory', JSON.stringify(salesHistory));
-
-        salesLog.push(saleRecord);
-        localStorage.setItem('salesLog', JSON.stringify(salesLog));
-
-        generateSalesLog();
-        logheight();
-
-        modal.classList.remove('show');
-        setTimeout(() => modal.remove(), 200);
-
-        // Print receipt
-        printReceiptContent(nigerianDate, time, selectedVehicle, currentPrice);
+          if (isProcessing) return; // Prevent duplicate execution
+          isProcessing = true;
+      
+          // Existing logic to handle the sale...
+          const updatedVehicle = vehicles.find(vehicle => vehicle.id === selectedVehicle.id);
+          const currentPrice = updatedVehicle ? updatedVehicle.price : selectedVehicle.price;
+          selectedVehicle.price = currentPrice;
+      
+          const saleRecord = { vehicleId, nigerianDate, time, price: currentPrice };
+      
+          
+      
+          salesHistory.push(saleRecord);
+          localStorage.setItem('salesHistory', JSON.stringify(salesHistory));
+          
+      
+          salesLog.push(saleRecord);
+          localStorage.setItem('salesLog', JSON.stringify(salesLog));
+          
+      
+          generateSalesLog();
+          logheight();
+      
+          modal.classList.remove('show');
+          setTimeout(() => {
+              modal.remove();
+              isProcessing = false; // Reset the flag
+          }, 200);
+      
+          // Print receipt
+          printReceiptContent(nigerianDate, time, selectedVehicle, currentPrice);
       });
+      
+    
     });
   });
 }
@@ -169,7 +182,10 @@ function printReceiptContent(printDate, printTime, selectedVehicle, salePrice) {
     </head>
     <body>
       <div style="padding: 10px; text-align: center;">
-        <p>${printDate} ${printTime}</p>
+      <div style="display:flex; justify-content:space-between;">
+         <p>${printDate}</p>
+        <p>${printTime}</p>
+      </div>
         <p><b>${marketNameDisplay}</b></p>
         <p>${selectedVehicle.name}</p>
         <p><b>₦${formatCurrency(salePrice)}</b></p>
@@ -198,7 +214,7 @@ function printReceiptContent(printDate, printTime, selectedVehicle, salePrice) {
     // Remove iframe after printing
     setTimeout(() => {
       document.body.removeChild(printFrame);
-    }, 100);
+    }, 400);
   };
 }
 

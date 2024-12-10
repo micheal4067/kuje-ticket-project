@@ -36,51 +36,58 @@ window.addEventListener("click", (event) => {
 
 
   // Save new vehicle data
-saveButton.addEventListener("click", () => {
-  const name = document.getElementById("vehicleName").value;
-  const priceInput = document.getElementById("vehiclePrice").value; // Get price input
-  const imageInput = document.getElementById("vehicleImage");
-  let receiptNote = document.getElementById("receiptNote").value; // Get receipt note
+  saveButton.addEventListener("click", () => {
+    const name = document.getElementById("vehicleName").value;
+    const priceInput = document.getElementById("vehiclePrice").value; // Get price input
+    const imageInput = document.getElementById("vehicleImage");
+    let receiptNote = document.getElementById("receiptNote").value; // Get receipt note
   
-  // Check if the receiptNote is empty and assign default value if so
-  if (!receiptNote.trim()) {
-    receiptNote = "Vehicle parked @ owners risk";
-  }
-
-  // Validate receipt note length
-  if (receiptNote.length > 100) {
-    alert("Receipt note must not exceed 100 characters.");
-    return;
-  }
-
-  if (name && priceInput && imageInput.files.length > 0) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      // Convert price to number and append double zero
-      const priceWithDoubleZero = parseFloat(priceInput) * 100;
-
-      const newVehicle = {
-        id: generateId(),
-        name,
-        price: priceWithDoubleZero, // Use updated price logic
-        image: e.target.result,
-        receiptNote, // Add receipt note to the data
+    // Validate name length
+    if (name.length > 10) {
+      alert("Name must not exceed 10 characters.");
+      return;
+    }
+  
+    // Check if the receiptNote is empty and assign default value if so
+    if (!receiptNote.trim()) {
+      receiptNote = "Vehicle parked @ owners risk";
+    }
+  
+    // Validate receipt note length
+    if (receiptNote.length > 100) {
+      alert("Receipt note must not exceed 100 characters.");
+      return;
+    }
+  
+    if (name && priceInput && imageInput.files.length > 0) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        // Convert price to number and append double zero
+        const priceWithDoubleZero = parseFloat(priceInput) * 100;
+  
+        const newVehicle = {
+          id: generateId(),
+          name,
+          price: priceWithDoubleZero, // Use updated price logic
+          image: e.target.result,
+          receiptNote, // Add receipt note to the data
+        };
+  
+        vehicleDataArray.push(newVehicle); // Update in-memory array
+        localStorage.setItem("vehicleData", JSON.stringify(vehicleDataArray)); // Update localStorage
+  
+        modalUpload.style.display = "none";
+        document.getElementById("vehicleForm").reset();
+        location.reload();
+  
+        displayStoredData(); // Refresh the UI
       };
-
-      vehicleDataArray.push(newVehicle); // Update in-memory array
-      localStorage.setItem("vehicleData", JSON.stringify(vehicleDataArray)); // Update localStorage
-
-      modalUpload.style.display = "none";
-      document.getElementById("vehicleForm").reset();
-      location.reload();
-
-      displayStoredData(); // Refresh the UI
-    };
-    reader.readAsDataURL(imageInput.files[0]);
-  } else {
-    alert("Please fill in all fields!");
-  }
-});
+      reader.readAsDataURL(imageInput.files[0]);
+    } else {
+      alert("Please fill in all fields!");
+    }
+  });
+  
 
   // Display stored vehicle data
   const displayStoredData = () => {
@@ -152,7 +159,6 @@ const deleteVehicle = (id) => {
   vehicleDataArray.length = 0; // Clear any existing vehicle data
   vehicleDataArray.push(...storedVehicleData); // Load vehicle data
 
-  salesReviews.push(...storedSalesData); // Ensure sales data is loaded
   salesHistory.push(...storedSalesData);
   salesLog.push(...storedSalesData);
 };
@@ -230,9 +236,6 @@ function issueUploadReceipt() {
         // Push sale data to relevant arrays
         const saleRecord = { vehicleId, nigerianDate, time, price: currentPrice };
 
-        salesReviews.push(saleRecord);
-        localStorage.setItem('sales', JSON.stringify(salesReviews));
-
         salesHistory.push(saleRecord);
         localStorage.setItem('salesHistory', JSON.stringify(salesHistory));
 
@@ -264,7 +267,10 @@ function printReceiptContent(printDate, printTime, selectedVehicle, salePrice) {
     </head>
     <body>
       <div style="padding: 10px; text-align: center;">
-        <p>${printDate} ${printTime}</p>
+      <div style="display:flex; justify-content:space-between;">
+         <p>${printDate}</p>
+        <p>${printTime}</p>
+      </div>
         <p><b>${marketNameDisplay}</b></p>
         <p>${selectedVehicle.name}</p>
         <p><b>₦${formatCurrency(salePrice)}</b></p>

@@ -26,10 +26,8 @@ confirmLogout.addEventListener('click', () => {
     // Perform the log-out action
     localStorage.removeItem('time');
     localStorage.removeItem('market');
-    localStorage.removeItem('sales');
     localStorage.removeItem('salesLog');
     localStorage.removeItem('salesLogUpload');
-    localStorage.removeItem('salesHistory');
     window.location.href = "./index.html";
   }, 300); // Wait for animation to complete
 });
@@ -47,7 +45,6 @@ document.querySelectorAll('.about-js').forEach(element => {
     window.location.href = './about-ticket.html';
   });
 });
-
 
 document.querySelectorAll('.js-all-vehicles-ticket-button').forEach(element => {
   element.addEventListener('click', () => {
@@ -72,7 +69,6 @@ closeModal.addEventListener('click', () => {
   username.value = '';
   password.value = '';
 });
-
 
 window.addEventListener('click', (e) => {
   if (e.target === modal){
@@ -117,8 +113,9 @@ const yesBtn = document.querySelector('.yes-btn');
 const noBtn = document.querySelector('.no-btn');
 
 yesBtn.addEventListener('click', () => {
-  localStorage.setItem('showModal', 'true'); // Set flag
+   // Set flag
   localStorage.removeItem('vehiclePrice');
+  localStorage.setItem('showModal', 'true');
   location.reload(); // Refresh the page
 });
 
@@ -159,8 +156,6 @@ noBtn.addEventListener('click', () => {
 });
 
 
-
-
 window.addEventListener('resize', ()=>{
   modal.classList.remove('show');
   modal.classList.add('hidden')
@@ -168,8 +163,6 @@ window.addEventListener('resize', ()=>{
   hideModal();
   removeodal();
 });
-
-
 
 // Function to hide modal
 function hideModal() {
@@ -186,8 +179,6 @@ window.addEventListener('load', () => {
     spinnerOverlay.style.display = 'none';
   }, 1000); // Adjust delay time (2000ms = 2 seconds)
 });
-
-
 
 const hamburgerMenu = document.querySelector('.hamburger-menu');
 const linksModal = document.getElementById('linksModal');
@@ -220,9 +211,6 @@ modalLinks.forEach(link => {
   });
 });
 
-
-
-
 }
 
 
@@ -246,6 +234,14 @@ const loginForm = document.getElementById('loginForm');
     }
   });
 
+  document.querySelectorAll('.modal-content-upload input, .modal-content-upload textarea, .login-form input, .modal-contentss input' ).forEach((input) => {
+    input.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+    input.addEventListener('touchstart', (e) => {
+      e.stopPropagation();
+    });
+  });
 
 }
 
