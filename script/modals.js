@@ -47,7 +47,7 @@ export const modalHTML =
             <input type="password" id="password" name="password" >
           </div>
           <div class="invalid"></div>
-          <button type="submit">Login</button>
+          <button type="submit" class="submit">Login</button>
         </form>
       </div>
     </div>
@@ -80,13 +80,13 @@ export const modalHTML =
     <h2>Add Vehicle Details</h2>
     <form id="vehicleForm">
       <label for="vehicleName">Name:</label>
-      <input type="text" id="vehicleName" name="vehicleName" placeholder="Enter name" required>
+      <input type="text" id="vehicleName" name="vehicleName" placeholder="Enter name">
 
       <label for="vehiclePrice">Price:</label>
       <input type="number" id="vehiclePrice" name="vehiclePrice" placeholder="Enter price" required>
 
       <label for="vehicleImage">Upload Vehicle Image:</label>
-      <input type="file" id="vehicleImage" name="vehicleImage" accept="image/*" required>
+      <input type="file" id="vehicleImage" name="vehicleImage" accept="image/*" >
 
       <label for="receiptNote">Receipt Note:</label>
       <textarea id="receiptNote" maxlength="100" name="receiptNote" placeholder="Enter Footer Note For Receipt" rows="3"></textarea>
@@ -112,4 +112,5 @@ export const modalHTML =
 
 
 `;
+
 

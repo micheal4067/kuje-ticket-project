@@ -599,19 +599,7 @@ background-color: #200785;
 }
 
 
-/* Modal overlay */
-.modal-upload {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-}
 
-/* Modal upload content box */
 /* Modal overlay */
 .modal-upload {
   display: none; /* Hidden by default */

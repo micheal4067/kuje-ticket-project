@@ -12,9 +12,15 @@ if (!localStorage.getItem("salesHistory")) {
   localStorage.setItem("salesHistory", JSON.stringify(importedSalesHistory));
 }
 
-document.querySelector('.back-button-image, .back-arrow').addEventListener('click', () => {
-  window.history.back();
-});
+if (window.innerWidth > 768) {  // You can adjust this value to your needs
+  document.querySelector('.back-button-image, .back-arrow').addEventListener('click', () => {
+    window.history.back();
+  });
+}else{
+  document.querySelector('.back-button-image, .back-arrow').addEventListener('click', () => {
+    window.location.href = './ticket-dashboard.html';
+  })
+}
 
 document.querySelector('.market-name').innerHTML = `${marketNameDisplay} - Sales Record`;
 
@@ -48,7 +54,20 @@ function generateReviewSales() {
       });
     }
 
-    if (!matchingVehicle) return; // Skip if no matching vehicle is found
+    // Skip if no matching vehicle is found or mark as inactive
+    if (!matchingVehicle) {
+      // Optionally, mark the sale as "Ticket not found" or display a message
+      salesByDate[date] = salesByDate[date] || [];
+      salesByDate[date].push({
+        time: sale.time,
+        name: "Ticket Deleted",
+        price: sale.price, // Use the stored sale price
+      });
+      return; // Skip this sale if no vehicle is found
+    }
+
+    // Check if the sale price is already stored in the sale record, use that instead of the current price
+    const salePrice = sale.price || matchingVehicle.price;
 
     if (!salesByDate[date]) {
       salesByDate[date] = [];
@@ -57,7 +76,7 @@ function generateReviewSales() {
     salesByDate[date].push({
       time: sale.time,
       name: matchingVehicle.name,
-      price: matchingVehicle.price,
+      price: salePrice, // Use the stored sale price
     });
   });
 
@@ -160,16 +179,18 @@ window.printOrSaveSales = function (date) {
 
   // Prepare table data
   const tableData = salesForDate.map((sale) => {
-    const vehicle = vehicles.find((v) => v.id === sale.vehicleId);
-    return [sale.time, vehicle.name, `₦${formatCurrency(vehicle.price)}`];
+    // Find vehicle in `vehicles` or `vehicleDataArray`
+    let vehicle = vehicles.find((v) => v.id === sale.vehicleId) 
+               || vehicleDataArray.find((v) => v.id === sale.vehicleId);
+
+    // Fallback if vehicle is not found
+    const vehicleName = vehicle ? vehicle.name : "Ticket Deleted";
+
+    return [sale.time, vehicleName, `₦${formatCurrency(sale.price)}`];
   });
 
   // Calculate and format the total
-  const total = salesForDate.reduce((sum, sale) => {
-    const vehicle = vehicles.find((v) => v.id === sale.vehicleId);
-    return sum + vehicle.price;
-  }, 0);
-
+  const total = salesForDate.reduce((sum, sale) => sum + sale.price, 0);
   const formattedTotal = `₦${formatCurrency(total)}`;
 
   // Add the total row
@@ -182,16 +203,16 @@ window.printOrSaveSales = function (date) {
     startY: 30,
     theme: "grid",
     styles: { fontSize: 10 },
-    headStyles: { fillColor: [41, 128, 185], textColor: [255, 255, 255] }, // Header styling
+    headStyles: { fillColor: [41, 128, 185], textColor: [255, 255, 255] },
   });
 
   // Save the PDF
   pdf.save(`Ticket Sales_${date}.pdf`);
 };
 
+
 // Initial rendering
 generateReviewSales();
-
 
 // Confirm dialog for editing vehicle price
 const editPriceBtn = document.querySelector('.edit-price');
@@ -221,41 +242,3 @@ window.addEventListener('load', () => {
     spinnerOverlay.style.display = 'none';
   }, 1000); // Adjust delay time (2000ms = 2 seconds)
 });
-
-
-
-/*
-// Function to print or save sales for a specific date
-window.printOrSaveSales = function (date) {
-  const salesHistory = JSON.parse(localStorage.getItem("salesHistory")) || [];
-  const salesForDate = salesHistory.filter((sale) => sale.nigerianDate === date);
-
-  // Generate printable content
-  let printContent = `<h1>Sales for ${date}</h1>`;
-  printContent += `<table border="1" style="width: 100%; text-align: left;">
-    <tr>
-      <th>Time</th>
-      <th>Vehicle</th>
-      <th>Price</th>
-    </tr>`;
-
-  salesForDate.forEach((sale) => {
-    const vehicle = vehicles.find((v) => v.id === sale.vehicleId);
-    printContent += `
-      <tr>
-        <td>${sale.time}</td>
-        <td>${vehicle.name}</td>
-        <td>₦${formatCurrency(vehicle.price)}</td>
-      </tr>
-    `;
-  });
-
-  printContent += `</table>`;
-
-  // Open print dialog or save as PDF
-  const newWindow = window.open('', '_blank');
-  newWindow.document.write(printContent);
-  newWindow.document.close();
-  newWindow.print();
-};
-*/

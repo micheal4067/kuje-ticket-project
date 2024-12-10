@@ -64,9 +64,8 @@ document.addEventListener('keydown', (event) => {
   }
 });
 
-// Add event listeners for vehicle buttons
-issueReceipt();
 
+issueReceipt();
 
 function issueReceipt() {
   document.querySelectorAll('.all-vehicles-button').forEach((button) => {
@@ -121,81 +120,119 @@ function issueReceipt() {
       });
 
       // Print functionality
-      modal.querySelector('.print-button').addEventListener('click', () => {
-        salesReviews.push({ vehicleId, nigerianDate, time });
-        localStorage.setItem('sales', JSON.stringify(salesReviews));
-        salesHistory.push({ vehicleId, nigerianDate, time });
-        localStorage.setItem('salesHistory', JSON.stringify(salesHistory));
-        salesLog.push({ vehicleId, nigerianDate, time });
-        localStorage.setItem('salesLog', JSON.stringify(salesLog));
-        generateSalesLog();
-        logheight();
+      let isProcessing = false;
 
-        modal.classList.remove('show');
-        setTimeout(() => modal.remove(), 200);
-        printReceiptContent(nigerianDate, time, selectedVehicle);
+      modal.querySelector('.print-button').addEventListener('click', () => {
+          if (isProcessing) return; // Prevent duplicate execution
+          isProcessing = true;
+      
+          // Existing logic to handle the sale...
+          const updatedVehicle = vehicles.find(vehicle => vehicle.id === selectedVehicle.id);
+          const currentPrice = updatedVehicle ? updatedVehicle.price : selectedVehicle.price;
+          selectedVehicle.price = currentPrice;
+      
+          const saleRecord = { vehicleId, nigerianDate, time, price: currentPrice };
+      
+          
+      
+          salesHistory.push(saleRecord);
+          localStorage.setItem('salesHistory', JSON.stringify(salesHistory));
+          
+      
+          salesLog.push(saleRecord);
+          localStorage.setItem('salesLog', JSON.stringify(salesLog));
+          
+      
+          generateSalesLog();
+          logheight();
+      
+          modal.classList.remove('show');
+          setTimeout(() => {
+              modal.remove();
+              isProcessing = false; // Reset the flag
+          }, 200);
+      
+          // Print receipt
+          printReceiptContent(nigerianDate, time, selectedVehicle, currentPrice);
       });
+      
+    
     });
   });
-
 }
+
 
 function logheight(){
   const tableContainer = document.querySelector('.sales-table-container');
 tableContainer.scrollTop = tableContainer.scrollHeight;
 }
 
+logheight();
 // Print receipt content
-function printReceiptContent(printDate, printTime, selectedVehicle) {
-  const receiptContainer = `
+function printReceiptContent(printDate, printTime, selectedVehicle, salePrice) {
+  const receiptHTML = `
     <html>
-    <head>
-      <title>Receipt</title>
-    </head>
-    <body style="font-family: Arial, sans-serif; font-size: 12px; margin: 0;  padding: 10px; justify-items: center;">
-      <div style="width: 100%; padding: 10px;">
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
-          <p style="margin: 0;">${printDate}</p>
-          <p style="margin: 0;">${printTime}</p>
+      <head>
+        <title>Receipt</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            margin: 0;
+            padding: 10px;
+          }
+          .receipt-content {
+            text-align: center;
+            padding: 10px;
+          }
+          .header {
+            display: flex;
+            justify-content: space-between;
+          }
+          p {
+            margin: 5px 0;
+            font-size: 14px;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="receipt-content">
+          <div class="header">
+            <p>${printDate}</p>
+            <p>${printTime}</p>
+          </div>
+          <p><b>${marketNameDisplay}</b></p>
+          <p>${selectedVehicle.name}</p>
+          <p><b>₦${formatCurrency(salePrice)}</b></p>
+          <p>Vehicle Parked @ Owner's Risk</p>
         </div>
-        <div style="text-align: center;">
-          <p style="margin: 0 0 10px 0; font-size: 13px; font-weight: bold;">${marketNameDisplay}</p>
-          <p style="margin: 0 0 10px 0; font-size: 13px;">${selectedVehicle.name}</p>
-          <p style="margin: 0 0 10px 0; font-size: 14px; font-weight: bold;">₦${formatCurrency(selectedVehicle.price)}</p>
-          <p style="margin: 0; font-size: 13px;">Vehicle parked @ Owner's risk</p>
-        </div>
-      </div>
-    </body>
+      </body>
     </html>
   `;
 
-  const printWindow = window.open('', '', 'width=800,height=400');
+  // Open a new window for printing, ensure pop-ups are allowed
+  const printWindow = window.open('', '', 'width=800,height=600');
   if (!printWindow) {
     alert("Unable to open print preview. Please allow pop-ups for this site.");
     return;
   }
 
-  // Write content to the new window and ensure it's loaded
+  // Write content to the new window
   printWindow.document.open();
-  printWindow.document.write(receiptContainer);
+  printWindow.document.write(receiptHTML);
   printWindow.document.close();
 
-  // Ensure the content is fully loaded before triggering print
-  printWindow.onload = function() {
-    // Delay printing to ensure the content is fully rendered
-    setTimeout(function() {
-      printWindow.print();
-      setTimeout(function() {
-        printWindow.close();
-      }, 200);
-    }, 100); // Adjust the delay if necessary
+  // Wait for the content to fully load before triggering print
+  printWindow.onload = function () {
+    printWindow.focus(); // Ensure the window is focused
+    printWindow.print(); // Trigger the print dialog
+
+    // Close the print window after printing
+    setTimeout(() => {
+      printWindow.close();
+    }, 200);
   };
-
-  // Handle possible issues on mobile (Safari blocking print window)
-  printWindow.focus();
 }
-
-
 
 
 
