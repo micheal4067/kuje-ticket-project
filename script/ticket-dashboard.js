@@ -210,7 +210,7 @@ function printReceiptContent(printDate, printTime, selectedVehicle, salePrice) {
     </html>
   `;
 
-  // Open a new window for printing, ensure pop-ups are allowed
+  // Open a new window for printing, ensuring it's only created after user interaction
   const printWindow = window.open('', '', 'width=800,height=600');
   if (!printWindow) {
     alert("Unable to open print preview. Please allow pop-ups for this site.");
@@ -222,17 +222,26 @@ function printReceiptContent(printDate, printTime, selectedVehicle, salePrice) {
   printWindow.document.write(receiptHTML);
   printWindow.document.close();
 
-  // Wait for the content to fully load before triggering print
+  // Wait for the content to load before triggering print
   printWindow.onload = function () {
-    printWindow.focus(); // Ensure the window is focused
-    printWindow.print(); // Trigger the print dialog
+    printWindow.focus(); // Focus the print window to ensure it's active
 
-    // Close the print window after printing
+    // Set a small timeout before printing to ensure the content is fully loaded
     setTimeout(() => {
-      printWindow.close();
-    }, 200);
+      printWindow.print(); // Trigger the print dialog
+      setTimeout(() => {
+        printWindow.close(); // Close the print window after printing
+      }, 100);
+    }, 200); // Adjust the delay (in milliseconds) to allow the content to load properly
+  };
+
+  // Handle any print-related errors or issues with mobile devices
+  printWindow.onerror = function () {
+    alert("There was a problem with printing the receipt. Please try again.");
+    printWindow.close();
   };
 }
+
 
 
 
