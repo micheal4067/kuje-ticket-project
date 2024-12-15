@@ -7,6 +7,16 @@ import { vehicleDataArray } from "../data/users-data-upload.js";
 
 themeTogle();
 
+window.addEventListener('load', () => {
+  const spinnerOverlay = document.getElementById('spinner-overlay');
+
+  // Add a delay before hiding the spinner
+  setTimeout(() => {
+    spinnerOverlay.style.display = 'none';
+  }, 1000); // Adjust delay time (2000ms = 2 seconds)
+});
+
+
 // Initialize LocalStorage for salesHistory
 if (!localStorage.getItem("salesHistory")) {
   localStorage.setItem("salesHistory", JSON.stringify(importedSalesHistory));
@@ -232,13 +242,4 @@ yesBtn.addEventListener('click', () => {
 
 noBtn.addEventListener('click', () => {
   confirmDialog.style.display = 'none';
-});
-
-window.addEventListener('load', () => {
-  const spinnerOverlay = document.getElementById('spinner-overlay');
-
-  // Add a delay before hiding the spinner
-  setTimeout(() => {
-    spinnerOverlay.style.display = 'none';
-  }, 1000); // Adjust delay time (2000ms = 2 seconds)
 });

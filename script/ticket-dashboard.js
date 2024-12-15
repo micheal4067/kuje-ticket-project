@@ -1,24 +1,25 @@
 // Import necessary data and functions
 import { vehicles } from '../data/vehicles.js';
-import { salesReviews } from '../data/review-sales-array.js';
 import { salesHistory } from '../data/sales-history.js';
 import { formatCurrency } from './utils/money.js';
 import { marketNameDisplay } from '../data/login-name.js';
 import { nigeriaDate } from './utils/date-time.js';
 import { themeTogle } from './theme.js';
 import { maxDigit } from './set-vehicle-fee.js';
-import { logOutApp } from './log-out.js';
+import { logOutApp } from './event-listeners.js';
 import { modalHTML } from './modals.js';
 import { userUpload } from './user-upload.js';
 import { issueUploadReceipt } from './user-upload.js';
 import { generateSalesLog } from './log-input.js';
 import { salesLog } from '../data/review-sales-array.js';
+import { initializeSearch } from './searchReceipt.js'; 
 
-
-
+initializeSearch();
 themeTogle();
+
 document.querySelector('.modals-html').innerHTML = modalHTML
 generateSalesLog();
+
 // Display market name and last login time
 document.querySelector('.market-name').innerHTML = marketNameDisplay;
 if (!localStorage.getItem('time')) {
@@ -92,23 +93,42 @@ function issueReceipt() {
       const time = date.toLocaleString('en-NG', { hour: '2-digit', minute: '2-digit', hour12: true });
       const nigerianDate = `${weekday} ${day}, ${month}-${year}`;
 
+      // Generate a unique barcode identifier
+      const uniqueId = `RCPT-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+
       // Populate modal content
       modal.innerHTML = `
-        <div class="modal-content">
-          <div class="header">
-            <p>${nigerianDate}</p>
-            <p>${time}</p>
-          </div>
-          <div class="center">
-            <p style="margin-bottom:10px;"><b>${marketNameDisplay}</b></p>
-            <p style="margin-bottom:10px;">${selectedVehicle.name}</p>
-            <p class="price">₦${formatCurrency(selectedVehicle.price)}</p>
-            <p>Vehicle parked @ Owners risk</p>
-          </div>
-          <button class="close-button">Close</button>
-          <button class="print-button">Print Ticket</button>
+      <div class="modal-content">
+        <div class="header">
+          <p>${nigerianDate}</p>
+          <p>${time}</p>
         </div>
-      `;
+        <div class="center">
+          <p style="margin-bottom:10px;"><b>${marketNameDisplay}</b></p>
+          <p style="margin-bottom:10px;">${selectedVehicle.name}</p>
+          <p class="price">₦${formatCurrency(selectedVehicle.price)}</p>
+          <p>Vehicle parked @ Owners risk</p>
+          <!-- Barcode Container -->
+          <div class="barcode-container" style="width: 100%; max-width: 300px; margin: 10px auto; text-align: center;">
+            <svg id="barcode" style="width: 100%; height: auto;"></svg>
+          </div>
+        </div>
+        <button class="close-button">Close</button>
+        <button class="print-button">Print Ticket</button>
+      </div>
+    `;
+    
+    // Generate the barcode
+    JsBarcode("#barcode", uniqueId, {
+      format: "CODE128",
+      displayValue: true,
+      fontSize: 14,
+      lineColor: "#000",
+      width: 0.7, // Controls bar thickness
+      height: 40 // Controls barcode height
+    });
+    
+    
 
       // Show modal
       modal.classList.add('show');
@@ -123,53 +143,55 @@ function issueReceipt() {
       let isProcessing = false;
 
       modal.querySelector('.print-button').addEventListener('click', () => {
-          if (isProcessing) return; // Prevent duplicate execution
-          isProcessing = true;
-      
-          // Existing logic to handle the sale...
-          const updatedVehicle = vehicles.find(vehicle => vehicle.id === selectedVehicle.id);
-          const currentPrice = updatedVehicle ? updatedVehicle.price : selectedVehicle.price;
-          selectedVehicle.price = currentPrice;
-      
-          const saleRecord = { vehicleId, nigerianDate, time, price: currentPrice };
-      
-          
-      
-          salesHistory.push(saleRecord);
-          localStorage.setItem('salesHistory', JSON.stringify(salesHistory));
-          
-      
-          salesLog.push(saleRecord);
-          localStorage.setItem('salesLog', JSON.stringify(salesLog));
-          
-      
-          generateSalesLog();
-          logheight();
-      
-          modal.classList.remove('show');
-          setTimeout(() => {
-              modal.remove();
-              isProcessing = false; // Reset the flag
-          }, 200);
-      
-          // Print receipt
-          printReceiptContent(nigerianDate, time, selectedVehicle, currentPrice);
+        if (isProcessing) return; // Prevent duplicate execution
+        isProcessing = true;
+
+        // Existing logic to handle the sale...
+        const updatedVehicle = vehicles.find((vehicle) => vehicle.id === selectedVehicle.id);
+        const currentPrice = updatedVehicle ? updatedVehicle.price : selectedVehicle.price;
+        selectedVehicle.price = currentPrice;
+
+        const saleRecord = { vehicleId, nigerianDate, time, price: currentPrice, receiptId: uniqueId };
+
+        salesHistory.push(saleRecord);
+        localStorage.setItem('salesHistory', JSON.stringify(salesHistory));
+
+        salesLog.push(saleRecord);
+        localStorage.setItem('salesLog', JSON.stringify(salesLog));
+        console.log(salesLog)
+
+        generateSalesLog();
+        logheight();
+
+        modal.classList.remove('show');
+        setTimeout(() => {
+          modal.remove();
+          isProcessing = false; // Reset the flag
+        }, 200);
+
+        // Print receipt
+        printReceiptContent(nigerianDate, time, selectedVehicle, currentPrice, uniqueId);
       });
-      
-    
     });
   });
 }
 
 
-function logheight(){
+
+function logheight() {
   const tableContainer = document.querySelector('.sales-table-container');
-tableContainer.scrollTop = tableContainer.scrollHeight;
+  
+  // Only run if the element exists
+  if (tableContainer) {
+    tableContainer.scrollTop = tableContainer.scrollHeight;
+  }
 }
 
+// Call the function conditionally
 logheight();
+
 // Print receipt content
-function printReceiptContent(printDate, printTime, selectedVehicle, salePrice) {
+function printReceiptContent(printDate, printTime, selectedVehicle, salePrice, uniqueId) {
   const receiptHTML = `
     <html>
       <head>
@@ -189,10 +211,11 @@ function printReceiptContent(printDate, printTime, selectedVehicle, salePrice) {
             display: flex;
             justify-content: space-between;
           }
-          p {
-            margin: 5px 0;
-            font-size: 12px;
+          
+          .barcode {
+            margin: 10px auto;
           }
+          
         </style>
       </head>
       <body>
@@ -205,45 +228,45 @@ function printReceiptContent(printDate, printTime, selectedVehicle, salePrice) {
           <p>${selectedVehicle.name}</p>
           <p><b>₦${formatCurrency(salePrice)}</b></p>
           <p>Vehicle Parked @ Owner's Risk</p>
+          
+          <div class="barcode">
+            <svg id="barcode"></svg>
+          </div>
         </div>
+        <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
+        <script>
+          window.onload = function () {
+            // Generate the barcode
+            JsBarcode("#barcode", "${uniqueId}", {
+              format: "CODE128",
+              displayValue: true,
+              fontSize: 14,
+              lineColor: "#000",
+              width: 0.7,
+              height: 40
+            });
+
+            // Ensure printing happens AFTER barcode renders
+            setTimeout(() => {
+              window.print();
+              window.close();
+            }, 500); // Small delay to ensure barcode renders
+          };
+        </script>
       </body>
     </html>
   `;
 
-  // Open a new window for printing, ensuring it's only created after user interaction
-  const printWindow = window.open('', '', 'width=800,height=600');
+  const printWindow = window.open('', '', 'width=800,height=400');
   if (!printWindow) {
     alert("Unable to open print preview. Please allow pop-ups for this site.");
     return;
   }
 
-  // Write content to the new window
   printWindow.document.open();
   printWindow.document.write(receiptHTML);
   printWindow.document.close();
-
-  // Wait for the content to load before triggering print
-  printWindow.onload = function () {
-    printWindow.focus(); // Focus the print window to ensure it's active
-
-    // Set a small timeout before printing to ensure the content is fully loaded
-    setTimeout(() => {
-      printWindow.print(); // Trigger the print dialog
-      setTimeout(() => {
-        printWindow.close(); // Close the print window after printing
-      }, 100);
-    }, 500); // Adjust the delay (in milliseconds) to allow the content to load properly
-  };
-
-  // Handle any print-related errors or issues with mobile devices
-  printWindow.onerror = function () {
-    alert("There was a problem with printing the receipt. Please try again.");
-    printWindow.close();
-  };
 }
-
-
-
 
 maxDigit()
 

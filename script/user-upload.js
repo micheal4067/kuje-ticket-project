@@ -1,6 +1,5 @@
 import { vehicleDataArray } from '../data/users-data-upload.js';
 import { formatCurrency } from './utils/money.js';
-import { salesReviews } from '../data/review-sales-array.js';
 import { salesHistory } from '../data/sales-history.js';
 import { marketNameDisplay } from '../data/login-name.js';
 import { salesLog } from '../data/review-sales-array.js';
@@ -31,8 +30,6 @@ window.addEventListener("click", (event) => {
     modalUpload.style.display = "none";
   }
 });
-
-
 
   // Save new vehicle data
   saveButton.addEventListener("click", () => {
@@ -148,8 +145,6 @@ const deleteVehicle = (id) => {
 
 };
 
-
-
   // Initialize stored data from localStorage
  const initializeData = () => {
   const storedVehicleData = JSON.parse(localStorage.getItem("vehicleData")) || [];
@@ -201,6 +196,9 @@ function issueUploadReceipt() {
       // Store price at time of sale (do not update in vehicle data)
       const salePrice = selectedVehicle.price;
 
+        // Generate unique ID for barcode
+        const uniqueId = `RCPT-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+
       // Populate modal content
       modal.innerHTML = `
         <div class="modal-content">
@@ -214,10 +212,24 @@ function issueUploadReceipt() {
             <p class="price">₦${formatCurrency(salePrice)}</p>
             <p>${selectedVehicle.receiptNote}</p>
           </div>
+          <!-- Barcode Container -->
+          <div class="barcode-container" style="width: 100%; max-width: 300px; margin: 10px auto; text-align: center;">
+            <svg id="barcode" style="width: 100%; height: auto;"></svg>
+          </div>
           <button class="close-button">Close</button>
           <button class="print-button">Print Ticket</button>
         </div>
+        <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
       `;
+
+      JsBarcode("#barcode", uniqueId, {
+        format: "CODE128",
+        displayValue: true,
+        fontSize: 14,
+        lineColor: "#000",
+        width: 0.7,
+        height: 40
+      });
 
       // Show modal
       modal.classList.add('show');
@@ -233,7 +245,7 @@ function issueUploadReceipt() {
         const currentPrice = selectedVehicle.price; // Capture the current price at the time of the sale
 
         // Push sale data to relevant arrays
-        const saleRecord = { vehicleId, nigerianDate, time, price: currentPrice };
+        const saleRecord = { vehicleId, nigerianDate, time, price: currentPrice, receiptId: uniqueId };
 
         salesHistory.push(saleRecord);
         localStorage.setItem('salesHistory', JSON.stringify(salesHistory));
@@ -246,14 +258,17 @@ function issueUploadReceipt() {
         modal.classList.remove('show');
         setTimeout(() => modal.remove(), 200);
 
-        // Print receipt with the stored price
-        printReceiptContent(nigerianDate, time, selectedVehicle, salePrice);
+        // Print receipt with the stored price and barcode
+        printReceiptContent(nigerianDate, time, selectedVehicle, salePrice, uniqueId);
       });
     });
   });
 }
 
-function printReceiptContent(printDate, printTime, selectedVehicle, salePrice) {
+
+function printReceiptContent(printDate, printTime, selectedVehicle, salePrice, uniqueId) {
+
+
   const receiptHTML = `
     <html>
     <head>
@@ -262,45 +277,73 @@ function printReceiptContent(printDate, printTime, selectedVehicle, salePrice) {
         body {
           font-family: Arial, sans-serif; font-size: 12px; margin: 0; padding: 10px;
         }
+        .receipt-container {
+          text-align: center;
+          padding: 10px;
+        }
+        .header {
+          display: flex;
+          justify-content: space-between;
+        }
+        .barcode {
+          margin: 10px auto;
+        }
       </style>
     </head>
     <body>
-      <div style="padding: 10px; text-align: center;">
-      <div style="display:flex; justify-content:space-between;">
-         <p>${printDate}</p>
-        <p>${printTime}</p>
-      </div>
+      <div class="receipt-container">
+        <!-- Date and Time -->
+        <div class="header">
+          <p>${printDate}</p>
+          <p>${printTime}</p>
+        </div>
+
+        <!-- Market Name and Vehicle Details -->
         <p><b>${marketNameDisplay}</b></p>
         <p>${selectedVehicle.name}</p>
         <p><b>₦${formatCurrency(salePrice)}</b></p>
         <p>${selectedVehicle.receiptNote}</p>
-      </div>
-    </body>
+
+       
+          <div class="barcode">
+            <svg id="barcode"></svg>
+          </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
+        <script>
+          window.onload = function () {
+            // Generate the barcode
+            JsBarcode("#barcode", "${uniqueId}", {
+              format: "CODE128",
+              displayValue: true,
+              fontSize: 14,
+              lineColor: "#000",
+              width: 0.7,
+              height: 40
+            });
+
+            // Ensure printing happens AFTER barcode renders
+            setTimeout(() => {
+              window.print();
+              window.close();
+            }, 500); // Small delay to ensure barcode renders
+          };
+        </script>
+      </body>
     </html>
   `;
 
-  // Create an iframe for printing
-  const printFrame = document.createElement('iframe');
-  printFrame.style.position = 'absolute';
-  printFrame.style.top = '-9999px';
-  document.body.appendChild(printFrame);
+  const printWindow = window.open('', '', 'width=800,height=400');
+  if (!printWindow) {
+    alert("Unable to open print preview. Please allow pop-ups for this site.");
+    return;
+  }
 
-  const doc = printFrame.contentDocument || printFrame.contentWindow.document;
-  doc.open();
-  doc.write(receiptHTML);
-  doc.close();
-
-  // Wait for content to load before printing
-  printFrame.onload = function () {
-    printFrame.contentWindow.focus();
-    printFrame.contentWindow.print();
-
-    // Clean up iframe after printing
-    setTimeout(() => {
-      document.body.removeChild(printFrame);
-    }, 100);
-  };
+  printWindow.document.open();
+  printWindow.document.write(receiptHTML);
+  printWindow.document.close();
 }
+
 
 function logheight(){
   const tableContainer = document.querySelector('.sales-table-container');

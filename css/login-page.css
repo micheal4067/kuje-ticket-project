@@ -182,10 +182,13 @@ button:hover{
         margin-bottom: 10px;
     }
     .form-img{
+        /*
         border-radius: 0;
         border-bottom-left-radius: 8px;
         border-bottom-right-radius: 8px;
         order: 2;
+        */
+        display: none;
     }
 
     .login-form h1{
@@ -196,6 +199,8 @@ button:hover{
         border-radius: 0;
         border-top-left-radius: 8px;
         border-top-right-radius: 8px;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
     }
 
 }

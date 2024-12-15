@@ -103,8 +103,11 @@ export const modalHTML =
               <p class="about about-js">About Ticket</p>
               <p class="about js-all-vehicles-ticket-button">Total Ticket Issued</p>
               <p id="openModalBtn" class="sales-record">Sales Record</p>
-              <p  class="about  set-fee">Set Vehicle Fee</p>
+              <p  class="about  set-fee">Payment Scheme</p>
               <p  class="about openModalUploadButton"> Add Ticket Button</p>
+               <p class="settings-button settings-js">
+              Settings
+            </p>
               <p class="log-out-text log-out-js">Logout</p>
             </div>
           </div>

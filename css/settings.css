@@ -1,0 +1,648 @@
+h1{
+  color: var(--secondary-text-color);
+}
+
+
+
+
+
+.fixed-d{
+  position: fixed;
+  z-index: 10;
+  display: block;
+  width: 100%;
+  background-color: var(--background-fixed-color);
+  left: 200px;
+  padding-left: 150px;
+}
+
+
+
+
+
+
+/* Slider Toggle */
+
+
+
+/* Dropdown Styling */
+.theme-dropdown {
+  width: 150px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  color: #333;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.theme-dropdown:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.theme-dropdown option {
+  padding: 8px;
+}
+
+/* Buttons Styling */
+.settings-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 14px;
+}
+
+.settings-btn:hover {
+  background-color: #0056b3;
+}
+
+
+.setting-item{
+  border-bottom: 1px solid #ccc;
+  align-items: center;
+}
+
+.setting-item button {
+  margin:15px 0;
+}
+
+
+h1{
+  color: var(--secondary-text-color);
+}
+
+.main-body{
+  padding-top: 11rem;
+  padding-bottom: 6rem;
+}
+
+.heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-bottom: 3rem;
+  margin-top: 1.5rem;
+  width: 100%;
+  z-index: 1000;
+}
+
+.back-arrow {
+  margin-top: 2rem;
+  margin-left: 2rem;
+  width: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dashboard {
+  color:var(--secondary-text-color);
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.back-button-image {
+  width: 100%;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+
+
+
+.fixed-d{
+  position: fixed;
+  z-index: 10;
+  display: block;
+  width: 100%;
+  background-color: var(--background-fixed-color);
+  left: 200px;
+  padding-left: 150px;
+}
+
+.side-bar{
+  display: none;
+}
+
+.back-ar{
+  display: none;
+}
+
+
+/* Container for the search bar */
+.search-container {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  max-width: 400px;
+  min-width: 200px;
+  width: 30%;
+  padding: 0 10px;
+  justify-content: center;
+}
+
+/* Search input field */
+.search-input {
+  flex: 1;
+  padding: 12px 10px;
+  border: none;
+  outline: none;
+  font-size: 12px;
+}
+
+/* Search button */
+.search-container .search-button {
+  background-color: var(--side-bar-link-background);
+  color:var(--secondary-text-color);
+  border: none;
+  padding: 7px 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  border-radius: 0;
+  margin-left: 5px;
+}
+
+.search-button:hover {
+  background-color: #0056b3;
+}
+
+.search-button:active {
+  background-color: #004494;
+}
+
+/* Icon inside button (optional) */
+.search-button i {
+  margin-right: 5px;
+}
+
+
+@media (min-width: 1173px) and (max-width:1350px){
+.buttons, .buttons-upload {
+grid-template-columns: 1fr 1fr 1fr;
+padding-left: 350px;
+}
+
+}
+
+
+@media (max-width: 340px) {
+.buttons {
+grid-template-columns: 1fr 1fr;
+padding-top: 3rem;
+}
+
+.buttons-upload {
+grid-template-columns: 1fr 1fr;
+
+}
+
+}
+
+
+
+
+
+@media (min-width: 10px) and (max-width: 750px) {
+
+.fixed-d{
+  position: fixed;
+  z-index: 1000;
+  display: block;
+  width: 100%;
+  background-color: var(--background-fixed-color) ;
+  left: 0;
+  padding-left: 1rem;
+}
+
+body{
+  padding: 0 1rem;
+}
+
+.heading h1{
+  font-size: 17px;
+}
+
+.back-ar{
+  display: flex;
+}
+
+}
+
+@media (min-width: 751px){
+  .main-body{
+    padding-left: 200px;
+  }
+
+  .side-bar{
+    display: flex;
+  }
+
+  .main-body{
+    padding-top: 12rem;
+    max-width: 2000px;
+    padding-left: 350px;
+  }
+
+ 
+
+}
+
+@media (min-width: 752px) and (max-width: 1312px){
+
+
+  .main-body{
+    padding-left: 350px;
+  }
+}
+
+/* Modal Container */
+.modal-container {
+  position: fixed;
+  top: 50%; /* Center vertically */
+  right: -100%; /* Hidden initially */
+  transform: translateY(-50%); /* Align to vertical center */
+  width: 50%; /* Use more space for the modal */
+  height: auto; /* Adjust height based on content */
+  background: var(--background-fixed-color);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  transition: right 0.4s ease-in-out, box-shadow 0.3s ease;
+  z-index: 1000;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+/* Show Modal */
+.modal-container.show {
+  right: 20px; /* Slide into view */
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+}
+
+/* Modal Content */
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-sizing: border-box;
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 25px;
+}
+
+/* Input container: Left and Right columns */
+.input-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  width: 100%;
+}
+
+/* Input group: Left and Right */
+.input-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 48%; /* Ensures each column takes up half the space */
+}
+
+.input-group label {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--secondary-text-color);
+  margin-bottom: 5px;
+}
+
+.input-group input {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  background-color: #fafafa;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-group input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.3);
+}
+
+/* Close Button */
+.close-btn {
+  background-color: #007bff;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  align-self: flex-end;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.close-btn:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+}
+
+/* Scrollbar styling for modal */
+.modal-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-container::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+.modal-container::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .modal-container {
+    width: 60%; /* Adjust modal container width */
+  }
+  .input-container {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .modal-container {
+    width: 90%;
+    padding: 15px;
+  }
+  
+  .input-group {
+    width: 100%; /* Inputs will stack in a single column on small screens */
+  }
+  
+  .input-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .close-btn {
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+}
+
+/* Success message modal */
+.success-modal {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #28a745; /* Green background */
+  color: #fff;
+  padding: 15px 30px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  display: none; /* Hidden initially */
+  z-index: 2000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.success-modal.show {
+  display: block;
+  animation: fadeInOut 3s ease-out;
+}
+
+/* Animation for fading in and out */
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    top: 10px;
+  }
+  50% {
+    opacity: 1;
+    top: 20px;
+  }
+  100% {
+    opacity: 0;
+    top: 10px;
+  }
+}
+
+
+/* Unique Change Password Modal Container */
+.change-password-modal-container {
+  position: fixed;
+  top: 25%; /* Make it appear lower on the page */
+  left: 70%;
+  transform: translateX(-50%); /* Center horizontally */
+  width: 50%;
+  height: auto;
+  background: var(--background-fixed-color);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  transition: all 0.4s ease-in-out;
+  z-index: 1001; /* Ensure it's above other content */
+  overflow-y: auto;
+}
+
+/* Modal Content */
+.change-password-modal-container .modal-content {
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: var(--side-bar-link-background);
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+
+/* Input container: Two columns */
+.input-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+/* Input group for each field */
+.input-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.input-group label {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--secondary-text-color);
+  margin-bottom: 5px;
+}
+
+/* Input fields */
+.input-group input {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  background-color: #fafafa;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Focus effect on input fields */
+.input-group input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.3);
+}
+
+/* Save Button */
+.save-btn {
+  background-color: #0056b3;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.save-btn:hover {
+  background-color: #218838;
+}
+
+/* Close Button */
+.close-btn {
+  background-color: #dc3545;
+  color: white;
+  font-weight: 600;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Show Modal */
+.change-password-modal-container.show {
+  opacity: 1;
+  transform: translateX(0); /* For sliding in the modal */
+  visibility: visible;
+  transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+}
+
+/* Hide Modal */
+.change-password-modal-container {
+  opacity: 0;
+  transform: translateX(-100%); /* Hidden off-screen */
+  visibility: hidden;
+  transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+}
+
+
+
+
+.close-btn:hover {
+  background-color: #c82333;
+}
+
+/* Success and Failure Modal Background */
+.modal-container.success {
+  background-color: #28a745;
+  z-index: 2000;
+}
+
+.modal-container.failure {
+  background-color: #dc3545;
+  z-index: 2000;
+}
+
+/* Show Modal */
+.change-password-modal-container.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Animation for modal open/close */
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* Scrollbar styling */
+.change-password-modal-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.change-password-modal-container::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+.change-password-modal-container::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+
+/* Toggle Switch Styling */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 25px;
+}
+
+.toggle-switch input {
+  display: none; /* Hide default checkbox */
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  border-radius: 25px;
+  transition: 0.4s;
+}
+
+.slider::before {
+  position: absolute;
+  content: "";
+  height: 17px;
+  width: 17px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #0056b3;
+}
+
+input:checked + .slider::before {
+  transform: translateX(25px);
+}
+
+body{
+  min-width: 290px;
+  box-sizing: border-box;
+}

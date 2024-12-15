@@ -42,7 +42,7 @@ h1{
 
 .empty-content {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
 }
 
 .price {
@@ -53,7 +53,7 @@ h1{
   justify-content: flex-end;
 }
 
-.vehicle-type {
+.vehicle-type, .receipt-id {
   color: var(--secondary-text-color);
   font-size: 16px;
 }
@@ -117,6 +117,79 @@ h1{
 .back-ar{
   display: none;
 }
+
+
+/* Container for the search bar */
+.search-container {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  max-width: 400px;
+  min-width: 200px;
+  width: 30%;
+  padding: 0 10px;
+  justify-content: center;
+}
+
+/* Search input field */
+.search-input {
+  flex: 1;
+  padding: 12px 10px;
+  border: none;
+  outline: none;
+  font-size: 12px;
+}
+
+/* Search button */
+.search-container .search-button {
+  background-color: var(--side-bar-link-background);
+  color:var(--secondary-text-color);
+  border: none;
+  padding: 7px 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  border-radius: 0;
+  margin-left: 5px;
+}
+
+.search-button:hover {
+  background-color: #0056b3;
+}
+
+.search-button:active {
+  background-color: #004494;
+}
+
+/* Icon inside button (optional) */
+.search-button i {
+  margin-right: 5px;
+}
+
+
+@media (min-width: 1173px) and (max-width:1350px){
+.buttons, .buttons-upload {
+grid-template-columns: 1fr 1fr 1fr;
+padding-left: 350px;
+}
+
+}
+
+
+@media (max-width: 340px) {
+.buttons {
+grid-template-columns: 1fr 1fr;
+padding-top: 3rem;
+}
+
+.buttons-upload {
+grid-template-columns: 1fr 1fr;
+
+}
+
+}
+
+
 
 
 

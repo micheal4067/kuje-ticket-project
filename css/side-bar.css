@@ -47,7 +47,7 @@
   .bottom-links {
     display: flex;
     flex-direction: column;
-    align-self: flex-end; /* Position at the bottom */
+    
   }
 
   /* Sidebar Links Styling */
@@ -70,13 +70,20 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for hover effect */
   }
 
+  .search-container .search-button:hover {
+    background-color: var(--button-background);
+    color: var(--about-text-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for hover effect */
+  }
+
   /* Buttons Styling */
   .log-out-button,
   .set-fee-button,
   .sales-record,
   .dashboard-button,
   .about-button,
-  .total-ticket-issued-button {
+  .total-ticket-issued-button,
+  .settings-button {
     background-color: var(--navigation-button-background);
     color: var(--text-color);
     font-size: 17px;
@@ -95,7 +102,8 @@
   .sales-record:hover,
   .dashboard-button:hover,
   .about-button:hover,
-  .total-ticket-issued-button:hover {
+  .total-ticket-issued-button:hover,
+  .settings-button:hover {
     background-color: var(--button-hover-background);
     color: var(--hover-text-color);
     transform: translateY(-3px); /* Slight lift on hover */
@@ -131,13 +139,8 @@
     height: auto;
   }
 
-  /* Slider Container */
-  .slider-container {
-    padding-left: 100px;
-  }
-
   .log-out {
-    padding-left: 100px;
+    padding-left: 20px;
   }
 
   .links {
@@ -156,11 +159,5 @@
     padding-left: 350px;
   }
 
-  .slider-container {
-    padding-left: 70px;
-  }
-
-  .log-out {
-    padding-left: 70px;
-  }
+ 
 }

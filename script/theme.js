@@ -1,19 +1,15 @@
-const themeToggle = document.getElementById("theme-toggle");
+export function themeTogle() {
+  const themeSelect = document.getElementById("theme-select");
 
-function themeTogle(){
-  
+  // Load saved theme or set to light by default
+  const savedTheme = localStorage.getItem("theme") || "light";
+  document.documentElement.setAttribute("data-theme", savedTheme);
+  if (themeSelect) themeSelect.value = savedTheme;
 
-// Load the user's preferred theme from localStorage
-const currentTheme = localStorage.getItem("theme") || "light";
-document.documentElement.setAttribute("data-theme", currentTheme);
-themeToggle.checked = currentTheme === "dark";
-
-// Toggle theme on switch change
-themeToggle.addEventListener("change", () => {
-  const newTheme = themeToggle.checked ? "dark" : "light";
-  document.documentElement.setAttribute("data-theme", newTheme);
-  localStorage.setItem("theme", newTheme); // Save the preference
-});
+  // Change event listener
+  themeSelect?.addEventListener("change", () => {
+    const selectedTheme = themeSelect.value;
+    document.documentElement.setAttribute("data-theme", selectedTheme);
+    localStorage.setItem("theme", selectedTheme);
+  });
 }
-
-export {themeTogle};

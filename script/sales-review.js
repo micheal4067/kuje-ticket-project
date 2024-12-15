@@ -1,14 +1,17 @@
 // Import necessary data and functions
-import { salesLog } from "../data/review-sales-array.js"; // Sales data with prices and vehicle IDs
-import { vehicles } from "../data/vehicles.js"; // Array of vehicles
-import { formatCurrency } from "../script/utils/money.js"; // Utility to format currency values
-import { marketNameDisplay } from "../data/login-name.js"; // Market name display for headers
-import { themeTogle } from "./theme.js"; // Theme toggle functionality
-import { modalHTML } from "./modals.js"; // HTML template for modals
-import { logOutApp } from "./log-out.js"; // Logout functionality
-import { vehicleDataArray } from "../data/users-data-upload.js"; // Import vehicleDataArray
+import { salesLog } from "../data/review-sales-array.js"; 
+import { vehicles } from "../data/vehicles.js"; 
+import { formatCurrency } from "../script/utils/money.js"; 
+import { marketNameDisplay } from "../data/login-name.js";
+import { themeTogle } from "./theme.js"; 
+import { modalHTML } from "./modals.js"; 
+import { logOutApp } from "./event-listeners.js"; 
+import { vehicleDataArray } from "../data/users-data-upload.js"; 
+import { initializeSearch } from './searchReceipt.js'; 
 
+initializeSearch();
 themeTogle();
+
 document.querySelector('.modals-html').innerHTML = modalHTML;
 logOutApp();
 
@@ -16,6 +19,7 @@ logOutApp();
 let generateSalesReview = '';
 let total = [];
 let price;
+
 let totalPriceDisplay = 0;
 
 document.querySelector('.market-name').innerHTML = `${marketNameDisplay} - Today's Sales`;
@@ -27,46 +31,54 @@ function generateReviewSales() {
   generateSalesReview = '';
   total = []; // Reset total array
 
+  const isSmallScreen = window.innerWidth <= 522; // Check screen size
+
   salesLog.forEach((sale) => {
-    const vehicleId = sale.vehicleId; // Extract vehicleId
+    const vehicleId = sale.vehicleId;
+    const receiptId = sale.receiptId || `RCPT-${vehicleId}-${sale.time}`;
+    let displayReceiptId = receiptId;
 
-    let matchingVehicle;
-
-    // Search for the vehicle in `vehicles`
-    matchingVehicle = vehicles.find((vehicle) => vehicle.id === vehicleId);
-
-    // If not found in `vehicles`, search in `vehicleDataArray`
-    if (!matchingVehicle) {
-      matchingVehicle = vehicleDataArray.find((vehicle) => vehicle.id === vehicleId);
+    // Display last 3 digits for small screens
+    if (isSmallScreen) {
+      displayReceiptId = receiptId.slice(-3);
     }
 
-    // Add sale price to total even if the vehicle is not found
+    // Find matching vehicle data
+    let matchingVehicle = vehicles.find((vehicle) => vehicle.id === vehicleId) || 
+                          vehicleDataArray.find((vehicle) => vehicle.id === vehicleId);
+
+    // Calculate price
     price = sale.price || (matchingVehicle && matchingVehicle.price) || 0;
-    total.push(price); // Add the price to the total array
+    total.push(price);
 
-    // Generate sales record
-    if (!matchingVehicle) {
-      // Display as "Vehicle Deleted" for missing vehicles
-      generateSalesReview += `
-        <div class="vehicle-type"> Ticket Deleted </div>
-        <div class="price"> ₦${formatCurrency(price)} </div>
-      `;
-    } else {
-      // Display matching vehicle details
-      generateSalesReview += `
-        <div class="vehicle-type"> ${matchingVehicle.name} </div>
-        <div class="price"> ₦${formatCurrency(price)} </div>
-      `;
-    }
+    // Generate the sales review
+    generateSalesReview += `
+      <div class="vehicle-type"> ${matchingVehicle ? matchingVehicle.name : 'Vehicle Deleted'} </div>
+      <div class="receipt-id" style="text-align:center;white-space: nowrap">
+        <b>${displayReceiptId}</b>
+      </div>
+      <div class="price"> ₦${formatCurrency(price)} </div>
+    `;
+
+    // Update sale record with receipt ID if missing
+    sale.receiptId = receiptId;
   });
 
-  // Update DOM with sales review
+  // Render the updated sales review
   document.querySelector('.content-empty').innerHTML = generateSalesReview;
 
-  // Show or hide total sales button
-  const totalDiv = document.querySelector('.js-div-button');
-  totalDiv.style.display = generateSalesReview === '' ? 'none' : 'block';
+   // Show or hide total sales button
+   const totalDiv = document.querySelector('.js-div-button');
+   totalDiv.style.display = generateSalesReview === '' ? 'none' : 'block';
 }
+
+// Call the function initially
+generateReviewSales();
+
+// Add a listener to handle screen resize
+window.addEventListener('resize', generateReviewSales);
+
+
 
 // Function to calculate total sales price
 function totalFun() {

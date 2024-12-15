@@ -7,5 +7,6 @@ export const vehicles = [
   { id: "83d4ca15-0f35-48f5-b7a3-1ea210004f2e", name: 'Small Truck', image: './icons/small-truck.png', price: vehiclePrice[2] },
   { id: "54e0eccd-8f36-462b-b68a-8182611d9add", name: "Large Truck", image: "./icons/big-truck.png", price: vehiclePrice[3] },
   { id: "54e0eccd-8f36-462b-b68a-8182611d9add3", name: 'Ticket Loss', image: './icons/ticket.png', price: vehiclePrice[4] },
+  { id: "54e0eccd-8f36-462b-b68a-8182613", name: 'VIP', image: './icons/vip.png', price: vehiclePrice[5] }
 ];
 

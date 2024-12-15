@@ -3,42 +3,63 @@ import { themeTogle } from "./theme.js";
 
 themeTogle();
 
-function logInCheck(){
+// Set the initial username and password if not set in localStorage
+if (!localStorage.getItem('username')) {
+  localStorage.setItem('username', 'admin');
+}
+if (!localStorage.getItem('password')) {
+  localStorage.setItem('password', 'admin');
+}
+console.log(localStorage);
+
+function logInCheck() {
   const usernameInput = document.getElementById('username');
   const passwordInput = document.getElementById('password');
   const wrongInput = document.querySelector('.wrong-input');
 
-  if(usernameInput.value && passwordInput.value){
-    window.location.href = './ticket-dashboard.html';
-  } else{
-    wrongInput.innerHTML = 'Enter any username or Password';
+  // Check if username and password are entered
+  if (usernameInput.value && passwordInput.value) {
+    // Retrieve the stored username and password from localStorage
+    const savedUsername = localStorage.getItem('username');
+    const savedPassword = localStorage.getItem('password');
+
+    // Validate the entered username and password
+    if (savedUsername === usernameInput.value && savedPassword === passwordInput.value) {
+      window.location.href = './ticket-dashboard.html';
+    } else {
+      wrongInput.innerHTML = 'Incorrect username or password. Please try again.';
+      usernameInput.value = '';
+      passwordInput.value = '';
+    }
+  } else {
+    wrongInput.innerHTML = 'Enter username or password';
     usernameInput.value = '';
     passwordInput.value = '';
   }
 }
 
-document.querySelector('.btn').addEventListener('click',()=>{
+document.querySelector('.btn').addEventListener('click', () => {
   logInCheck();
   marketFun();
-})
-
-document.body.addEventListener('keydown', (event)=>{
- if(event.key === 'Enter'){
-  logInCheck();
- }
 });
 
-function headingEdit(){
+document.body.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter') {
+    logInCheck();
+  }
+});
+
+function headingEdit() {
   const inputElement = document.querySelector('.market-name');
   const heading = document.querySelector('.heading-name');
 
   if (localStorage.getItem('market')) {
-    heading.innerHTML = marketNameDisplay;;
+    heading.innerHTML = marketNameDisplay;
   } else if (!localStorage.getItem('market')) {
     heading.innerHTML = marketNameDisplay;
     inputElement.addEventListener('input', () => {
       const marketNameHead = inputElement.value;
-      heading.innerHTML = marketNameHead
+      heading.innerHTML = marketNameHead;
     });
   }
 }
@@ -55,16 +76,15 @@ document.getElementById("alphabet-input").addEventListener("keydown", function(e
   }
 });
 
-function marketFun () {
+function marketFun() {
   const inputElement = document.querySelector('.market-name');
+  const marketName = inputElement.value;
 
-    const marketName = inputElement.value;
-    if (!localStorage.getItem('market')) {
-      marketNameDisplay.push(marketName);
-      localStorage.setItem('market', marketName);
-
-    }
-} 
+  if (!localStorage.getItem('market')) {
+    marketNameDisplay.push(marketName);
+    localStorage.setItem('market', marketName);
+  }
+}
 
 marketFun();
 
@@ -83,13 +103,3 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
-
-
-
-
-
-
-
-
-
-

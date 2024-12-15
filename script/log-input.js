@@ -8,6 +8,15 @@ let total = [];
 let price;
 
 function generateSalesLog() {
+  // Check if sales log should be shown based on localStorage
+  const salesLogEnabled = localStorage.getItem('salesLogEnabled') === 'true';
+
+  // If sales log is disabled, don't generate the table
+  if (!salesLogEnabled) {
+    document.querySelector('.info-log').style.display = 'none';
+    return; // Stop further execution
+  }
+
   generateSaleslog = ''; // Reset before generating
   total = []; // Reset total array
 
@@ -78,6 +87,5 @@ function generateSalesLog() {
   // Insert the generated sales log into the DOM
   document.querySelector('.info-log').innerHTML = generateSaleslog;
 }
-
 
 export { generateSalesLog };
