@@ -23,7 +23,6 @@ document.querySelector('.modals-html').innerHTML = modalHTML;
 document.querySelector('.market-name').innerHTML = `${marketNameDisplay} - Settings`;
 
 
-
 document.getElementById('dashboard').addEventListener('click', ()=>{
   window.location.href = './ticket-dashboard.html';
 });

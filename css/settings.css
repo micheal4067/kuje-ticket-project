@@ -372,7 +372,7 @@ body{
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-  .modal-container {
+  .modal-container, .change-password-modal-container {
     width: 60%; /* Adjust modal container width */
   }
   .input-container {
@@ -381,7 +381,7 @@ body{
 }
 
 @media (max-width: 768px) {
-  .modal-container {
+  .modal-container, .change-password-modal-container {
     width: 90%;
     padding: 15px;
   }
@@ -440,162 +440,119 @@ body{
 }
 
 
-/* Unique Change Password Modal Container */
+/* Change Password Modal Container */
 .change-password-modal-container {
   position: fixed;
-  top: 25%; /* Make it appear lower on the page */
-  left: 70%;
-  transform: translateX(-50%); /* Center horizontally */
-  width: 50%;
-  height: auto;
-  background: var(--background-fixed-color);
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Always center it */
+  width: 50%; /* Default width for larger screens */
+  max-width: 500px; /* Prevent modal from growing too wide */
+  height: auto; /* Adjust based on content */
+  background: var(--background-fixed-color, #fff);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   border-radius: 12px;
-  transition: all 0.4s ease-in-out;
-  z-index: 1001; /* Ensure it's above other content */
-  overflow-y: auto;
+  z-index: 1000;
+  overflow-y: auto; /* Allow scrolling for overflow content */
+  padding: 20px;
+  box-sizing: border-box;
+  opacity: 0; /* Hidden initially */
+  visibility: hidden;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Show Modal */
+.change-password-modal-container.shows {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%);
 }
 
 /* Modal Content */
 .change-password-modal-container .modal-content {
-  padding: 25px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  background-color: var(--side-bar-link-background);
-  border-radius: 12px;
-  box-sizing: border-box;
-}
-
-/* Input container: Two columns */
-.input-container {
-  display: flex;
-  justify-content: space-between;
-  gap: 30px;
-}
-
-/* Input group for each field */
-.input-group {
-  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 15px;
+  background-color: var(--side-bar-link-background, #f9f9f9);
+  border-radius: 8px;
+}
+
+/* Input Container */
+.input-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.input-group {
+  flex: 1 1 100%; /* Full width by default */
 }
 
 .input-group label {
-  font-weight: 600;
   font-size: 14px;
-  color: var(--secondary-text-color);
   margin-bottom: 5px;
 }
 
-/* Input fields */
 .input-group input {
-  padding: 10px 12px;
+  padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 14px;
-  outline: none;
-  background-color: #fafafa;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 6px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
 }
 
-/* Focus effect on input fields */
 .input-group input:focus {
   border-color: #007bff;
-  box-shadow: 0 0 6px rgba(0, 123, 255, 0.3);
 }
 
-/* Save Button */
-.save-btn {
-  background-color: #0056b3;
-  color: white;
-  padding: 12px 20px;
-  border-radius: 8px;
+/* Buttons */
+.save-btn,
+.close-btn {
+  padding: 10px 15px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+}
+
+.save-btn {
+  background-color: #007bff;
+}
+
+.close-btn {
+  background-color: #dc3545;
 }
 
 .save-btn:hover {
-  background-color: #218838;
+  background-color: #0056b3;
 }
-
-/* Close Button */
-.close-btn {
-  background-color: #dc3545;
-  color: white;
-  font-weight: 600;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-/* Show Modal */
-.change-password-modal-container.show {
-  opacity: 1;
-  transform: translateX(0); /* For sliding in the modal */
-  visibility: visible;
-  transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
-}
-
-/* Hide Modal */
-.change-password-modal-container {
-  opacity: 0;
-  transform: translateX(-100%); /* Hidden off-screen */
-  visibility: hidden;
-  transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
-}
-
-
-
 
 .close-btn:hover {
   background-color: #c82333;
 }
 
-/* Success and Failure Modal Background */
-.modal-container.success {
-  background-color: #28a745;
-  z-index: 2000;
+/* Responsive Design */
+@media (max-width: 768px) {
+  .change-password-modal-container {
+    width: 90%;
+    max-width: 90%;
+    height: auto;
+    padding: 15px;
+    margin-top: 60px;
+  }
 }
 
-.modal-container.failure {
-  background-color: #dc3545;
-  z-index: 2000;
+@media (max-width: 480px) {
+  .change-password-modal-container {
+    width: 95%;
+    max-width: 95%;
+    padding: 10px;
+    margin-top: 60px;
+  }
 }
 
-/* Show Modal */
-.change-password-modal-container.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
-
-/* Animation for modal open/close */
-@keyframes fadeIn {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
-}
-
-@keyframes fadeOut {
-  0% { opacity: 1; }
-  100% { opacity: 0; }
-}
-
-/* Scrollbar styling */
-.change-password-modal-container::-webkit-scrollbar {
-  width: 8px;
-}
-
-.change-password-modal-container::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-}
-
-.change-password-modal-container::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(0, 0, 0, 0.4);
-}
 
 
 /* Toggle Switch Styling */
@@ -646,3 +603,4 @@ body{
   min-width: 290px;
   box-sizing: border-box;
 }
+

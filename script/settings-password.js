@@ -1,7 +1,7 @@
 // Open the change password modal
 document.getElementById("change-password-btn").addEventListener("click", function() {
   const modal = document.getElementById("change-password-modal");
-  modal.classList.add("show"); // Add the "show" class to make the modal visible
+  modal.classList.add("shows"); // Add the "show" class to make the modal visible
 });
 
 // Save the password when clicking the save button
@@ -37,25 +37,24 @@ document.getElementById("save-password-btn").addEventListener("click", function(
 
   // Close the change password modal
   const modal = document.getElementById("change-password-modal");
-  modal.classList.remove("show"); // Remove the "show" class to hide the modal
+  modal.classList.remove("shows");
 });
 
 // Close the change password modal when clicking the close button
 document.getElementById("close-change-password-modal").addEventListener("click", function() {
   const modal = document.getElementById("change-password-modal");
-  modal.classList.remove("show"); // Remove the "show" class to hide the modal
+  modal.classList.remove("shows");
 });
 
-// Close the success modal
+// Success and failure modal close buttons (same as before)
 document.getElementById("close-success-modal").addEventListener("click", function() {
   const successModal = document.getElementById("success-modal");
-  successModal.classList.remove("show"); // Hide the success modal
+  successModal.classList.remove("show");
 });
 
-// Close the failure modal
 document.getElementById("close-failure-modal").addEventListener("click", function() {
   const failureModal = document.getElementById("failure-modal");
-  failureModal.classList.remove("show"); // Hide the failure modal
+  failureModal.classList.remove("show");
 });
 
 // Show the success modal
@@ -63,11 +62,11 @@ function showSuccessModal(message) {
   const successModal = document.getElementById("success-modal");
   const successMessage = successModal.querySelector("p");
   successMessage.textContent = message;
-  successModal.classList.add("show"); // Show the success modal
+  successModal.classList.add("show");
 
   // Close success modal after 3 seconds
   setTimeout(() => {
-    successModal.classList.remove("show"); // Hide the success modal after 3 seconds
+    successModal.classList.remove("show");
   }, 3000);
 }
 
@@ -76,10 +75,10 @@ function showFailureModal(message) {
   const failureModal = document.getElementById("failure-modal");
   const failureMessage = failureModal.querySelector("p");
   failureMessage.textContent = message;
-  failureModal.classList.add("show"); // Show the failure modal
+  failureModal.classList.add("show");
 
   // Close failure modal after 3 seconds
   setTimeout(() => {
-    failureModal.classList.remove("show"); // Hide the failure modal after 3 seconds
+    failureModal.classList.remove("show");
   }, 3000);
 }
