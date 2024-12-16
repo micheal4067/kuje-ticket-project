@@ -1,5 +1,7 @@
 
-
+body{
+  font-family: 'EB Garamond', serif;
+}
 /* sales history view modal style */
 .modals {
   position: fixed;

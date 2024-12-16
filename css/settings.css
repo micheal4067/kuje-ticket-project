@@ -272,7 +272,7 @@ body{
   transform: translateY(-50%); /* Align to vertical center */
   width: 50%; /* Use more space for the modal */
   height: auto; /* Adjust height based on content */
-  background: var(--background-fixed-color);
+  background: var(--modal-overlay);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   border-radius: 12px;
   transition: right 0.4s ease-in-out, box-shadow 0.3s ease;
@@ -293,13 +293,13 @@ body{
   flex-direction: column;
   gap: 20px;
   box-sizing: border-box;
-  background-color: #fff;
+  background-color: var(--modal-background);
   border-radius: 12px;
   padding: 25px;
 }
 
 /* Input container: Left and Right columns */
-.input-container {
+.modal-content .input-container {
   display: flex;
   justify-content: space-between;
   gap: 30px;
@@ -307,7 +307,7 @@ body{
 }
 
 /* Input group: Left and Right */
-.input-group {
+.modal-content .input-group {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -315,24 +315,24 @@ body{
   width: 48%; /* Ensures each column takes up half the space */
 }
 
-.input-group label {
+.modal-content .input-group label {
   font-weight: 600;
   font-size: 14px;
   color: var(--secondary-text-color);
   margin-bottom: 5px;
 }
 
-.input-group input {
+.modal-content .input-group input {
   padding: 10px 12px;
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 14px;
   outline: none;
-  background-color: #fafafa;
+  
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.input-group input:focus {
+.modal-content .input-group input:focus {
   border-color: #007bff;
   box-shadow: 0 0 6px rgba(0, 123, 255, 0.3);
 }
@@ -372,25 +372,25 @@ body{
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-  .modal-container, .change-password-modal-container {
+  .modal-container {
     width: 60%; /* Adjust modal container width */
   }
-  .input-container {
+  .modal-content .input-container {
     gap: 20px;
   }
 }
 
 @media (max-width: 768px) {
-  .modal-container, .change-password-modal-container {
+  .modal-container {
     width: 90%;
     padding: 15px;
   }
   
-  .input-group {
+  .modal-content .input-group {
     width: 100%; /* Inputs will stack in a single column on small screens */
   }
   
-  .input-container {
+  .modal-content .input-container {
     flex-direction: column;
     gap: 15px;
   }
@@ -407,7 +407,7 @@ body{
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #28a745; /* Green background */
+  background-color: #0e1947; /* Green background */
   color: #fff;
   padding: 15px 30px;
   border-radius: 8px;
@@ -449,7 +449,7 @@ body{
   width: 50%; /* Default width for larger screens */
   max-width: 500px; /* Prevent modal from growing too wide */
   height: auto; /* Adjust based on content */
-  background: var(--background-fixed-color, #fff);
+  background: var(--modal-overlay);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   border-radius: 12px;
   z-index: 1000;
@@ -473,7 +473,7 @@ body{
   display: flex;
   flex-direction: column;
   gap: 15px;
-  background-color: var(--side-bar-link-background, #f9f9f9);
+  background-color: var(--modal-background);
   border-radius: 8px;
 }
 
@@ -537,7 +537,6 @@ body{
 @media (max-width: 768px) {
   .change-password-modal-container {
     width: 90%;
-    max-width: 90%;
     height: auto;
     padding: 15px;
     margin-top: 60px;
@@ -546,10 +545,13 @@ body{
 
 @media (max-width: 480px) {
   .change-password-modal-container {
-    width: 95%;
-    max-width: 95%;
+    width: 100%;
     padding: 10px;
-    margin-top: 60px;
+   margin: 0 auto;
+  }
+
+  .change-password-modal-container .modal-content {
+  margin:50% auto;
   }
 }
 

@@ -31,7 +31,7 @@ function handleSearch() {
   const inputValue = searchInput.value.trim();
 
   if (!isValidInput(inputValue)) {
-    displayModal(null, "Please enter at least 3 digits of the receipt ID.");
+    displayModal(null, "Please enter at least last 3 digits of the receipt ID.");
     return;
   }
 

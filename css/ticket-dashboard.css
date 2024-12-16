@@ -320,7 +320,7 @@
   .sales-table {
     width: 100%; /* Fill the parent width */
     border-collapse: collapse;
-    font-family: Arial, sans-serif;
+    font-family: 'EB Garamond', serif;
     font-size: 14px;
     table-layout: fixed; /* Ensures consistent column widths */
   }
