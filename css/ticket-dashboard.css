@@ -1,12 +1,5 @@
 
 
-.log-out {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 2rem;
-  padding: 0 10px;
-}
 
 
 .last-login {
@@ -46,7 +39,7 @@
   row-gap: 30px;
   column-gap: 20px;
 
-  padding-top: 16rem;
+  padding-top: 18rem;
 }
 
 .buttons-upload{
@@ -172,7 +165,7 @@
   }
 
   .main-body {
-    padding-top: 13rem;
+    padding-top: 16rem;
   }
   .side-bar{
     display: none;
@@ -266,6 +259,11 @@
   .market-name{
     text-align: start;
     padding-left: 5rem;
+  }
+
+  .status-container{
+    margin: 10px 0!important;
+    
   }
 }
 
@@ -461,6 +459,11 @@
     padding-left: 350px;
   }
 
+  .status-container{
+    margin: 10px 0 !important;
+    
+  }
+
 }
 
 
@@ -474,7 +477,74 @@
     grid-template-columns: 1fr 1fr;
     
   }
+  .status-container{
+    margin: 10px 0!important;
+    
+  }
 
+}
+
+
+/* Container styling */
+.status-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 15px 20px;
+  border-radius: 12px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  max-width: 300px;
+  margin: 20px auto;
+  box-sizing: border-box;
+}
+
+/* Active status indicator */
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.active-dot {
+  width: 12px;
+  height: 12px;
+  background-color: #28a745; /* Green active color */
+  border-radius: 50%; /* Makes it round */
+  box-shadow: 0 0 10px 4px rgba(40, 167, 69, 0.7); /* Glow effect */
+  animation: pulse 1.5s infinite; /* Continuous pulsing effect */
+}
+
+/* Active Barrier Label */
+.status-label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Status value */
+.status-value {
+  font-size: 14px;
+  font-weight: bold;
+  color: #28a745; /* Green text for entrance */
+}
+
+/* Keyframes for pulsing effect */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 10px 4px rgba(40, 167, 69, 0.7);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 15px 6px rgba(40, 167, 69, 0.4);
+    transform: scale(1.1);
+  }
+  100% {
+    box-shadow: 0 0 10px 4px rgba(40, 167, 69, 0.7);
+    transform: scale(1);
+  }
 }
 
 
